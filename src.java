@@ -1,6 +1,8 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
+import java.io.FileReader;
 
 /*
 * La classe src contient toutes les méthodes demandées dans l'énoncé.
@@ -14,11 +16,16 @@ public class src{
 	 */
 	public static void main(String[] args) {
 
-		// Test avec le dossier git placé un dossier en arrière
-		jls("..\\ckjm-master\\ckjm-master\\src\\gr");
+		// Test partie 0 (avec le dossier git placé un dossier en arrière)
+		//jls("..\\ckjm-master\\ckjm-master\\src\\gr");
+
+		// Test partie 1
+		File file = new File("src.java");
+		System.out.println(nvloc(file));
+
 	}
 	
-	
+
 
 	// PARTIE 0 :
 
@@ -108,6 +115,43 @@ public class src{
 
 	// PARTIE 1 :
 
+	/*
+	 * Description :
+	 * ----------
+	 * Etant donné un fichier source d'une classe java, retourne le nombre de 
+	 * lignes de codes non vides.
+	 * 
+	 * Paramètres :
+	 * ----------
+	 * @param file File un fichier java
+	 * @param int le nombre de lignes de codes non vides
+	 * 
+	 * Information complémentaires :
+	 * ----------
+	 * Une ligne avec seulement un espace ou une tabulation n'est pas 
+	 * considérée comme vide.
+	 */
+	public static int nvloc(File file){
+		int cnt = 0;
+		
+		try {
+			FileReader reader = new FileReader(file);
+			BufferedReader br = new BufferedReader(reader);
+			String line;
+			while((line = br.readLine())!=null){
+				if(line.length() > 0){
+					cnt ++;
+				}
+			}
+			reader.close();
+
+		} catch (IOException e) {
+			System.out.println(" - Error - ");
+		}
+
+		return cnt;
+	}
+
 	// PARTIE 2 :
 
 	// PARTIE 3 :
@@ -115,3 +159,8 @@ public class src{
 	// PARTIE 4 :
 
 }
+
+
+
+
+

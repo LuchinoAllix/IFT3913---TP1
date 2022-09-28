@@ -8,19 +8,15 @@ GENERAL :
 
 PARTIE 0 :
 	- voir pour les paths unix 
-	- tests
-	- docu jlsRec
-	- jlsRec
 
 PARTIE 1 :
-	- all
+	- test avec un fichier vide ?
 
 PARTIE 2 :
 	- all
 
 PARTIE 3 :
 	-all
-
 
 PARTIE 4 :
 	-all
