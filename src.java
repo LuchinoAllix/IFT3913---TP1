@@ -1,14 +1,23 @@
+import java.io.File;
+
+/*
+* La classe src contient toutes les méthodes demandées dans l'énoncé.
+* 
+* 
+*/
 public class src{
+
 	/*
-	 * La classe src contient toutes les méthodes demandées dans l'énoncé.
-	 * 
-	 * 
+	 * TODO
 	 */
+	public static void main(String[] args) {
+		
+	}
+	
 	
 
 	// PARTIE 0 :
-		
-	public static void jls(String path)
+
 	/*
 	 * Description :
 	 * ----------
@@ -32,18 +41,42 @@ public class src{
 	 * jls fait appel à jlsRec qui trouve tout les fichier '.java' et cherche
 	 * récursivement tout les sous dossiers.
 	 */
-	{
-		String toWrite = "";
-		jlsRec(path,toWrite);
+	public static void jls(String path){
+
+		File pathh = new File(path);
+		String toWrite = jlsRec(pathh);
+		System.out.println(toWrite); // test
+
 		// TODO : créer/écrire dans le fichier csv
-		// Que faire si chemin invalide ?
-
 	}
 
-	public static void jlsRec(String path, String ans){
-		// TODO : fonction récursive
-		// TODO : documentation 
+	/*
+	 * TODO
+	 */
+	public static String jlsRec(File path){
+		String temp = "";
+		for (final File file : path.listFiles()){
+			if (file.isDirectory())
+				temp += jlsRec(file);
 			
+			else if (file.isFile()){
+				int len = file.getName().length();
+				if (file.getName().substring(len-5).equals(".java")){
+					temp += file.getPath() + "," 
+						+ file.getParent() + "," 
+						+ file.getName().substring(0,len-5) + "\n";
+				}
+			}
+		}
+		return temp;
 	}
+
+	// PARTIE 1 :
+
+	// PARTIE 2 :
+
+	// PARTIE 3 :
+
+	// PARTIE 4 :
 
 }
