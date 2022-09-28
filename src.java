@@ -154,6 +154,23 @@ public class src{
 
 	// PARTIE 2 :
 
+	/*
+	 * Description :
+	 * ----------
+	 * 
+	 * 
+	 * Paramètres :
+	 * ----------
+	 * 
+	 * 
+	 * Informations complémentaires :
+	 * ----------
+	 * 
+	 */
+	public static void lcsec(String path,File file){
+
+	}
+
 	// PARTIE 3 :
 
 	// PARTIE 4 :
