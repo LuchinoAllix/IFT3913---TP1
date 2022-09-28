@@ -1,5 +1,6 @@
 import java.io.File;
-
+import java.io.IOException;
+import java.io.FileWriter;
 
 /*
 * La classe src contient toutes les méthodes demandées dans l'énoncé.
@@ -12,7 +13,9 @@ public class src{
 	 * TODO
 	 */
 	public static void main(String[] args) {
-		//jls("..\\ckjm-master\\ckjm-master\\src\\gr");
+
+		// Test avec le dossier git placé un dossier en arrière
+		jls("..\\ckjm-master\\ckjm-master\\src\\gr");
 	}
 	
 	
@@ -47,11 +50,17 @@ public class src{
 		File file = new File(path);
 		String toWrite = jlsRec(file,file.getName());
 
-		System.out.println("Début test :\n");
-		System.out.println(toWrite); // test
-		System.out.println("Fin test.");
+		System.out.println(toWrite); // Affiche sur la ligne de commande
 
-		// TODO : créer/écrire dans le fichier csv
+		try{
+			File output = new File("output.csv");
+			output.createNewFile();
+			FileWriter writer = new FileWriter("output.csv");
+			writer.write(toWrite);
+			writer.close();
+		} catch(IOException e){
+			System.out.println(" - Error - ");
+		}
 	}
 
 	/*
@@ -68,8 +77,7 @@ public class src{
 				if (len > 5 && file.getName().substring(len-5).equals(".java")){
 					temp += file.getPath() + "," 
 						+ module + "," 
-						+ file.getName().substring(0,len-5) + "\n\n";
-						System.out.println(module);
+						+ file.getName().substring(0,len-5) + "\n";
 				}
 			}
 		}
