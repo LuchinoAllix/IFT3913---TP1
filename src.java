@@ -1,5 +1,6 @@
 import java.io.File;
 
+
 /*
 * La classe src contient toutes les méthodes demandées dans l'énoncé.
 * 
@@ -11,7 +12,7 @@ public class src{
 	 * TODO
 	 */
 	public static void main(String[] args) {
-		
+		//jls("..\\ckjm-master\\ckjm-master\\src\\gr");
 	}
 	
 	
@@ -26,7 +27,7 @@ public class src{
 	 * paramètre pour mettre dans un fichier csv les valeurs suivantes : 
 	 *  - Chemin du ficheir
 	 *  - Nom du paquet
-	 *  - nom de la classe
+	 *  - Nom de la classe
 	 * 
 	 * Paramètres et valeurs de retour :
 	 * ----------
@@ -43,9 +44,12 @@ public class src{
 	 */
 	public static void jls(String path){
 
-		File pathh = new File(path);
-		String toWrite = jlsRec(pathh);
+		File file = new File(path);
+		String toWrite = jlsRec(file,file.getName());
+
+		System.out.println("Début test :\n");
 		System.out.println(toWrite); // test
+		System.out.println("Fin test.");
 
 		// TODO : créer/écrire dans le fichier csv
 	}
@@ -53,18 +57,19 @@ public class src{
 	/*
 	 * TODO
 	 */
-	public static String jlsRec(File path){
+	public static String jlsRec(File path, String module){
 		String temp = "";
 		for (final File file : path.listFiles()){
 			if (file.isDirectory())
-				temp += jlsRec(file);
+				temp += jlsRec(file,module + "." + file.getName());
 			
 			else if (file.isFile()){
 				int len = file.getName().length();
-				if (file.getName().substring(len-5).equals(".java")){
+				if (len > 5 && file.getName().substring(len-5).equals(".java")){
 					temp += file.getPath() + "," 
-						+ file.getParent() + "," 
-						+ file.getName().substring(0,len-5) + "\n";
+						+ module + "," 
+						+ file.getName().substring(0,len-5) + "\n\n";
+						System.out.println(module);
 				}
 			}
 		}
