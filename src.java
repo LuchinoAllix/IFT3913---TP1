@@ -42,8 +42,8 @@ public class src{
 	 * ---------
 	 * Il est a noter que si le fichier csv correspondant au chemin fourni en 
 	 * paramètre existe déjà, il sera remplacé par le nouveau fichier csv.
-	 * jls fait appel à jlsRec qui trouve tout les fichier '.java' et cherche
-	 * récursivement tout les sous dossiers.
+	 * jls fait appel à jlsRec qui trouve les fichier '.java' en cherchant
+	 * récursivement tous les sous dossiers.
 	 */
 	public static void jls(String path){
 
@@ -53,25 +53,47 @@ public class src{
 		System.out.println(toWrite); // Affiche sur la ligne de commande
 
 		try{
+			// Création nouveau fichier ou remplacement de l'ancien
 			File output = new File("output.csv");
 			output.createNewFile();
+
+			// Ecriture sur le nouveau fichier
 			FileWriter writer = new FileWriter("output.csv");
 			writer.write(toWrite);
 			writer.close();
+
 		} catch(IOException e){
 			System.out.println(" - Error - ");
 		}
 	}
 
 	/*
-	 * TODO
+	 * Description :
+	 * ----------
+	 * Avec le chemin donné en entré, retourne les données recherchées sur 
+	 * chaque fichier '.java' grâce au module et des appels récursifs.
+	 * 
+	 * Paramètres :
+	 * ----------
+	 * @param path File le chemin du dossier à regarder.
+	 * @param module String le nom du module ou se trouverait un fichier '.java'
+	 * @return temp String les valeurs demandée au format csv
+	 * 
+	 * Informations complémentaires :
+	 * ----------
+	 * Appel récursif depuis jls, cette méthode n'est pas utilisé autre part.
 	 */
 	public static String jlsRec(File path, String module){
 		String temp = "";
+
+		// On regarde tous les fichiers :
 		for (final File file : path.listFiles()){
+
+			// Si on regarde un dossier on fait un appel récursif
 			if (file.isDirectory())
 				temp += jlsRec(file,module + "." + file.getName());
 			
+			// Si c'est un fichier '.java' on prend les informations nécessaires
 			else if (file.isFile()){
 				int len = file.getName().length();
 				if (len > 5 && file.getName().substring(len-5).equals(".java")){
