@@ -1,0 +1,26 @@
+GIT :
+	- Completer read me
+	- gitignore pour énoncé ?
+	
+GENERAL :
+	- Voir appel depuis invite de commande
+	- Voir pour fichier exécutable
+
+PARTIE 0 :
+	- voir pour les paths unix 
+	- tests
+	- docu jlsRec
+	- jlsRec
+
+PARTIE 1 :
+	- all
+
+PARTIE 2 :
+	- all
+
+PARTIE 3 :
+	-all
+
+
+PARTIE 4 :
+	-all
