@@ -251,6 +251,37 @@ public class src{
 
 	// PARTIE 3 :
 
+	/*
+	 * Description :
+	 * ----------
+	 * 
+	 * 
+	 * Paramètres :
+	 * ----------
+	 * 
+	 * 
+	 * Informations complémentaires :
+	 * ----------
+	 * 
+	 */
+	public static void egon(String path, float seuil){
+		jls(path); // Pour être sur que 'output' existe.
+		File csv = new File("output");
+		String csec = lcsecRec(csv);
+		String[] lines = csec.split("\n");
+		String[][] colonnes = new String[lines.length][5];
+		for(int i = 0 ; i< lines.length ; i++){
+			colonnes[i] = lines[i].split(",");
+			File file = new File(colonnes[i][0]);
+			colonnes[i][4] = "" + nvloc(file);
+		}
+
+		// TODO déterminer comment traiter les seuils
+		
+
+
+	}
+
 	// PARTIE 4 :
 
 }

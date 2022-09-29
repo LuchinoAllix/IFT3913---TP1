@@ -13,10 +13,13 @@ PARTIE 1 :
 	- test avec un fichier vide ?
 
 PARTIE 2 :
-	- all
+	- nettoyer un peu le code 
+	- ajout des commentaires
 
 PARTIE 3 :
-	-all
+	- trier les listes en fonction des métriques
+	- prendre en fonction du seuil
+	- docu
 
 PARTIE 4 :
 	-all
