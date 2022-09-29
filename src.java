@@ -17,8 +17,12 @@ public class src{
 		//jls("..\\ckjm-master\\ckjm-master\\src\\gr");
 
 		// Test partie 1
-		File file = new File("src.java");
-		System.out.println(nvloc(file));
+		//File file = new File("src.java");
+		//System.out.println(nvloc(file));
+		
+		egon("..\\ckjm-master\\ckjm-master\\src\\gr",50);
+	
+		
 
 //		// Test partie 0
 //		jls("/Users/anthony/Desktop/ckjm-master/src");
@@ -220,7 +224,7 @@ public class src{
 						}
 					}
 				}
-				result += value + ", " + csec + "\n";
+				result += value + "," + csec + "\n";
 				reader.close();
 			} catch (IOException e) {
 				System.out.println(" - Error - ");
@@ -265,25 +269,33 @@ public class src{
 	 */
 	public static void egon(String path, float seuil){
 		jls(path); // Pour être sur que 'output' existe.
-		File csv = new File("output");
+		File csv = new File("output.csv");
 		String csec = lcsecRec(csv);
 		String[] lines = csec.split("\n");
-		String[][] colonnes = new String[lines.length][5];
+		String[][] tab = new String[lines.length][5];
 
 		// On crée des tableau pour stocker les métriques
 		int[] csecTab = new int[lines.length];
 		int[] nvlocTab = new int[lines.length];
 		
 		for(int i = 0 ; i< lines.length ; i++){
+			
+			// On met les valeurs dans un tableau
+			String[] tabTemp = new String[4];
+			tabTemp = lines[i].split(",");
+
+			for(int j= 0; j < 4;j++){
+				tab[i][j] = tabTemp[j];
+			}
+
 			// On rajoute la métrique nvloc
-			colonnes[i] = lines[i].split(",");
-			File file = new File(colonnes[i][0]);
+			File file = new File(tab[i][0]);
 			int nvlocVal = nvloc(file);
-			colonnes[i][4] = "" + nvlocVal;
+			tab[i][4] = "" + nvlocVal;
 
 			// On complète les tableaux avec toutes les valeurs des métriques
 			nvlocTab[i] = nvlocVal;
-			csecTab[i] = Integer.parseInt(colonnes[i][3]);
+			csecTab[i] = Integer.parseInt(tab[i][3]);
 
 		}
 
@@ -303,16 +315,19 @@ public class src{
 			
 			// Pour chacune des classes on regarde si les deux métriques sont critiques
 			for(int i = 0 ; i< lines.length ; i++){
-				if(Integer.parseInt(colonnes[i][3]) >= csecCrit){
-					if(Integer.parseInt(colonnes[i][4]) >= nvlocCrit){
-						String res = colonnes[i].toString();
-						System.out.println(res.substring(1,res.length()-1));
+				if(Integer.parseInt(tab[i][3]) >= csecCrit){
+					if(Integer.parseInt(tab[i][4]) >= nvlocCrit){
+						String res = 
+						tab[i][0] + ","
+						+ tab[i][1] + ","
+						+ tab[i][2] + ","
+						+ tab[i][3] + ","
+						+ tab[i][4];
+						System.out.println(res);
 					}
 				} 
 			}
 		}
-		
-
 	}
 
 	// PARTIE 4 :
