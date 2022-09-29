@@ -1,8 +1,6 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.FileWriter;
-import java.io.FileReader;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
 * La classe src contient toutes les méthodes demandées dans l'énoncé.
@@ -22,6 +20,18 @@ public class src{
 		// Test partie 1
 		File file = new File("src.java");
 		System.out.println(nvloc(file));
+
+//		// Test partie 0
+//		jls("/Users/anthony/Desktop/ckjm-master/src");
+//
+//		// Test partie 1
+//		File file = new File("/Users/anthony/Desktop/ckjm-master/src/gr/spinellis/ckjm/MethodVisitor.java");
+//		System.out.println(nvloc(file));
+//
+//		// Test partie 2
+//		File csv = new File("/Users/anthony/Documents/Workspace/ift3913tp1/output.csv");
+//		//File file2 = new File("/Users/anthony/Desktop/ckjm-master/src/gr/spinellis/ckjm/MethodVisitor.java");
+//		lcsec("/Users/anthony/Desktop/ckjm-master/src/gr/spinellis/ckjm/MethodVisitor.java", csv);
 
 	}
 	
@@ -153,6 +163,7 @@ public class src{
 	}
 
 	// PARTIE 2 :
+	// TODO CSEC(c) si c est mentionné dans un autre fichier mais pas dans c
 
 	/*
 	 * Description :
@@ -167,8 +178,75 @@ public class src{
 	 * ----------
 	 * 
 	 */
-	public static void lcsec(String path,File file){
+	public static void lcsec(String path,File csv){
+		String toWrite = lcsecRec(csv);
+		try{
+			// Création nouveau fichier ou remplacement de l'ancien
+			File output = new File("output2.csv");
+			output.createNewFile();
 
+			// Ecriture sur le nouveau fichier
+			FileWriter writer = new FileWriter("output2.csv");
+			writer.write(toWrite);
+			writer.close();
+
+		} catch(IOException e){
+			System.out.println(" - Error - ");
+			e.printStackTrace();
+		}
+	}
+
+	public static String lcsecRec(File csv) {
+		String result = "";
+		String csvString = csvToString(csv);
+		String[] values = csvString.split("\n");
+		String[] deps = new String[values.length];
+		for (int i = 0; i < deps.length; i++) {
+			deps[i] = values[i].split(",")[2];
+		}
+
+		for (String value : values) {
+			int csec = 0;
+			String alreadyAdded = "";
+			try {
+				File file = new File(value.split(",")[0]);
+				FileReader reader = new FileReader(file);
+				BufferedReader br = new BufferedReader(reader);
+				String line;
+				while((line = br.readLine())!=null) {
+					for (String dep : deps) {
+						if (line.contains(dep) && (!dep.equals(value.split(",")[2])) && !alreadyAdded.contains(dep)) {
+							alreadyAdded += dep + " ";
+							csec++;
+						}
+					}
+				}
+				result += value + ", " + csec + "\n";
+				reader.close();
+			} catch (IOException e) {
+				System.out.println(" - Error - ");
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+ 	}
+
+	public static String csvToString(File csv) {
+		String csvString = "";
+		try {
+			FileReader reader = new FileReader(csv);
+			BufferedReader br = new BufferedReader(reader);
+			String line;
+			while((line = br.readLine())!=null) {
+				csvString += line + "\n";
+			}
+			reader.close();
+		} catch (IOException e) {
+			System.out.println(" - Error - ");
+			e.printStackTrace();
+		}
+		return csvString;
 	}
 
 	// PARTIE 3 :
