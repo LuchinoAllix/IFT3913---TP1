@@ -2,10 +2,10 @@ import java.io.*;
 import java.util.Arrays;
 
 /*
-* La classe src contient toutes les méthodes demandées dans l'énoncé.
-* 
-* 
-*/
+ * La classe src contient toutes les méthodes demandées dans l'énoncé.
+ *
+ *
+ */
 public class src{
 
 	/*
@@ -19,10 +19,10 @@ public class src{
 		// Test partie 1
 		//File file = new File("src.java");
 		//System.out.println(nvloc(file));
-		
+
 		egon("..\\ckjm-master\\ckjm-master\\src\\gr",50);
-	
-		
+
+
 
 //		// Test partie 0
 //		jls("/Users/anthony/Desktop/ckjm-master/src");
@@ -37,7 +37,7 @@ public class src{
 //		lcsec("/Users/anthony/Desktop/ckjm-master/src/gr/spinellis/ckjm/MethodVisitor.java", csv);
 
 	}
-	
+
 
 
 	// PARTIE 0 :
@@ -45,22 +45,22 @@ public class src{
 	/*
 	 * Description :
 	 * ----------
-	 * La méthode jls répond à la partie 0 de l'énnoncé. A savoir, trouver tout 
-	 * les fichiers '.java' dans le dossier (et ses sous dossiers) donné en 
-	 * paramètre pour mettre dans un fichier csv les valeurs suivantes : 
+	 * La méthode jls répond à la partie 0 de l'énnoncé. A savoir, trouver tout
+	 * les fichiers '.java' dans le dossier (et ses sous dossiers) donné en
+	 * paramètre pour mettre dans un fichier csv les valeurs suivantes :
 	 *  - Chemin du ficheir
 	 *  - Nom du paquet
 	 *  - Nom de la classe
-	 * 
+	 *
 	 * Paramètres et valeurs de retour :
 	 * ----------
 	 * @param path String : Le chemin d'accès du dossier
 	 * @return void : La méthode ne retourne rien mais possède un effet de bord
 	 * car elle crée un fichier csv.
-	 * 
+	 *
 	 * Information complémentaire :
 	 * ---------
-	 * Il est a noter que si le fichier csv correspondant au chemin fourni en 
+	 * Il est a noter que si le fichier csv correspondant au chemin fourni en
 	 * paramètre existe déjà, il sera remplacé par le nouveau fichier csv.
 	 * jls fait appel à jlsRec qui trouve les fichier '.java' en cherchant
 	 * récursivement tous les sous dossiers.
@@ -90,15 +90,15 @@ public class src{
 	/*
 	 * Description :
 	 * ----------
-	 * Avec le chemin donné en entré, retourne les données recherchées sur 
+	 * Avec le chemin donné en entré, retourne les données recherchées sur
 	 * chaque fichier '.java' grâce au module et des appels récursifs.
-	 * 
+	 *
 	 * Paramètres :
 	 * ----------
 	 * @param path File le chemin du dossier à regarder.
 	 * @param module String le nom du module ou se trouverait un fichier '.java'
 	 * @return temp String les valeurs demandée au format csv
-	 * 
+	 *
 	 * Informations complémentaires :
 	 * ----------
 	 * Appel récursif depuis jls, cette méthode n'est pas utilisé autre part.
@@ -112,14 +112,14 @@ public class src{
 			// Si on regarde un dossier on fait un appel récursif
 			if (file.isDirectory())
 				temp += jlsRec(file,module + "." + file.getName());
-			
-			// Si c'est un fichier '.java' on prend les informations nécessaires
+
+				// Si c'est un fichier '.java' on prend les informations nécessaires
 			else if (file.isFile()){
 				int len = file.getName().length();
 				if (len > 5 && file.getName().substring(len-5).equals(".java")){
-					temp += file.getPath() + "," 
-						+ module + "," 
-						+ file.getName().substring(0,len-5) + "\n";
+					temp += file.getPath() + ","
+							+ module + ","
+							+ file.getName().substring(0,len-5) + "\n";
 				}
 			}
 		}
@@ -131,22 +131,22 @@ public class src{
 	/*
 	 * Description :
 	 * ----------
-	 * Etant donné un fichier source d'une classe java, retourne le nombre de 
+	 * Etant donné un fichier source d'une classe java, retourne le nombre de
 	 * lignes de codes non vides.
-	 * 
+	 *
 	 * Paramètres :
 	 * ----------
 	 * @param file File un fichier java
 	 * @param int le nombre de lignes de codes non vides
-	 * 
+	 *
 	 * Information complémentaires :
 	 * ----------
-	 * Une ligne avec seulement un espace ou une tabulation n'est pas 
+	 * Une ligne avec seulement un espace ou une tabulation n'est pas
 	 * considérée comme vide.
 	 */
 	public static int nvloc(File file){
 		int cnt = 0;
-		
+
 		try {
 			FileReader reader = new FileReader(file);
 			BufferedReader br = new BufferedReader(reader);
@@ -166,20 +166,19 @@ public class src{
 	}
 
 	// PARTIE 2 :
-	// TODO CSEC(c) si c est mentionné dans un autre fichier mais pas dans c
 
 	/*
 	 * Description :
 	 * ----------
-	 * 
-	 * 
+	 *
+	 *
 	 * Paramètres :
 	 * ----------
-	 * 
-	 * 
+	 *
+	 *
 	 * Informations complémentaires :
 	 * ----------
-	 * 
+	 *
 	 */
 	public static void lcsec(String path,File csv){
 		String toWrite = lcsecRec(csv);
@@ -195,45 +194,54 @@ public class src{
 
 		} catch(IOException e){
 			System.out.println(" - Error - ");
-			e.printStackTrace();
 		}
 	}
 
 	public static String lcsecRec(File csv) {
 		String result = "";
-		String csvString = csvToString(csv);
-		String[] values = csvString.split("\n");
-		String[] deps = new String[values.length];
-		for (int i = 0; i < deps.length; i++) {
-			deps[i] = values[i].split(",")[2];
+		String[] csvEntries = csvToString(csv).split("\n");
+		// Creation tableau csec qui va prendre les classes dans l'ordre du csv et de leurs couplages
+		String[] csec = new String[csvEntries.length];
+		// Creation tableau deps qui va prendre les classes dans l'ordre du csv
+		String[] deps = new String[csvEntries.length];
+		// Initialisation des valeurs de scec et deps avec les noms des classes du fichier csv
+		for (int i = 0; i < csvEntries.length; i++) {
+			csec[i] = csvEntries[i].split(",")[2];
+			deps[i] = csvEntries[i].split(",")[2];
 		}
 
-		for (String value : values) {
-			int csec = 0;
-			String alreadyAdded = "";
+		// Pour chaque entrée du fichier csv, lecture du fichier concerné
+		// et regarde si une autre class présente dans le tableau deps est mentionné
+		// Si oui la class est ajouté au couplage du fichier concerné et inversement
+		// dans csec sauf si ils ont déjà été ajouté
+		for (int x = 0; x < csvEntries.length; x++) {
 			try {
-				File file = new File(value.split(",")[0]);
+				File file = new File(csvEntries[x].split(",")[0]);
 				FileReader reader = new FileReader(file);
 				BufferedReader br = new BufferedReader(reader);
 				String line;
-				while((line = br.readLine())!=null) {
-					for (String dep : deps) {
-						if (line.contains(dep) && (!dep.equals(value.split(",")[2])) && !alreadyAdded.contains(dep)) {
-							alreadyAdded += dep + " ";
-							csec++;
+				while((line = br.readLine()) != null) {
+					for (int y = 0; y < deps.length; y++) {
+						if ((x != y) && line.contains(deps[y])) {
+							if (!csec[x].contains(deps[y])) {
+								csec[x] = csec[x] + "/" + deps[y];
+							}
+							if(!csec[y].contains(deps[x])) {
+								csec[y] = csec[y] + "/" + deps[x];
+							}
 						}
 					}
 				}
-				result += value + "," + csec + "\n";
 				reader.close();
 			} catch (IOException e) {
 				System.out.println(" - Error - ");
-				e.printStackTrace();
 			}
 		}
-
+		for (int z = 0; z < csvEntries.length; z++) {
+			result += csvEntries[z] + "," + (csec[z].split("/").length - 1) + "\n";
+		}
 		return result;
- 	}
+	}
 
 	public static String csvToString(File csv) {
 		String csvString = "";
@@ -257,15 +265,15 @@ public class src{
 	/*
 	 * Description :
 	 * ----------
-	 * 
-	 * 
+	 *
+	 *
 	 * Paramètres :
 	 * ----------
-	 * 
-	 * 
+	 *
+	 *
 	 * Informations complémentaires :
 	 * ----------
-	 * 
+	 *
 	 */
 	public static void egon(String path, float seuil){
 		jls(path); // Pour être sur que 'output' existe.
@@ -277,9 +285,9 @@ public class src{
 		// On crée des tableau pour stocker les métriques
 		int[] csecTab = new int[lines.length];
 		int[] nvlocTab = new int[lines.length];
-		
+
 		for(int i = 0 ; i< lines.length ; i++){
-			
+
 			// On met les valeurs dans un tableau
 			String[] tabTemp = new String[4];
 			tabTemp = lines[i].split(",");
@@ -312,20 +320,20 @@ public class src{
 			// On calcul les valeurs métriques minimum pour être suspect
 			int nvlocCrit = nvlocTab[lines.length - nbClasses];
 			int csecCrit = csecTab[lines.length - nbClasses];
-			
+
 			// Pour chacune des classes on regarde si les deux métriques sont critiques
 			for(int i = 0 ; i< lines.length ; i++){
 				if(Integer.parseInt(tab[i][3]) >= csecCrit){
 					if(Integer.parseInt(tab[i][4]) >= nvlocCrit){
-						String res = 
-						tab[i][0] + ","
-						+ tab[i][1] + ","
-						+ tab[i][2] + ","
-						+ tab[i][3] + ","
-						+ tab[i][4];
+						String res =
+								tab[i][0] + ","
+										+ tab[i][1] + ","
+										+ tab[i][2] + ","
+										+ tab[i][3] + ","
+										+ tab[i][4];
 						System.out.println(res);
 					}
-				} 
+				}
 			}
 		}
 	}
