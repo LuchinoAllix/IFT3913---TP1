@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /*
@@ -270,15 +269,49 @@ public class src{
 		String csec = lcsecRec(csv);
 		String[] lines = csec.split("\n");
 		String[][] colonnes = new String[lines.length][5];
+
+		// On crée des tableau pour stocker les métriques
+		int[] csecTab = new int[lines.length];
+		int[] nvlocTab = new int[lines.length];
+		
 		for(int i = 0 ; i< lines.length ; i++){
+			// On rajoute la métrique nvloc
 			colonnes[i] = lines[i].split(",");
 			File file = new File(colonnes[i][0]);
-			colonnes[i][4] = "" + nvloc(file);
+			int nvlocVal = nvloc(file);
+			colonnes[i][4] = "" + nvlocVal;
+
+			// On complète les tableaux avec toutes les valeurs des métriques
+			nvlocTab[i] = nvlocVal;
+			csecTab[i] = Integer.parseInt(colonnes[i][3]);
+
 		}
 
-		// TODO déterminer comment traiter les seuils
-		
+		// On calcule le nombre de classe maximum à afficher
+		int nbClasses = (int) Math.floor(lines.length * seuil * 0.01);
 
+		// Il se peut que le seuil soit trop bas pour avoir la moindre classe
+		if(nbClasses > 0){
+
+			// On trie les métriques
+			Arrays.sort(nvlocTab);
+			Arrays.sort(csecTab);
+
+			// On calcul les valeurs métriques minimum pour être suspect
+			int nvlocCrit = nvlocTab[lines.length - nbClasses];
+			int csecCrit = csecTab[lines.length - nbClasses];
+			
+			// Pour chacune des classes on regarde si les deux métriques sont critiques
+			for(int i = 0 ; i< lines.length ; i++){
+				if(Integer.parseInt(colonnes[i][3]) >= csecCrit){
+					if(Integer.parseInt(colonnes[i][4]) >= nvlocCrit){
+						String res = colonnes[i].toString();
+						System.out.println(res.substring(1,res.length()-1));
+					}
+				} 
+			}
+		}
+		
 
 	}
 
