@@ -20,8 +20,10 @@ public class src{
 		//File file = new File("src.java");
 		//System.out.println(nvloc(file));
 
-		egon("..\\ckjm-master\\ckjm-master\\src\\gr",50);
-
+		//egon("..\\ckjm-master\\ckjm-master\\src\\gr",50);
+		//File csv = new File("output.csv");
+		//lcsec("..\\ckjm-master\\ckjm-master\\src\\gr", csv);
+		
 
 
 //		// Test partie 0
@@ -132,7 +134,7 @@ public class src{
 	 * Description :
 	 * ----------
 	 * Etant donné un fichier source d'une classe java, retourne le nombre de
-	 * lignes de codes non vides.
+	 * lignes de codes non vides. Cette méthode répond à la partie 1.
 	 *
 	 * Paramètres :
 	 * ----------
@@ -190,6 +192,7 @@ public class src{
 			// Ecriture sur le nouveau fichier
 			FileWriter writer = new FileWriter("output2.csv");
 			writer.write(toWrite);
+			System.out.println(toWrite);
 			writer.close();
 
 		} catch(IOException e){
@@ -265,15 +268,24 @@ public class src{
 	/*
 	 * Description :
 	 * ----------
-	 *
+	 * Cette méthode répond à la partie 3 de l'enoncé. Egon affiche les classes 
+	 * qui sont suspectes d'être divines parmis celles dans le dossier mentioné 
+	 * en paramètre. Le nombre de classes affichées est déterminé par le seuil.
 	 *
 	 * Paramètres :
 	 * ----------
-	 *
+	 * @param path String : Le chemin du dossier à regarder
+	 * @param seuil float : Le seuil de classes qu'on souhaite regarder
 	 *
 	 * Informations complémentaires :
 	 * ----------
-	 *
+	 * Nous avons décidez de minorer le seuil, c'est à dire que si on regarde 
+	 * 10 classes mais que l'on a un seuil de 1% on ne regarde aucune classe. 
+	 * En effet, on estime que si on veut 1% des classes suspectes alors il 
+	 * faudrait au moins 100 classes.
+	 * Cette méthode ne retourne rien mais possède un effet de bord car elle 
+	 * affiche les classes suspectes et fait appel à jls (qui possède un effet 
+	 * de bord) et lcsecRec.
 	 */
 	public static void egon(String path, float seuil){
 		jls(path); // Pour être sur que 'output' existe.

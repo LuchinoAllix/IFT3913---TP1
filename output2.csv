@@ -1,0 +1,9 @@
+..\ckjm-master\ckjm-master\src\gr\spinellis\ckjm\ant\CkjmTask.java,gr.spinellis.ckjm.ant,CkjmTask,3
+..\ckjm-master\ckjm-master\src\gr\spinellis\ckjm\ant\PrintXmlResults.java,gr.spinellis.ckjm.ant,PrintXmlResults,3
+..\ckjm-master\ckjm-master\src\gr\spinellis\ckjm\CkjmOutputHandler.java,gr.spinellis.ckjm,CkjmOutputHandler,5
+..\ckjm-master\ckjm-master\src\gr\spinellis\ckjm\ClassMetrics.java,gr.spinellis.ckjm,ClassMetrics,7
+..\ckjm-master\ckjm-master\src\gr\spinellis\ckjm\ClassMetricsContainer.java,gr.spinellis.ckjm,ClassMetricsContainer,3
+..\ckjm-master\ckjm-master\src\gr\spinellis\ckjm\ClassVisitor.java,gr.spinellis.ckjm,ClassVisitor,4
+..\ckjm-master\ckjm-master\src\gr\spinellis\ckjm\MethodVisitor.java,gr.spinellis.ckjm,MethodVisitor,2
+..\ckjm-master\ckjm-master\src\gr\spinellis\ckjm\MetricsFilter.java,gr.spinellis.ckjm,MetricsFilter,5
+..\ckjm-master\ckjm-master\src\gr\spinellis\ckjm\PrintPlainResults.java,gr.spinellis.ckjm,PrintPlainResults,4
