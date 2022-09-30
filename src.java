@@ -23,7 +23,7 @@ public class src{
 		egon("..\\jfreechart-master\\jfreechart-master\\src\\main\\java",10);
 		//File csv = new File("output.csv");
 		//lcsec("..\\ckjm-master\\ckjm-master\\src\\gr", csv);
-		
+
 
 
 //		// Test partie 0
@@ -172,15 +172,23 @@ public class src{
 	/*
 	 * Description :
 	 * ----------
-	 *
+	 * A partir d'un fichier csv créée par jls(String path) calcule la métrique
+	 * csec et l'ajoute au fichier csv.
 	 *
 	 * Paramètres :
 	 * ----------
-	 *
+	 * @param File csv de la sortie de jls
 	 *
 	 * Informations complémentaires :
 	 * ----------
+	 * Ne modifie pas le fichier csv original. Création d'un nouveau fichier csv
+	 * augmenté par les résultats de lcsec
 	 *
+	 * D'après un message de l'instructeur sur piazza nous avons considéré uniquement
+	 * les mentions de noms d'autres classes pour la métrique de csec. Voir Q@36 piazza
+	 *
+	 * lcsec ne prends pas de String path en argument car tous les paths nécéssaires
+	 * sont dans le fichier csv
 	 */
 	public static void lcsec(String path,File csv){
 		String toWrite = lcsecRec(csv);
@@ -203,14 +211,13 @@ public class src{
 	public static String lcsecRec(File csv) {
 		String result = "";
 		String[] csvEntries = csvToString(csv).split("\n");
-		// Creation tableau csec qui va prendre les classes dans l'ordre du csv et de leurs couplages
-		String[] csec = new String[csvEntries.length];
-		// Creation tableau deps qui va prendre les classes dans l'ordre du csv
-		String[] deps = new String[csvEntries.length];
-		// Initialisation des valeurs de scec et deps avec les noms des classes du fichier csv
+		// Creation matrice csec[x][a, b] ou x est la ligne, a le nom de
+		// la class associé et b les classes couplées
+		String[][] csec = new String[csvEntries.length][2];
+		// Initialisation des valeurs de scec
 		for (int i = 0; i < csvEntries.length; i++) {
-			csec[i] = csvEntries[i].split(",")[2];
-			deps[i] = csvEntries[i].split(",")[2];
+			csec[i][0] = csvEntries[i].split(",")[2];
+			csec[i][1] = "";
 		}
 
 		// Pour chaque entrée du fichier csv, lecture du fichier concerné
@@ -224,13 +231,21 @@ public class src{
 				BufferedReader br = new BufferedReader(reader);
 				String line;
 				while((line = br.readLine()) != null) {
-					for (int y = 0; y < deps.length; y++) {
-						if ((x != y) && line.contains(deps[y])) {
-							if (!csec[x].contains(deps[y])) {
-								csec[x] = csec[x] + "/" + deps[y];
+					for (int y = 0; y < csvEntries.length; y++) {
+						if ((x != y) && line.contains(csec[y][0])) {
+							if (!csec[x][1].contains(csec[y][0])) {
+								if (csec[x][1].equals("")) {
+									csec[x][1] = csec[y][0];
+								} else {
+									csec[x][1] = csec[x][1] + "/" + csec[y][0];
+								}
 							}
-							if(!csec[y].contains(deps[x])) {
-								csec[y] = csec[y] + "/" + deps[x];
+							if(!csec[y][1].contains(csec[x][0])) {
+								if (csec[y][1].equals("")) {
+									csec[y][1] = csec[x][0];
+								} else {
+									csec[y][1] = csec[y][1] + "/" + csec[x][0];
+								}
 							}
 						}
 					}
@@ -240,8 +255,10 @@ public class src{
 				System.out.println(" - Error - ");
 			}
 		}
+
+		// Update du fichier csv avec les nouvelles valeurs du calcul de csec dans la variable result
 		for (int z = 0; z < csvEntries.length; z++) {
-			result += csvEntries[z] + "," + (csec[z].split("/").length - 1) + "\n";
+			result += csvEntries[z] + "," + (csec[z][1].split("/").length) + "\n";
 		}
 		return result;
 	}
@@ -354,11 +371,11 @@ public class src{
 			// Création des fichiers pour la partie 4
 			try{
 				// Création nouveau fichier ou remplacement de l'ancien
-				File output = new File("output_Seuil_10.csv");
+				File output = new File("output_Seuil_5.csv");
 				output.createNewFile();
 	
 				// Ecriture sur le nouveau fichier
-				FileWriter writer = new FileWriter("output_Seuil_10.csv");
+				FileWriter writer = new FileWriter("output_Seuil_5.csv");
 				writer.write(res);
 				writer.close();
 	
