@@ -173,10 +173,10 @@ public class src{
 	 * lcsec ne prends pas de String path en argument car tous les paths nécéssaires
 	 * sont dans le fichier csv
 	 */
-	public static void lcsec(String path,File csv){
+	public static String lcsec(File csv){
 		String toWrite = lcsecRec(csv);
 
-		System.out.println("lscec result :\n" + toWrite); // Affiche sur la ligne de commande
+		System.out.println("lcsec result :\n" + toWrite); // Affiche sur la ligne de commande
 
 		try{
 			// Création nouveau fichier ou remplacement de l'ancien
@@ -191,6 +191,7 @@ public class src{
 		} catch(IOException e){
 			System.out.println(" - Error - ");
 		}
+		return toWrite;
 	}
 
 	public static String lcsecRec(File csv) {
@@ -292,7 +293,7 @@ public class src{
 	public static void egon(String path, float seuil){
 		jls(path); // Pour être sur que 'output' existe.
 		File csv = new File("output.csv");
-		String csec = lcsecRec(csv);
+		String csec = lcsec(csv);
 		String[] lines = csec.split("\n");
 		String[][] tab = new String[lines.length][5];
 
