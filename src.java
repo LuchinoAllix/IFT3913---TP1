@@ -13,31 +13,6 @@ public class src{
 	 */
 	public static void main(String[] args) {
 
-		// Test partie 0 (avec le dossier git placé un dossier en arrière)
-		//jls("..\\ckjm-master\\ckjm-master\\src\\gr");
-
-		// Test partie 1
-		//File file = new File("src.java");
-		//System.out.println(nvloc(file));
-
-		egon("..\\jfreechart-master\\jfreechart-master\\src\\main\\java",10);
-		//File csv = new File("output.csv");
-		//lcsec("..\\ckjm-master\\ckjm-master\\src\\gr", csv);
-
-
-
-//		// Test partie 0
-//		jls("/Users/anthony/Desktop/ckjm-master/src");
-//
-//		// Test partie 1
-//		File file = new File("/Users/anthony/Desktop/ckjm-master/src/gr/spinellis/ckjm/MethodVisitor.java");
-//		System.out.println(nvloc(file));
-//
-//		// Test partie 2
-//		File csv = new File("/Users/anthony/Documents/Workspace/ift3913tp1/output.csv");
-//		//File file2 = new File("/Users/anthony/Desktop/ckjm-master/src/gr/spinellis/ckjm/MethodVisitor.java");
-//		lcsec("/Users/anthony/Desktop/ckjm-master/src/gr/spinellis/ckjm/MethodVisitor.java", csv);
-
 	}
 
 
@@ -72,7 +47,7 @@ public class src{
 		File file = new File(path);
 		String toWrite = jlsRec(file,file.getName());
 
-		System.out.println(toWrite); // Affiche sur la ligne de commande
+		System.out.println("jls result :\n" + toWrite); // Affiche sur la ligne de commande
 
 		try{
 			// Création nouveau fichier ou remplacement de l'ancien
@@ -192,6 +167,9 @@ public class src{
 	 */
 	public static void lcsec(String path,File csv){
 		String toWrite = lcsecRec(csv);
+
+		System.out.println("lscec result :\n" + toWrite); // Affiche sur la ligne de commande
+
 		try{
 			// Création nouveau fichier ou remplacement de l'ancien
 			File output = new File("output2.csv");
@@ -200,7 +178,6 @@ public class src{
 			// Ecriture sur le nouveau fichier
 			FileWriter writer = new FileWriter("output2.csv");
 			writer.write(toWrite);
-			System.out.println(toWrite);
 			writer.close();
 
 		} catch(IOException e){
@@ -366,16 +343,16 @@ public class src{
 			}
 
 			// Affichage du résultat
-			System.out.println(res);
+			System.out.println("egon result :\n" + res); // Affiche sur la ligne de commande
 
 			// Création des fichiers pour la partie 4
 			try{
 				// Création nouveau fichier ou remplacement de l'ancien
-				File output = new File("output_Seuil_5.csv");
+				File output = new File("output_Seuil_" + seuil + ".csv");
 				output.createNewFile();
 	
 				// Ecriture sur le nouveau fichier
-				FileWriter writer = new FileWriter("output_Seuil_5.csv");
+				FileWriter writer = new FileWriter("output_Seuil_" + seuil + ".csv");
 				writer.write(res);
 				writer.close();
 	
