@@ -9,9 +9,17 @@ import java.util.Arrays;
 public class src{
 
 	/*
-	 * TODO
+	 *
 	 */
 	public static void main(String[] args) {
+		if (args.length != 2) {
+			System.out.println("Error : 2 arguments are needed");
+			System.out.println("Please try again with a folder path and a threshold");
+		} else {
+			String path = args[0];
+			int seuil = Integer.parseInt(args[1]);
+			egon(path,seuil);
+		}
 
 	}
 
