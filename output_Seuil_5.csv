@@ -1,0 +1,14 @@
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\axis\Axis.java,java.org.jfree.chart.axis,Axis,131,1547
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\axis\CategoryAxis.java,java.org.jfree.chart.axis,CategoryAxis,54,1300
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\axis\ValueAxis.java,java.org.jfree.chart.axis,ValueAxis,103,1524
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\ChartFactory.java,java.org.jfree.chart,ChartFactory,93,1887
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\JFreeChart.java,java.org.jfree.chart,JFreeChart,543,1517
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\plot\CategoryPlot.java,java.org.jfree.chart.plot,CategoryPlot,81,4527
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\plot\Plot.java,java.org.jfree.chart.plot,Plot,186,1323
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\plot\XYPlot.java,java.org.jfree.chart.plot,XYPlot,96,4985
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\renderer\category\AbstractCategoryItemRenderer.java,java.org.jfree.chart.renderer.category,AbstractCategoryItemRenderer,54,1550
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\renderer\category\BarRenderer.java,java.org.jfree.chart.renderer.category,BarRenderer,54,1202
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\renderer\xy\AbstractXYItemRenderer.java,java.org.jfree.chart.renderer.xy,AbstractXYItemRenderer,65,1526
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\renderer\xy\XYItemRenderer.java,java.org.jfree.chart.renderer.xy,XYItemRenderer,56,1327
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\chart\StandardChartTheme.java,java.org.jfree.chart,StandardChartTheme,54,1644
+..\jfreechart-master\jfreechart-master\src\main\java\org\jfree\data\general\DatasetUtils.java,java.org.jfree.data.general,DatasetUtils,52,2330

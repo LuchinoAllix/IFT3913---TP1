@@ -20,7 +20,7 @@ public class src{
 		//File file = new File("src.java");
 		//System.out.println(nvloc(file));
 
-		//egon("..\\ckjm-master\\ckjm-master\\src\\gr",50);
+		egon("..\\jfreechart-master\\jfreechart-master\\src\\main\\java",10);
 		//File csv = new File("output.csv");
 		//lcsec("..\\ckjm-master\\ckjm-master\\src\\gr", csv);
 		
@@ -334,24 +334,39 @@ public class src{
 			int csecCrit = csecTab[lines.length - nbClasses];
 
 			// Pour chacune des classes on regarde si les deux métriques sont critiques
+			String res = "";
+
 			for(int i = 0 ; i< lines.length ; i++){
 				if(Integer.parseInt(tab[i][3]) >= csecCrit){
 					if(Integer.parseInt(tab[i][4]) >= nvlocCrit){
-						String res =
-								tab[i][0] + ","
-										+ tab[i][1] + ","
-										+ tab[i][2] + ","
-										+ tab[i][3] + ","
-										+ tab[i][4];
-						System.out.println(res);
+						res += tab[i][0] + ","
+							+ tab[i][1] + ","
+							+ tab[i][2] + ","
+							+ tab[i][3] + ","
+							+ tab[i][4] + "\n";
 					}
 				}
 			}
+
+			// Affichage du résultat
+			System.out.println(res);
+
+			// Création des fichiers pour la partie 4
+			try{
+				// Création nouveau fichier ou remplacement de l'ancien
+				File output = new File("output_Seuil_10.csv");
+				output.createNewFile();
+	
+				// Ecriture sur le nouveau fichier
+				FileWriter writer = new FileWriter("output_Seuil_10.csv");
+				writer.write(res);
+				writer.close();
+	
+			} catch(IOException e){
+				System.out.println(" - Error - ");
+			}
 		}
 	}
-
-	// PARTIE 4 :
-
 }
 
 

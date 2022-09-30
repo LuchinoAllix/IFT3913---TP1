@@ -17,9 +17,7 @@ PARTIE 2 :
 	- ajout des commentaires
 
 PARTIE 3 :
-	- trier les listes en fonction des métriques
-	- prendre en fonction du seuil
-	- docu
+	- done
 
 PARTIE 4 :
-	-all
+	- all
