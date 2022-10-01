@@ -1,0 +1,28 @@
+A première vue, egon ne semble pas une mauvaise manière de trouver des classes divinies.
+
+En effet, plus on regarde un seuil élevé plus on trouve de classes suspectes d'être divines.
+En regardant avec un seuil de 1% on obtient aucune classe. Ce n'est pas illogique car parmis toutes les
+664 classes (information fournie par le nombre de lignes du fichier 'output.csv') il faudrait qu'il y ait
+une classe dont le nombre de lignes vides soit le dans le top 6 (minoration de 664*0.01) et de même pour
+la métrique csec. Pour un seuil de 5% on obtient 14 classes (parmis 664*0.05 minoré = 33) et 34 classes
+(parmis 664*0.1 minoré = 66).
+
+Quand on regarde de façon plus approfondie, la métrique csec semble cohérente pour trouver une classe divine
+car si on définis beacoup d'objets, cette classe fera mention des autres classes et inversement.
+Cependant la métrique nvloc ne semble pas la plus pertinente pour trouver des classes divines.
+En effet, une classe peut très bien définir un seul objet très complexe, donc contenir beaucoup de lignes de
+codes, donc potentiellement des lignes de codes vides.
+Ce raisonement est également valide pour une classe qui défini beaucoup d'objets simples. On a donc deux
+classes, une divine et l'autre non, qui peuvent avoir beaucoup de lignes de codes vides.
+
+Donc regarder la combinaison de cesec et nvloc n'est pas l'idéal car cette deuxième métrique est susceptible
+de laisser passer des classes divines et d'en suspecter d'autres qui ne le sont peut-être pas.
+Finalement on peut dire que la notion de classe divine n'as pas de définitioni exacte, il n'y a pas un
+nombre magique maximal d'objets ou de méthode qu'une classe peut définir avant d'être considérée comme divines.
+Pour cela, regarder différents seuils permet de donner une bonne notion.
+
+On pourrait améliorer egon en ajoutant plusieurs métriques qui permettent de montrer que certaines classes
+ont trop de responsabilité comme une mesure de cohésion par exemple. Cette modification pourrait montrer
+que certaines ont trop de responsabilité sur une grande quantité de métrique et donc de manière globale,
+ce qui pourrait indiquer la présence d'une classe divine.
+
