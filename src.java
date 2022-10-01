@@ -90,7 +90,6 @@ public class src{
 			egon(path,10);
 		}
 		*/
-		egon("..\\jfreechart-master\\jfreechart-master\\src\\main\\java\\org",10);
 
 	}
 
@@ -232,6 +231,8 @@ public class src{
 	 * Paramètres :
 	 * ----------
 	 * @param File csv de la sortie de jls
+	 * @return String la sortie écrite sur le fichier csv 'output2.csv', à 
+	 * savoir le fichier donné en paramètre enrichit de la métric csecc.
 	 *
 	 * Informations complémentaires :
 	 * ----------
@@ -265,6 +266,24 @@ public class src{
 		return toWrite;
 	}
 
+
+	/*
+	 * Description :
+	 * ----------
+	 * Cette méthode est utilisée dans lcsec pour traiter de la partie 
+	 * récursive du problème, elle permet de calculer la métrique csec
+	 *
+	 * Paramètres :
+	 * ----------
+	 * @param csv File donné par la méthode jls
+	 * @return String la chaine de caractères qui contient la même chose que le 
+	 * fichier csv donné en paramètre mais enrichit de la métrique csec.
+	 *
+	 * Informations complémentaires :
+	 * ----------
+	 * Ne possède d'effet de bord que s'il y a un problème quelque avec 
+	 * l'ouverture/lecture/fermeture d'un fichier.
+	 */
 	public static String lcsecRec(File csv) {
 		String result = "";
 		String[] csvEntries = csvToString(csv).split("\n");
@@ -320,6 +339,24 @@ public class src{
 		return result;
 	}
 
+
+	/*
+	 * Description :
+	 * ----------
+	 * Cette méthode est utilisée pour convertir un fichier csv en chaine de 
+	 * caractères
+	 *
+	 * Paramètres :
+	 * ----------
+	 * @param csv File : Fichier csv à convertir
+	 * @return String : La chaine de caractères correspondante
+	 *
+	 * Informations complémentaires :
+	 * ----------
+	 * Cette méthode n'est utilisée que dans lcsec.
+	 * Elle ne possède d'effet de bord que si elle n'arrive pas a lire le 
+	 * fichier passé en paramètre.
+	 */
 	public static String csvToString(File csv) {
 		String csvString = "";
 		try {
