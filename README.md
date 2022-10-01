@@ -37,4 +37,19 @@ Documentation :
 
 Informations supplémentaires :
 
-Toute information sur les choix qui ont pu être pris durant la conception des différentes méthodes son spécifiées dans la documentation de la méthode. Par exemple comment nous traitons les seuils qui ne donne pas un nombre arrondi de classe est expliqué dans les informations supplémentaires de la documentation de egon dans la partie 3. 
+Toutes les informations sur les choix qui ont pu être pris durant la conception des différentes méthodes sont spécifiés dans
+la documentation des différentes méthode.
+
+Dans la partie 2 :
+lcsec ne modifie pas le fichier csv original. Création d'un nouveau fichier csv augmenté par les résultats de lcsec
+D'après une réponse de l'instructeur sur piazza nous avons considéré uniquement les mentions de noms d'autres classes
+pour la métrique de csec (Voir Q@36 sur piazza).
+lcsec ne prends pas de String path en argument car tous les paths nécéssaires sont dans le fichier csv
+
+Dans la partie 3 :
+Nous avons décidez de minorer le seuil, c'est à dire que si on regarde 10 classes mais que l'on a un seuil de 1% on ne
+regarde aucune classe. En effet, on estime que si on veut 1% des classes suspectes alors il faudrait au moins 100 classes.
+
+Pour le même code nous avons trouvé des résultats légèrement différents entre Windows et MacOs que nous n'avons pas
+réussi à expliquer ou régler. La différence étant de 1 résultat en plus dans les fichiers csv output_Seuil_5.csv et
+output_Seuil_10.csv sur MacOs.
