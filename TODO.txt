@@ -1,25 +1,20 @@
 GIT :
-	- Completer read me
-	- gitignore pour énoncé ?
+	- done
 	
 GENERAL :
-	- Voir appel depuis invite de commande
-	- Voir pour fichier exécutable
+	- cleanup
 
 PARTIE 0 :
-	- voir pour les paths unix 
+	- done
 
 PARTIE 1 :
-	- test avec un fichier vide ?
+	- done
 
 PARTIE 2 :
-	- nettoyer un peu le code 
-	- ajout des commentaires
+	- done
 
 PARTIE 3 :
-	- trier les listes en fonction des métriques
-	- prendre en fonction du seuil
-	- docu
+	- done
 
 PARTIE 4 :
-	-all
+	- rep dans txt

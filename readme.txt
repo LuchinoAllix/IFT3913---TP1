@@ -1,5 +1,6 @@
 
 Anthony GRANGE 2016453
+Luchino Allix-Lastrego 20222844
 
 - Lien github : https://github.com/LuchinoAllix/IFT3913---TP1/tree/main
 
