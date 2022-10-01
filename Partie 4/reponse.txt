@@ -5,7 +5,7 @@ En regardant avec un seuil de 1% on obtient aucune classe. Ce n'est pas illogiqu
 664 classes (information fournie par le nombre de lignes du fichier 'output.csv') il faudrait qu'il y ait
 une classe dont le nombre de lignes vides soit le dans le top 6 (minoration de 664*0.01) et de même pour
 la métrique csec. Pour un seuil de 5% on obtient 14 classes (parmis 664*0.05 minoré = 33) et 34 classes
-(parmis 664*0.1 minoré = 66).
+(parmis 664*0.1 minoré = 66) pour 10%.
 
 Quand on regarde de façon plus approfondie, la métrique csec semble cohérente pour trouver une classe divine
 car si on définis beacoup d'objets, cette classe fera mention des autres classes et inversement.
