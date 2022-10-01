@@ -90,6 +90,7 @@ public class src{
 			egon(path,10);
 		}
 		*/
+		egon("..\\jfreechart-master\\jfreechart-master\\src\\main\\java\\org",10);
 
 	}
 
