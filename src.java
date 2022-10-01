@@ -12,6 +12,40 @@ public class src{
 	 *
 	 */
 	public static void main(String[] args) {
+
+		/*
+
+		// PARTIE 0
+		if (args.length != 1) {
+			System.out.println("Error : 1 argument is needed");
+			System.out.println("Please try again with a folder path");
+		} else {
+			String path = args[0];
+			jls(path);
+		}
+
+		// PARTIE 1
+		if (args.length != 1) {
+			System.out.println("Error : 1 argument is needed");
+			System.out.println("Please try again with a folder path");
+		} else {
+			String path = args[0];
+			File file = new File(path);
+			System.out.println(nvloc(file));
+		}
+
+		// PARTIE 2
+		if (args.length != 1) {
+			System.out.println("Error : 1 argument is needed");
+			System.out.println("Please try again with a csv file path");
+		} else {
+			String pathCSV = args[0];
+			File csv = new File(pathCSV);
+			lcsec(csv);
+
+		}
+
+		// PARTIE 3
 		if (args.length != 2) {
 			System.out.println("Error : 2 arguments are needed");
 			System.out.println("Please try again with a folder path and a threshold");
@@ -20,6 +54,19 @@ public class src{
 			int seuil = Integer.parseInt(args[1]);
 			egon(path,seuil);
 		}
+
+		// PARTIE 4
+		if (args.length != 1) {
+			System.out.println("Error : 1 argument is needed");
+			System.out.println("Please try again with a folder path");
+		} else {
+			String path = args[0];
+			egon(path,1);
+			egon(path,5);
+			egon(path,10);
+		}
+
+		 */
 
 	}
 
