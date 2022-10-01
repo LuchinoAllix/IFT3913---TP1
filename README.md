@@ -14,6 +14,8 @@ Auteurs :
 
 Documentation :
 
+	Pour lancer les fichiers '.jar' il faut : taper 'java -jar nomDuFichier.jar' suivi des arguments.
+
     Pour exécuter les 4 programmes il faut passer leurs arguments respectifs.
 
     Execution Partie 0 - Lancer l'executable IFT3913---TP1-P0.jar avec le path du repertoire en argument
