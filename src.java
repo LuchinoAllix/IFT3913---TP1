@@ -2,20 +2,29 @@ import java.io.*;
 import java.util.Arrays;
 
 /*
+ * IFT 3913 Qualité du logiciel et métriques
+ * Université de Montréal
+ * TP1
+ * 30 Septembre 2022
+ * 
+ * Auteurs :
+ *  - Anthony Grange
+ *  - Luchino Allix-Lastrego
+ * 
  * La classe src contient toutes les méthodes demandées dans l'énoncé.
- *
  *
  */
 public class src{
 
 	/*
-	 *
+	 * Dans main se trouvent toutes les différentes partie mise en commentaire 
+	 * pour faire les 5 fichiers exécutables.
 	 */
 	public static void main(String[] args) {
 
-		/*
+		// PARTIE 0 
 
-		// PARTIE 0
+		/*
 		if (args.length != 1) {
 			System.out.println("Error : 1 argument is needed");
 			System.out.println("Please try again with a folder path");
@@ -23,8 +32,12 @@ public class src{
 			String path = args[0];
 			jls(path);
 		}
+		*/
+
 
 		// PARTIE 1
+
+		/* 
 		if (args.length != 1) {
 			System.out.println("Error : 1 argument is needed");
 			System.out.println("Please try again with a folder path");
@@ -33,8 +46,12 @@ public class src{
 			File file = new File(path);
 			System.out.println(nvloc(file));
 		}
+		*/
+
 
 		// PARTIE 2
+
+		/*
 		if (args.length != 1) {
 			System.out.println("Error : 1 argument is needed");
 			System.out.println("Please try again with a csv file path");
@@ -42,10 +59,13 @@ public class src{
 			String pathCSV = args[0];
 			File csv = new File(pathCSV);
 			lcsec(csv);
-
 		}
+		*/
+
 
 		// PARTIE 3
+
+		/*
 		if (args.length != 2) {
 			System.out.println("Error : 2 arguments are needed");
 			System.out.println("Please try again with a folder path and a threshold");
@@ -54,8 +74,12 @@ public class src{
 			int seuil = Integer.parseInt(args[1]);
 			egon(path,seuil);
 		}
+		*/
+
 
 		// PARTIE 4
+
+		/*
 		if (args.length != 1) {
 			System.out.println("Error : 1 argument is needed");
 			System.out.println("Please try again with a folder path");
@@ -65,8 +89,7 @@ public class src{
 			egon(path,5);
 			egon(path,10);
 		}
-
-		 */
+		*/
 
 	}
 
