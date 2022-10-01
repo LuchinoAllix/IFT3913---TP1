@@ -41,8 +41,9 @@ lcsec ne prends pas de String path en argument car tous les paths nécéssaires 
 Dans la partie 3 :
 Nous avons décidez de minorer le seuil, c'est à dire que si on regarde 10 classes mais que l'on a un seuil de 1% on ne
 regarde aucune classe. En effet, on estime que si on veut 1% des classes suspectes alors il faudrait au moins 100 classes.
-Cette méthode ne retourne rien mais possède un effet de bord car elle affiche les classes suspectes et fait appel à
-jls (qui possède un effet de bord) et lcsecRec.
 
 Nous avons utilisé la version 18.0.1.1 de java pour la création des fichiers jar. Au moins cette version est donc nécessaire pour exécuter les .jar .
 
+Pour le même code nous avons trouvé des résultats légèrement différents entre Windows et MacOs que nous n'avons pas
+réussi à expliquer ou régler. La différence étant de 1 résultat en plus dans les fichiers csv output_Seuil_5.csv et
+output_Seuil_10.csv sur MacOs.

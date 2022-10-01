@@ -54,3 +54,6 @@ jls (qui possède un effet de bord) et lcsecRec.
 
 Nous avons utilisé la version 18.0.1.1 de java pour la création des fichiers jar. Au moins cette version est donc nécessaire pour exécuter les .jar .
 
+Pour le même code nous avons trouvé des résultats légèrement différents entre Windows et MacOs que nous n'avons pas
+réussi à expliquer ou régler. La différence étant de 1 résultat en plus dans les fichiers csv output_Seuil_5.csv et
+output_Seuil_10.csv sur MacOs.
