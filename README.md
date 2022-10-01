@@ -34,3 +34,7 @@ Documentation :
     Execution Partie 4 - Lancer l'executable IFT3913---TP1-P4.jar avec le path du repertoire en argument
         Les fichiers output_Seuil_1.csv, output_Seuil_5.csv, output_Seuil_10.csv seront créés contenant les résultats
         de egon avec des seuils de 1%, 5% et 10% respectivement
+
+Informations supplémentaires :
+
+Toute information sur les choix qui ont pu être pris durant la conception des différentes méthodes son spécifiées dans la documentation de la méthode. Par exemple comment nous traitons les seuils qui ne donne pas un nombre arrondi de classe est expliqué dans les informations supplémentaires de la documentation de egon dans la partie 3. 
