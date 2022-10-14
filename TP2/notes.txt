@@ -1,0 +1,13 @@
+Ce fichier contient le raisonement des métriques choisies.
+
+Q1 - Facilité d'analyse :
+	todo
+
+Q2 - Facilité de modification :
+	todo
+
+Q3 - Stabilité :
+	todo
+
+Q4 - Facilité de test:
+	todo
