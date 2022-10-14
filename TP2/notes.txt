@@ -1,13 +1,13 @@
 Ce fichier contient le raisonement des métriques choisies.
 
 Q1 - Facilité d'analyse :
-	todo
+	Nous devons pouvoir répondre à la question "Le niveau de documentation des classes est-il approprié par rapport à leur complexité ?". Il faut donc une manière de mesurer le niveau de documentation et une manière de mesurer la complexité. Pour le niveau de documentation, DC (densité de commentaires) devrait être adéquate. Pour la complexité, vu que l'on parle de complexité structurelle et non algorithmique, compter le nombre de méthodes (NOM) et d'attributs (NAT) semble être approprié. Ou alors DIT ou WMC?
 
 Q2 - Facilité de modification :
-	todo
+	Nous devons pouvoir répondre à la question "La conception est-elle bien modulaire?". Nous pouvons utiliser CSEC (voir TP1) et WMC.
 
 Q3 - Stabilité :
-	todo
+	Nous devons répondre à la question "Le code est-il mature ?". (AGE ? a voir si facile à faire) et LCOM (mais peut être compliqué à coder)
 
 Q4 - Facilité de test:
-	todo
+	Nous devons répondre à la question "Le code peut-il bien être testé automatiquement ?". RFC, TPC, PMNT (à voir lesquels sont facilement implémentables).
