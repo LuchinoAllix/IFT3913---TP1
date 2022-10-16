@@ -1,13 +1,34 @@
 Ce fichier contient le raisonement des métriques choisies.
 
 Q1 - Facilité d'analyse :
-	Nous devons pouvoir répondre à la question "Le niveau de documentation des classes est-il approprié par rapport à leur complexité ?". Il faut donc une manière de mesurer le niveau de documentation et une manière de mesurer la complexité. Pour le niveau de documentation, DC (densité de commentaires) devrait être adéquate. Pour la complexité, vu que l'on parle de complexité structurelle et non algorithmique, compter le nombre de méthodes (NOM) et d'attributs (NAT) semble être approprié. Ou alors DIT ou WMC?
+	Nous devons pouvoir répondre à la question "Le niveau de documentation des classes est-il approprié par rapport à leur complexité ?". 
+	Il faut donc une manière de mesurer le niveau de documentation et une manière de mesurer la complexité. Pour le niveau de documentation, DC=CLOC/LOC (densité de commentaires) devrait être adéquate. 
+	Pour la complexité algorithmique, la complexité cyclomatique (CC) est une bon indicateur.
+	WMC (Weighted Methods Per Class) est plus utile pour la complexité structurelle.
+	RFC (Response For Class) peut également être utilisé pour la complexité structurelle.
+
+	=> CLOC/LOC CC WMC RFC (au moins 3)
 
 Q2 - Facilité de modification :
-	Nous devons pouvoir répondre à la question "La conception est-elle bien modulaire?". Nous pouvons utiliser CSEC (voir TP1) et WMC.
+	Nous devons pouvoir répondre à la question "La conception est-elle bien modulaire?". 
+	Nous pouvons utiliser CSEC (voir TP1) car si trop de classes font appel à trop d'autres classes alors la conception n'est pas modulaire.
+	WMC (Weighted Methods Per Class) est un bon indicateur du temps à passer pour développer et maintenir une classe (cf. Chap IV slide 64).
+	LCOM (Lack Of Cohesion in Methods) est un parfait un indicateur de la modularité du code, il reste à voir si s'est facilement implémentable (voir outils en ligne ?).
+
+	=> CSEC WMC (peut-être LCOM)
 
 Q3 - Stabilité :
-	Nous devons répondre à la question "Le code est-il mature ?". (AGE ? a voir si facile à faire) et LCOM (mais peut être compliqué à coder)
+	Nous devons répondre à la question "Le code est-il mature ?". 
+	AGE (age du fichier) est une première métrique que l'on peut regarder. Effectivement, si un fichier est très jeune il est moins susceptible d'avoir été bien testé, il possède donc peut-être plus de bug, donc il serait moins stable.
+	RFC (Response For Class) permet de déterminer si le débogage est plus ou moins compliqué (cf. Chap IV slide 68), donc cette métrique permet de déterminer si le code est stable ou non.
+	Il serait adéquat de regarder une métrique telle que TPC ou PMNT de la Q4 pour affiner les résultats.
+
+	=> AGE RFC (+ 1 de Q4)
 
 Q4 - Facilité de test:
-	Nous devons répondre à la question "Le code peut-il bien être testé automatiquement ?". RFC, TPC, PMNT (à voir lesquels sont facilement implémentables).
+	Nous devons répondre à la question "Le code peut-il bien être testé automatiquement ?". 
+	Un grand RFC (Response For Class) indique que le test et le débogage deviennent plus compliqués (cf. Chap IV slide 68), donc c'est une bonne métrique à regarder. 
+	TPC (Test Per Class) est un bon indicateur de la facilité de test. 
+	PMNT (Percentage de Méthodes Non Testés) indique également si le code peut facilement être bien testé ou non.
+
+	=> RFC TPC (peut être PMNT)
