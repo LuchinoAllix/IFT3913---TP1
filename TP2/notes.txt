@@ -6,8 +6,9 @@ Q1 - Facilité d'analyse :
 	Pour la complexité algorithmique, la complexité cyclomatique (CC) est une bon indicateur.
 	WMC (Weighted Methods Per Class) est plus utile pour la complexité structurelle.
 	RFC (Response For Class) peut également être utilisé pour la complexité structurelle.
+	NOC (Number of Children) peut également être envisagée pour déterminer la complexité structurelle.
 
-	=> CLOC/LOC CC WMC RFC (au moins 3)
+	=> CLOC/LOC CC WMC RFC NOC (au moins 3)
 
 Q2 - Facilité de modification :
 	Nous devons pouvoir répondre à la question "La conception est-elle bien modulaire?". 
