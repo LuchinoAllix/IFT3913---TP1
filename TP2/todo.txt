@@ -1,5 +1,14 @@
 Tâche 1 :
-	- Déterminer les métriques de chaque question
+	- DC
+	- CC
+	- WMC
+	- RFC
+	- TPC
+	- PMNT
+	- LCOM
+	- NOC
+	- CSEC
+	- AGE
 
 Tâche 2 :
 	- All
