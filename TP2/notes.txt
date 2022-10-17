@@ -1,28 +1,30 @@
-Ce fichier contient le raisonement des métriques choisies.
+Ce fichier contient le raisonnement des métriques choisies.
 
 Q1 - Facilité d'analyse :
 	Nous devons pouvoir répondre à la question "Le niveau de documentation des classes est-il approprié par rapport à leur complexité ?". 
 	Il faut donc une manière de mesurer le niveau de documentation et une manière de mesurer la complexité. Pour le niveau de documentation, DC=CLOC/LOC (densité de commentaires) devrait être adéquate. 
-	Pour la complexité algorithmique, la complexité cyclomatique (CC) est une bon indicateur.
-	WMC (Weighted Methods Per Class) est plus utile pour la complexité structurelle.
+	Pour la complexité algorithmique des méthodes des classes, la complexité cyclomatique (CC) est un bon indicateur.
+	WMC (Weighted Methods Per Class) est plus utile pour la complexité structurelle liée à la métrique CC pour avoir un indicateur de la complexité d'une classe.
 	RFC (Response For Class) peut également être utilisé pour la complexité structurelle.
 	NOC (Number of Children) peut également être envisagée pour déterminer la complexité structurelle.
 
-	=> CLOC/LOC CC WMC RFC NOC (au moins 3)
+	=> CLOC/LOC CC WMC+CC RFC NOC (au moins 3)
 
 Q2 - Facilité de modification :
-	Nous devons pouvoir répondre à la question "La conception est-elle bien modulaire?". 
-	Nous pouvons utiliser CSEC (voir TP1) car si trop de classes font appel à trop d'autres classes alors la conception n'est pas modulaire.
+	Nous devons pouvoir répondre à la question "La conception est-elle bien modulaire?".
+	Il nous faut donc des métriques pour calculer le couplage et la cohésion qui nous permettent de determiner la modularité.
+	Un couplage beaucoup élevé et une cohésion faible signifie que la conception n'est pas très modulaire.
+	Nous pouvons utiliser CSEC (voir TP1) pour le couplage car si trop de classes font appel à trop d'autres classes alors la conception n'est pas modulaire.
 	WMC (Weighted Methods Per Class) est un bon indicateur du temps à passer pour développer et maintenir une classe (cf. Chap IV slide 64).
-	LCOM (Lack Of Cohesion in Methods) est un parfait un indicateur de la modularité du code, il reste à voir si s'est facilement implémentable (voir outils en ligne ?).
+	LCOM (Lack Of Cohesion in Methods) est un indicateur parfait de cohésion du code, il reste à voir si s'est facilement implémentable (voir outils en ligne ?).
 
-	=> CSEC WMC (peut-être LCOM)
+	=> CSEC WMC+CC (peut-être LCOM)
 
 Q3 - Stabilité :
 	Nous devons répondre à la question "Le code est-il mature ?". 
 	AGE (age du fichier) est une première métrique que l'on peut regarder. Effectivement, si un fichier est très jeune il est moins susceptible d'avoir été bien testé, il possède donc peut-être plus de bug, donc il serait moins stable.
 	RFC (Response For Class) permet de déterminer si le débogage est plus ou moins compliqué (cf. Chap IV slide 68), donc cette métrique permet de déterminer si le code est stable ou non.
-	Il serait adéquat de regarder une métrique telle que TPC ou PMNT de la Q4 pour affiner les résultats.
+	Il serait adéquat de regarder une métrique telle que TPC ou PMNT (Q4) pour également voir si une méthode est bien testé et stable.
 
 	=> AGE RFC (+ 1 de Q4)
 
