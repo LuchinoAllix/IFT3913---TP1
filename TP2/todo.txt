@@ -1,14 +1,9 @@
 Tâche 1 :
-	- DC
-	- CC
-	- WMC
-	- RFC
-	- TPC
-	- PMNT
+	- PMNT a voir si ratio code/tests pas mieux
 	- LCOM
-	- NOC
-	- CSEC
-	- AGE
+	- NOC probablement pas
+	- CSEC 
+	- AGE probablement pas
 
 Tâche 2 :
 	- All
