@@ -4,13 +4,18 @@ import com.github.javaparser.ParseException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.comments.BlockComment;
+import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.visitor.GenericListVisitorAdapter;
 import com.github.javaparser.utils.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -122,6 +127,95 @@ public class ASTparser {
         return uniqueMethodCallsNames;
     }
 
+    public static float parseDC(String filePath) throws ParseException, IOException {
+        // result will store all the method calls inside our BlockStmt
+        ArrayList<LineComment> lineComments;
+        ArrayList<BlockComment> blockComments;
+        ArrayList<JavadocComment> javadocComments;
+
+        int comms = 0;
+
+        // JavaParser has a minimal logging class that normally logs nothing.
+        // Let's ask it to write to standard out:
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+
+        File file = new File(filePath);
+        CompilationUnit cu = StaticJavaParser.parse(file);
+
+        // Finally the compilation unit take a visitor to parse through a method (BlockStmt) for each
+        // MethodCallExprand add them to the result
+        lineComments = (ArrayList<LineComment>) cu.accept(new GenericListVisitorAdapter<LineComment, Void>() {
+            @Override
+            public ArrayList<LineComment> visit(LineComment n, Void arg) {
+                ArrayList<LineComment> lineComments = new ArrayList<>();
+                super.visit(n, arg);
+                lineComments.add(n.asLineComment());
+                return lineComments;
+            }
+        }, null);
+
+        comms += lineComments.size();
+
+        blockComments = (ArrayList<BlockComment>) cu.accept(new GenericListVisitorAdapter<BlockComment, Void>() {
+            @Override
+            public ArrayList<BlockComment> visit(BlockComment n, Void arg) {
+                ArrayList<BlockComment> blockComments = new ArrayList<>();
+                super.visit(n, arg);
+                blockComments.add(n.asBlockComment());
+                return blockComments;
+            }
+        }, null);
+
+        for(BlockComment blockComment : blockComments){
+            comms++;
+            String comment = blockComment.toString();
+            for (int i = 0; i < comment.length(); i++) {
+                if(comment.charAt(i) == '\n'){
+                    comms++;
+                }
+            }
+        }
+
+        javadocComments = (ArrayList<JavadocComment>) cu.accept(new GenericListVisitorAdapter<JavadocComment, Void>() {
+            @Override
+            public ArrayList<JavadocComment> visit(JavadocComment n, Void arg) {
+                ArrayList<JavadocComment> javadocComments = new ArrayList<>();
+                super.visit(n, arg);
+                javadocComments.add(n.asJavadocComment());
+                return javadocComments;
+            }
+        }, null);
+
+        for(JavadocComment javadocComment : javadocComments){
+            comms++;
+            String comment = javadocComment.toString();
+            for (int i = 0; i < comment.length(); i++) {
+                if(comment.charAt(i) == '\n'){
+                    comms++;
+                }
+            }
+        }
+
+        int lines = 0;
+
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader br = new BufferedReader(reader);
+            String line;
+            while((line = br.readLine())!=null){
+                if(line.length() > 0) lines ++;
+            }
+            reader.close();
+
+        } catch (IOException e) {
+            assert true; // Pour ne rien faire
+        }
+
+        if (lines == 0) return 0; // Si le fichier est vide
+
+        return (float )comms/lines ;
+    }
+
     public static void main(String[] args) {
         // TESTING
         try {
@@ -148,6 +242,8 @@ public class ASTparser {
                         + " --- Nombre de méthodes appelées : " + parseMethodCallsInsideAMethod(methodContents.get(i)).size());
                 //System.out.println(methodContents.get(i).toString());
             }
+
+            System.out.println("\nDensité de commentaires : " + parseDC(path));
 
         } catch (IOException | ParseException e) {
             System.out.println("Error");
