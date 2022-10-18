@@ -5,6 +5,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.visitor.GenericListVisitorAdapter;
 import com.github.javaparser.utils.Log;
@@ -15,9 +16,9 @@ import java.util.ArrayList;
 
 public class ASTparser {
 
-    public static ArrayList<String> parseMethodsNames(String filePath) throws ParseException, IOException {
+    public static ArrayList<SimpleName> parseMethodsNames(String filePath) throws ParseException, IOException {
         // result will store all the methods names inside an Arraylist
-        ArrayList<String> result;
+        ArrayList<SimpleName> result;
 
         // JavaParser has a minimal logging class that normally logs nothing.
         // Let's ask it to write to standard out:
@@ -29,12 +30,12 @@ public class ASTparser {
 
         // Finally the compilation unit take a visitor to parse through the code for each
         // MethodDeclaration and add their name to the result
-        result = (ArrayList<String>) cu.accept(new GenericListVisitorAdapter<String, Void>() {
+        result = (ArrayList<SimpleName>) cu.accept(new GenericListVisitorAdapter<SimpleName, Void>() {
             @Override
-            public ArrayList<String> visit(MethodDeclaration n, Void arg) {
-                ArrayList<String> methods = new ArrayList<>();
+            public ArrayList<SimpleName> visit(MethodDeclaration n, Void arg) {
+                ArrayList<SimpleName> methods = new ArrayList<>();
                 super.visit(n, arg);
-                methods.add(n.getName().toString());
+                methods.add(n.getName());
                 return methods;
             }
         }, null);
@@ -94,26 +95,38 @@ public class ASTparser {
         return result;
     }
 
-    public static int getAllMethodCalls(ArrayList<BlockStmt> methods) throws ParseException, IOException {
-        int result = 0;
+    public static ArrayList<MethodCallExpr> getAllMethodCalls(ArrayList<BlockStmt> methods) throws ParseException, IOException {
+        ArrayList<MethodCallExpr> methodCalls = new ArrayList<>();
         for (BlockStmt method : methods) {
-            result += parseMethodCallsInsideAMethod(method).size();
+            methodCalls.addAll(parseMethodCallsInsideAMethod(method));
         }
-        return result;
+        return methodCalls;
+    }
+
+    public static ArrayList<SimpleName> getAllUniqueMethodCalls(ArrayList<BlockStmt> methods) throws ParseException, IOException {
+        ArrayList<MethodCallExpr> methodCalls = getAllMethodCalls(methods);
+        ArrayList<SimpleName> uniqueMethodCalls = new ArrayList<>();
+        for (MethodCallExpr methodCall : methodCalls) {
+            if (!uniqueMethodCalls.contains(methodCall.getName())) {
+                uniqueMethodCalls.add(methodCall.getName());
+            }
+        }
+        return uniqueMethodCalls;
     }
 
     public static void main(String[] args) {
         // TESTING
         try {
             // Method names in a String format
-            ArrayList<String> methodNames = parseMethodsNames("/Users/anthony/Desktop/IFT3913---TP1-main/src.java");
+            ArrayList<SimpleName> methodNames = parseMethodsNames("/Users/anthony/Desktop/IFT3913---TP1-main/src.java");
             // Method contents in a BlockStmt format to be able to visit them again later
             ArrayList<BlockStmt> methodContents = parseMethodsContent("/Users/anthony/Desktop/IFT3913---TP1-main/src.java");
 
             System.out.println("Méthodes : " + methodNames.toString());
             System.out.println("Nombre de méthodes : " + methodNames.size());
-            System.out.println("Nombre de méthodes appelées : " + getAllMethodCalls(methodContents));
-            System.out.println();
+            System.out.println("Nombre de méthodes appelées : " + getAllMethodCalls(methodContents).size());
+            System.out.println("Nombre de méthodes uniques appelées : " + getAllUniqueMethodCalls(methodContents).size());
+            System.out.println(getAllUniqueMethodCalls(methodContents));
             for (int i = 0; i < methodNames.size(); i++) {
                 System.out.println("Méthode : " + methodNames.get(i)
                         + " --- Nombre de méthodes appelées : " + parseMethodCallsInsideAMethod(methodContents.get(i)).size());
