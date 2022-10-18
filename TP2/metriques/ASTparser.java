@@ -262,6 +262,37 @@ public class ASTparser {
         return (float )comms/lines ;
     }
 
+    public static int parseTPC(String filePath) throws ParseException, IOException {
+
+        ArrayList<Boolean> tests;
+        int tests_cnt = 0;
+
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+
+        File file = new File(filePath);
+        CompilationUnit cu = StaticJavaParser.parse(file);
+
+        tests = (ArrayList<Boolean>) cu.accept(new GenericListVisitorAdapter<Boolean, Void>() {
+            @Override
+            public List<Boolean> visit(MethodDeclaration n, Void arg) {
+                ArrayList<Boolean> tests = new ArrayList<>();
+                super.visit(n, arg);
+                if(! n.getAnnotationByName("Test").equals(Optional.empty())){
+                    tests.add(true);
+                } else {
+                    tests.add(false);
+                }
+
+                return tests;
+            }
+        }, null);
+
+        for (Boolean b : tests)
+            if(b) tests_cnt++;
+
+        return tests_cnt;
+    }
+
     public static void main(String[] args) {
         // TESTING
         try {
@@ -294,6 +325,7 @@ public class ASTparser {
             System.out.println("Total amount of uniques method calls in file : " + uniqueMethodCalls.size());
 
             System.out.println("\nDensité de commentaires : " + parseDC(path));
+            System.out.println("Nombre de tests = " + parseTPC(path));
 
         } catch (IOException | ParseException e) {
             System.out.println("Error");
