@@ -16,9 +16,7 @@ import com.github.javaparser.ast.stmt.WhileStmt;
 import com.github.javaparser.ast.visitor.GenericListVisitorAdapter;
 import com.github.javaparser.utils.Log;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
@@ -69,6 +67,29 @@ public class ASTparser {
         }
 
         return result;
+    }
+
+    public static ArrayList<MethodDeclaration> parseMethodDeclarations(String filePath) throws ParseException, IOException {
+        ArrayList<MethodDeclaration> methodDeclarations;
+
+        // JavaParser has a minimal logging class that normally logs nothing.
+        // Let's ask it to write to standard out:
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+
+        File file = new File(filePath);
+        CompilationUnit cu = StaticJavaParser.parse(file);
+
+        methodDeclarations = (ArrayList<MethodDeclaration>) cu.accept(new GenericListVisitorAdapter<MethodDeclaration, Void>() {
+            @Override
+            public ArrayList<MethodDeclaration> visit(MethodDeclaration n, Void arg) {
+                ArrayList<MethodDeclaration> methods = new ArrayList<>();
+                super.visit(n, arg);
+                methods.add(n);
+                return methods;
+            }
+        }, null);
+
+        return methodDeclarations;
     }
 
     public static ArrayList<MethodCallExpr> parseMethodCallsInsideAMethod(BlockStmt method) throws ParseException, IOException {
@@ -173,23 +194,13 @@ public class ASTparser {
         return result;
     }
 
-    public static float parseDC(String filePath) throws ParseException, IOException {
-        // result will store all the method calls inside our BlockStmt
+    public static ArrayList<LineComment> parseLineComments(String filePath) throws ParseException, IOException {
         ArrayList<LineComment> lineComments;
-        ArrayList<BlockComment> blockComments;
-        ArrayList<JavadocComment> javadocComments;
 
-        int comms = 0;
-
-        // JavaParser has a minimal logging class that normally logs nothing.
-        // Let's ask it to write to standard out:
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
-
         File file = new File(filePath);
         CompilationUnit cu = StaticJavaParser.parse(file);
 
-        // Finally the compilation unit take a visitor to parse through a method (BlockStmt) for each
-        // MethodCallExprand add them to the result
         lineComments = (ArrayList<LineComment>) cu.accept(new GenericListVisitorAdapter<LineComment, Void>() {
             @Override
             public ArrayList<LineComment> visit(LineComment n, Void arg) {
@@ -200,7 +211,15 @@ public class ASTparser {
             }
         }, null);
 
-        comms += lineComments.size();
+       return lineComments;
+    }
+
+    public static ArrayList<BlockComment> parseBlockComments(String filePath) throws ParseException, IOException {
+        ArrayList<BlockComment> blockComments;
+
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+        File file = new File(filePath);
+        CompilationUnit cu = StaticJavaParser.parse(file);
 
         blockComments = (ArrayList<BlockComment>) cu.accept(new GenericListVisitorAdapter<BlockComment, Void>() {
             @Override
@@ -212,15 +231,15 @@ public class ASTparser {
             }
         }, null);
 
-        for(BlockComment blockComment : blockComments){
-            comms++;
-            String comment = blockComment.toString();
-            for (int i = 0; i < comment.length(); i++) {
-                if(comment.charAt(i) == '\n'){
-                    comms++;
-                }
-            }
-        }
+        return blockComments;
+    }
+
+    public static ArrayList<JavadocComment> parseJavadocComments(String filePath) throws ParseException, IOException {
+        ArrayList<JavadocComment> javadocComments;
+
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+        File file = new File(filePath);
+        CompilationUnit cu = StaticJavaParser.parse(file);
 
         javadocComments = (ArrayList<JavadocComment>) cu.accept(new GenericListVisitorAdapter<JavadocComment, Void>() {
             @Override
@@ -232,43 +251,12 @@ public class ASTparser {
             }
         }, null);
 
-        for(JavadocComment javadocComment : javadocComments){
-            comms++;
-            String comment = javadocComment.toString();
-            for (int i = 0; i < comment.length(); i++) {
-                if(comment.charAt(i) == '\n'){
-                    comms++;
-                }
-            }
-        }
-
-        int lines = 0;
-
-        try {
-            FileReader reader = new FileReader(file);
-            BufferedReader br = new BufferedReader(reader);
-            String line;
-            while((line = br.readLine())!=null){
-                if(line.length() > 0) lines ++;
-            }
-            reader.close();
-
-        } catch (IOException e) {
-            assert true; // Pour ne rien faire
-        }
-
-        if (lines == 0) return 0; // Si le fichier est vide
-
-        return (float )comms/lines ;
+        return javadocComments;
     }
 
-    public static int parseTPC(String filePath) throws ParseException, IOException {
-
+    public static ArrayList<Boolean> parseTests(String filePath) throws ParseException, IOException {
         ArrayList<Boolean> tests;
-        int tests_cnt = 0;
-
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
-
         File file = new File(filePath);
         CompilationUnit cu = StaticJavaParser.parse(file);
 
@@ -282,22 +270,19 @@ public class ASTparser {
                 } else {
                     tests.add(false);
                 }
-
                 return tests;
             }
         }, null);
 
-        for (Boolean b : tests)
-            if(b) tests_cnt++;
-
-        return tests_cnt;
+        return tests;
     }
+
 
     public static void main(String[] args) {
         // TESTING
         try {
-            // Path of the analyzed java file
-            String path = "/Users/anthony/Desktop/IFT3913---TP1-main/src.java";
+            // Path of the analyzed java fileString path = "
+            String path = "C:\\Users\\luchi\\Documents\\Unif\\Udem\\Cours\\3 - A22\\3913\\TP\\IFT3913---TP1\\TP1\\src.java";
 
             // Method names in a SimpleName format for a clean display and easy comparison as key
             // and their content as value
@@ -324,12 +309,12 @@ public class ASTparser {
             System.out.println("Total amount of method calls in file : " + methodCallsCount);
             System.out.println("Total amount of uniques method calls in file : " + uniqueMethodCalls.size());
 
-            System.out.println("\nDensité de commentaires : " + parseDC(path));
-            System.out.println("Nombre de tests = " + parseTPC(path));
+            System.out.println("\nDensité de commentaires : " + DC.dc(path));
+            System.out.println("Nombre de tests : " + TPC.tpc(path));
+            System.out.println("Densité de tests : " + DT.dt(path));
 
         } catch (IOException | ParseException e) {
             System.out.println("Error");
         }
     }
-
 }
