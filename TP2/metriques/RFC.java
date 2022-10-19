@@ -25,13 +25,5 @@ public class RFC {
 
         return result.size();
     }
-
-    public static void main(String[] args) {
-        try {
-            System.out.println(rfc("/Users/anthony/Desktop/IFT3913---TP1-main/src.java"));
-        } catch (IOException | ParseException e) {
-            System.out.println("Error");
-        }
-    }
 	
 }

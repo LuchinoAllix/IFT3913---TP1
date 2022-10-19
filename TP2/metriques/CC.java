@@ -32,12 +32,4 @@ public class CC {
         return result;
     }
 
-    public static void main(String[] args) {
-        try {
-            System.out.println(cc("/Users/anthony/Desktop/IFT3913---TP1-main/src.java"));
-        } catch (IOException | ParseException e) {
-            System.out.println("Error");
-        }
-
-    }
 }
