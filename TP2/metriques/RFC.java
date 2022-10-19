@@ -10,11 +10,11 @@ import java.util.*;
 public class RFC {
 
     public static int rfc(String filePath) throws ParseException, IOException {
-        HashMap<SimpleName, BlockStmt> methods = ASTparser.parseMethods(filePath);
+        HashMap<SimpleName, BlockStmt> methods = ASTparserMethods.parseMethods(filePath);
 
         HashMap<SimpleName, ArrayList<SimpleName>> methodCallsNames = new HashMap<>();
         for (Map.Entry<SimpleName, BlockStmt> e : methods.entrySet()) {
-            methodCallsNames.put(e.getKey(), ASTparser.parseMethodCallsNamesInsideAMethod(e.getValue()));
+            methodCallsNames.put(e.getKey(), ASTparserMethods.getMethodCallsNamesInsideAMethod(e.getValue()));
         }
 
         Set<SimpleName> result = new HashSet<>();

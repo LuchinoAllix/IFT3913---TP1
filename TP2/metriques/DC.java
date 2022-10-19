@@ -20,9 +20,9 @@ public class DC {
 
     public static float dc(String filePath) throws ParseException, IOException {
 
-        ArrayList<LineComment> lineComments = ASTparser.parseLineComments(filePath);
-        ArrayList<BlockComment> blockComments =  ASTparser.parseBlockComments(filePath);
-        ArrayList<JavadocComment> javadocComments = ASTparser.parseJavadocComments(filePath);
+        ArrayList<LineComment> lineComments = ASTparserComments.parseLineComments(filePath);
+        ArrayList<BlockComment> blockComments =  ASTparserComments.parseBlockComments(filePath);
+        ArrayList<JavadocComment> javadocComments = ASTparserComments.parseJavadocComments(filePath);
         int comments = 0;
         int lines = 0;
 

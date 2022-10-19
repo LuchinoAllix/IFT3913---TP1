@@ -16,15 +16,15 @@ public class CC {
 
     public static HashMap<SimpleName, Integer> cc(String filePath) throws ParseException, IOException {
         HashMap<SimpleName, Integer> result = new HashMap<>();
-        HashMap<SimpleName, BlockStmt> methods = ASTparser.parseMethods(filePath);
+        HashMap<SimpleName, BlockStmt> methods = ASTparserMethods.parseMethods(filePath);
 
         for (Map.Entry<SimpleName, BlockStmt> e : methods.entrySet()) {
             int count = 1;
-            ArrayList<IfStmt> methodIfStmts = ASTparser.parseMethodIf(e.getValue());
+            ArrayList<IfStmt> methodIfStmts = ASTparserStmt.parseMethodIf(e.getValue());
             count += methodIfStmts.size();
-            ArrayList<ForStmt> methodForStmts = ASTparser.parseMethodFor(e.getValue());
+            ArrayList<ForStmt> methodForStmts = ASTparserStmt.parseMethodFor(e.getValue());
             count += methodForStmts.size();
-            ArrayList<WhileStmt> methodWhileStmts = ASTparser.parseMethodWhile(e.getValue());
+            ArrayList<WhileStmt> methodWhileStmts = ASTparserStmt.parseMethodWhile(e.getValue());
             count += methodWhileStmts.size();
             result.put(e.getKey(), count);
         }

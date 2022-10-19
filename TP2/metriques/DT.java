@@ -41,7 +41,7 @@ public class DT {
     }
 
     public static void count(File file)throws ParseException, IOException{
-        ArrayList<MethodDeclaration> methods = ASTparser.parseMethodDeclarations(file.getPath());
+        ArrayList<MethodDeclaration> methods = ASTparserMethods.parseMethodDeclarations(file.getPath());
         for (MethodDeclaration method : methods) {
             if (!method.getAnnotationByName("Test").equals(Optional.empty())) {
                 String s = method.getDeclarationAsString();
