@@ -1,9 +1,5 @@
 Tâche 1 :
-	- PMNT a voir si ratio code/tests pas mieux
 	- LCOM
-	- NOC probablement pas
-	- CSEC 
-	- AGE probablement pas
 
 Tâche 2 :
 	- All
