@@ -8,9 +8,7 @@ public class Main {
 
     public static String jls(String path) {
         File file = new File(path);
-        String result = jlsRec(file,file.getName());
-
-        return result;
+        return jlsRec(file,file.getName());
     }
 
     public static String jlsRec(File path, String module) {
@@ -41,21 +39,25 @@ public class Main {
         return CSEC.csec(csv);
     }
 
+    public static String addPMNTToCSV(String csv){
+        return PMNT.pmnt(csv);
+    }
+
     public static String addMetricsToCSV(String csv) {
-        String result = "filePath,module,fileName,csec,wmc,rfc,tpc,dt,dc\n";
+        String result = "filePath,module,fileName,csec,pmnt,wmc,rfc,tpc,dc,cc\n";
         String[] csvEntries = csv.split("\n");
 
-        for (int i = 0; i < csvEntries.length; i++) {
+        for (String csvEntry : csvEntries) {
             try {
-                String filePath = csvEntries[i].split(",")[0];
-                result += csvEntries[i] + ","
+                String filePath = csvEntry.split(",")[0];
+                result += csvEntry + ","
                         + WMC.wmc(filePath) + ","
                         + RFC.rfc(filePath) + ","
                         + TPC.tpc(filePath) + ","
-                        + DT.dt(filePath) + ","
                         + DC.dc(filePath) + ","
+                        + CC.cc(filePath) + ","
                         + "\n";
-            }  catch (IOException | ParseException e) {
+            } catch (IOException | ParseException e) {
                 System.out.println("Error : Parsing error while calculating metrics");
             }
         }
@@ -79,20 +81,21 @@ public class Main {
         }
     }
 
-
-
     public static void main(String[] args) {
 
         // path of the folder
         String folderPath = "/Users/anthony/Desktop/jfreechart-master";
+        String folderPath2 = "C:\\Users\\luchi\\Desktop\\jfreechart";
+
         // create a String in csv format with filepath,module,fileName
-        String csv = jls(folderPath);
+        String csv = jls(folderPath2);
         // calculate csec value for each file inside the csv and output the augmented jls csv file
         // result is a csv format with filepath,module,filename,csec
         String csvCsec = addCSECToCSV(csv);
         // calculate all other metrics for each file inside the csv and output the augmented csv file
         // result is a csv format with filePath,module,fileName,csec,wmc,rfc,tpc,dt,dc
-        String result = addMetricsToCSV(csvCsec);
+        String csvCsecPmnt = addPMNTToCSV(csvCsec);
+        String result = addMetricsToCSV(csvCsecPmnt);
         // write result to a csv file
         writeToFile(result, "output.csv");
 
