@@ -26,7 +26,7 @@ public class DT {
         return (float) code_lines/test_lines;
     }
 
-    public static void dt_Rec(File path) throws ParseException, IOException {
+    public static void dt_Rec(File path) throws IOException {
         if (path.isFile()) {
             int len = path.getName().length();
             if (len > 5 && path.getName().substring(len - 5).equals(".java")) {
@@ -40,7 +40,7 @@ public class DT {
 
     }
 
-    public static void count(File file)throws ParseException, IOException{
+    public static void count(File file)throws IOException{
         ArrayList<MethodDeclaration> methods = ASTparserMethods.parseMethodDeclarations(file.getPath());
         for (MethodDeclaration method : methods) {
             if (!method.getAnnotationByName("Test").equals(Optional.empty())) {

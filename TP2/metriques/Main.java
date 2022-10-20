@@ -3,6 +3,7 @@ package org.example;
 import com.github.javaparser.ParseException;
 
 import java.io.*;
+import java.util.Objects;
 
 public class Main {
 
@@ -12,25 +13,24 @@ public class Main {
     }
 
     public static String jlsRec(File path, String module) {
-        String temp = "";
+        StringBuilder temp = new StringBuilder();
 
         // On regarde tous les fichiers :
-        for (final File file : path.listFiles()) {
+        for (final File file : Objects.requireNonNull(path.listFiles())) {
 
             // Si on regarde un dossier on fait un appel récursif
             if (file.isDirectory()) {
-                temp += jlsRec(file, module + "." + file.getName());
+                temp.append(jlsRec(file, module + "." + file.getName()));
             } else if (file.isFile()) { // Si c'est un fichier '.java' on prend les informations nécessaires
                 int len = file.getName().length();
                 if (len > 5 && file.getName().substring(len-5).equals(".java")){
-                    temp += file.getPath() + ","
-                            + module + ","
-                            + file.getName().substring(0,len-5)
-                            + "\n";
+                    temp.append(file.getPath()).append(",")
+                            .append(module).append(",")
+                            .append(file.getName().substring(len - 5)).append("\n");
                 }
             }
         }
-        return temp;
+        return temp.toString();
     }
 
 
@@ -44,32 +44,34 @@ public class Main {
     }
 
     public static String addMetricsToCSV(String csv) {
-        String result = "filePath,module,fileName,csec,pmnt,tpcbis,wmc,rfc,tpc,dc,cc\n";
+        StringBuilder result = new StringBuilder("filePath,module,fileName,csec,pmnt,tpcbis,wmc,rfc,tpc,dc,dt,cc\n");
         String[] csvEntries = csv.split("\n");
 
         for (String csvEntry : csvEntries) {
             try {
                 String filePath = csvEntry.split(",")[0];
-                result += csvEntry + ","
-                        + WMC.wmc(filePath) + ","
-                        + RFC.rfc(filePath) + ","
-                        + TPC.tpc(filePath) + ","
-                        + DC.dc(filePath) + ","
-                        + CC.cc(filePath) + ","
-                        + "\n";
+                result.append(csvEntry).append(",")
+                        .append(WMC.wmc(filePath)).append(",")
+                        .append(RFC.rfc(filePath)).append(",")
+                        .append(TPC.tpc(filePath)).append(",")
+                        .append(DC.dc(filePath)).append(",")
+                        .append(DT.dt(filePath)).append(",")
+                        .append(CC.cc(filePath)).append(",") // todo
+                        .append("\n");
             } catch (IOException | ParseException e) {
                 System.out.println("Error : Parsing error while calculating metrics");
             }
         }
 
-        return result;
+        return result.toString();
     }
 
-    public static void writeToFile(String content, String fileName) {
+    public static Boolean writeToFile(String content, String fileName) {
+        boolean res = false;
         try {
             // Création nouveau fichier ou remplacement de l'ancien
             File output = new File(fileName);
-            output.createNewFile();
+            res = output.createNewFile();
 
             // Ecriture sur le nouveau fichier
             FileWriter writer = new FileWriter(fileName);
@@ -79,12 +81,13 @@ public class Main {
         } catch (IOException e) {
             System.out.println(" - Error - : could not write to the desired file.");
         }
+        return res;
     }
 
     public static void main(String[] args) {
 
         // path of the folder
-        String folderPath = "/Users/anthony/Desktop/jfreechart-master";
+        //String folderPath = "/Users/anthony/Desktop/jfreechart-master";
         String folderPath2 = "C:\\Users\\luchi\\Desktop\\jfreechart";
 
         // create a String in csv format with filepath,module,fileName
@@ -97,51 +100,13 @@ public class Main {
         String csvCsecPmnt = addPMNTToCSV(csvCsec);
         String result = addMetricsToCSV(csvCsecPmnt);
         // write result to a csv file
-        writeToFile(result, "output.csv");
+        boolean res = writeToFile(result, "output.csv");
+        if(res) {
+            System.out.println("Le fichier output.csv a bien été crée.");
+        } else{
+            System.out.println("Le fichier output.csv n'a pas pu été crée.");
+        }
 
-
-
-//        // TESTING
-//        try {
-//            // Path of the analyzed java fileString path = "
-//            String path = "/Users/anthony/Desktop/IFT3913---TP1-main/src.java";
-//
-//            // Method names in a SimpleName format for a clean display and easy comparison as key
-//            // and their content as value
-//            HashMap<SimpleName, BlockStmt> methods = ASTparserMethods.parseMethods(path);
-//            // Method names as key and a list of their methods calls as value
-//            HashMap<SimpleName, ArrayList<SimpleName>> methodCallsNames = new HashMap<>();
-//            for (Map.Entry<SimpleName, BlockStmt> e : methods.entrySet()) {
-//                methodCallsNames.put(e.getKey(), ASTparserMethods.getMethodCallsNamesInsideAMethod(e.getValue()));
-//            }
-//
-//            // Tests
-//            System.out.println("Méthodes : " + methods.keySet());
-//            System.out.println("Nombre de méthodes : " + methods.size());
-//
-//            Set<SimpleName> uniqueMethodCalls = new HashSet<>();
-//            int methodCallsCount = 0;
-//
-//            for (Map.Entry<SimpleName, ArrayList<SimpleName>> e : methodCallsNames.entrySet()) {
-//                System.out.println("Nom de la méthode : " + e.getKey() + " --- nombre de méthodes appelées : " + e.getValue().size());
-//                methodCallsCount += e.getValue().size();
-//                uniqueMethodCalls.add(e.getKey());
-//                uniqueMethodCalls.addAll(e.getValue());
-//            }
-//            System.out.println("Total amount of method calls in file : " + methodCallsCount);
-//            System.out.println("Total amount of uniques method calls in file : " + uniqueMethodCalls.size());
-//
-//            System.out.println("\nDensité de commentaires : " + DC.dc(path));
-//            System.out.println("Nombre de tests : " + TPC.tpc(path));
-//            System.out.println("Densité de tests : " + DT.dt(path));
-//            System.out.println("RFC : " + RFC.rfc(path));
-//            System.out.println("WMC : " + WMC.wmc(path));
-//            System.out.println("CC : " + CC.cc(path));
-//            System.out.println("CSEC : " + CSEC.csec(path));
-//
-//        } catch (IOException | ParseException e) {
-//            System.out.println("Error");
-//        }
     }
 	
 }
