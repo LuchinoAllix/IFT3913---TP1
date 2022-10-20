@@ -2,10 +2,7 @@ package org.example;
 
 import com.github.javaparser.ParseException;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ForStmt;
-import com.github.javaparser.ast.stmt.IfStmt;
-import com.github.javaparser.ast.stmt.WhileStmt;
+import com.github.javaparser.ast.stmt.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +23,9 @@ public class CC {
             count += methodForStmts.size();
             ArrayList<WhileStmt> methodWhileStmts = ASTparserStmt.parseMethodWhile(e.getValue());
             count += methodWhileStmts.size();
+            ArrayList<SwitchEntry> methodSwitchStmts = ASTparserStmt.parseMethodSwitch(e.getValue());
+            count += methodSwitchStmts.size();
+
             result.put(e.getKey(), count);
         }
 

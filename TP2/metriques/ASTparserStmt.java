@@ -9,10 +9,7 @@ import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ForStmt;
-import com.github.javaparser.ast.stmt.IfStmt;
-import com.github.javaparser.ast.stmt.WhileStmt;
+import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.visitor.GenericListVisitorAdapter;
 import com.github.javaparser.utils.Log;
 
@@ -82,6 +79,29 @@ public class ASTparserStmt {
             @Override
             public ArrayList<ForStmt> visit(ForStmt n, Void arg) {
                 ArrayList<ForStmt> methodCalls = new ArrayList<>();
+                super.visit(n, arg);
+                methodCalls.add(n);
+                return methodCalls;
+            }
+        }, null);
+
+        return result;
+    }
+
+    public static ArrayList<SwitchEntry> parseMethodSwitch(BlockStmt method) throws ParseException, IOException {
+        // result will store all the method calls inside our BlockStmt
+        ArrayList<SwitchEntry> result;
+
+        // JavaParser has a minimal logging class that normally logs nothing.
+        // Let's ask it to write to standard out:
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+
+        // Finally the compilation unit take a visitor to parse through a method (BlockStmt) for each
+        // MethodCallExprand add them to the result
+        result = (ArrayList<SwitchEntry>) method.accept(new GenericListVisitorAdapter<SwitchEntry, Void>() {
+            @Override
+            public ArrayList<SwitchEntry> visit(SwitchEntry n, Void arg) {
+                ArrayList<SwitchEntry> methodCalls = new ArrayList<>();
                 super.visit(n, arg);
                 methodCalls.add(n);
                 return methodCalls;
