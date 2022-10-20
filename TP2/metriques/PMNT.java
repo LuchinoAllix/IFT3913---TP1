@@ -25,7 +25,7 @@ public class PMNT {
             for (MyMethod myMethod : fichier){
                 ArrayList<SimpleName> names = null;
                 try {
-                    if(myMethod.stmt != null){
+                    if(myMethod.stmt != null && myMethod.isTest){
                         names = ASTparserMethods.getMethodCallsNamesInsideAMethod(myMethod.stmt);
                     }
                 } catch (ParseException | IOException e){
