@@ -57,8 +57,14 @@ public class ASTparserMethods {
             }
         }, null);
 
-        for (int i = 0; i < methodNames.size(); i++) {
-            result.put(methodNames.get(i), methodBodies.get(i));
+        if (methodNames.size() <= methodBodies.size()) {
+            for (int i = 0; i < methodNames.size(); i++) {
+                result.put(methodNames.get(i), methodBodies.get(i));
+            }
+        } else {
+            for (int i = 0; i < methodBodies.size(); i++) {
+                result.put(methodNames.get(i), methodBodies.get(i));
+            }
         }
 
         return result;
