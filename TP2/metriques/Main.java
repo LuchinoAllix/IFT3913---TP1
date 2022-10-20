@@ -44,7 +44,7 @@ public class Main {
     }
 
     public static String addMetricsToCSV(String csv) {
-        String result = "filePath,module,fileName,csec,pmnt,wmc,rfc,tpc,dc,cc\n";
+        String result = "filePath,module,fileName,csec,pmnt,tpcbis,wmc,rfc,tpc,dc,cc\n";
         String[] csvEntries = csv.split("\n");
 
         for (String csvEntry : csvEntries) {

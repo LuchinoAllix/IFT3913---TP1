@@ -35,7 +35,9 @@ public class PMNT {
                     for (SimpleName name : names){
                         for(ArrayList<MyMethod> fichier2 : fichiersDeMethods){
                             for (MyMethod myMethod2 : fichier2){
-                                if (myMethod2.name.equals(name)) myMethod.isTested++;
+                                if (myMethod2.name.equals(name)){
+                                    myMethod2.isTested++;
+                                }
                             }
                         }
                     }
@@ -43,16 +45,19 @@ public class PMNT {
             }
         }
 
-
         for (int i = 0; i < fichiersDeMethods.size(); i++) {
             int nbMethods = 0;
             int nbMethodsNonTest = 0;
+            int nbTests =0;
             for (MyMethod myMethod : fichiersDeMethods.get(i)){
                 nbMethods++;
-                if(myMethod.isTested > 0) nbMethodsNonTest++;
+                if(myMethod.isTested > 0){
+                    nbMethodsNonTest++;
+                    nbTests+= myMethod.isTested;
+                }
             }
             if(nbMethods==0) nbMethods=1;
-            csvEntries[i]+= ","+  (float) nbMethodsNonTest/nbMethods ;
+            csvEntries[i]+= "," + (float) nbMethodsNonTest/nbMethods * 100+ "%," + nbTests;
         }
         StringBuilder res = new StringBuilder();
         for (String s : csvEntries){
