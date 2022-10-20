@@ -27,25 +27,25 @@ public class CSEC {
      * l'ouverture/lecture/fermeture d'un fichier.
      */
     public static String csec(String path) throws ParseException, IOException {
-        String result = "";
-        ArrayList<String> methodes = new ArrayList<>();
-        getAllMethods(path,methodes);
+        StringBuilder result = new StringBuilder();
+        ArrayList<String> files = new ArrayList<>();
+        getAllFiles(path,files);
+        System.out.println(files.toString());
+        String[][] csec = new String[files.size()][2];
 
-        String[][] csec = new String[methodes.size()][2];
-
-        for (int i = 0; i < methodes.size(); i++) {
-            csec[i][0] = methodes.get(i).split(",")[0];
+        for (int i = 0; i < files.size(); i++) {
+            csec[i][0] = files.get(i).split("<")[0];
             csec[i][1] = "";
         }
 
-        for (int x = 0; x < methodes.size(); x++) {
+        for (int x = 0; x < files.size(); x++) {
             try {
-                File file = new File(methodes.get(x).split(",")[1]);
+                File file = new File(files.get(x).split("<")[1]);
                 FileReader reader = new FileReader(file);
                 BufferedReader br = new BufferedReader(reader);
                 String line;
                 while((line = br.readLine()) != null) {
-                    for (int y = 0; y < methodes.size(); y++) {
+                    for (int y = 0; y < files.size(); y++) {
                         if ((x != y) && line.contains(csec[y][0])) {
                             if (!csec[x][1].contains(csec[y][0])) {
                                 if (csec[x][1].equals("")) {
@@ -70,28 +70,23 @@ public class CSEC {
             }
         }
 
-        for (int z = 0; z < methodes.size(); z++) {
-            result += methodes.get(z) + "," + (csec[z][1].split("/").length) + "\n";
+        for (int z = 0; z < files.size(); z++) {
+            result.append(files.get(z)).append(",").append(csec[z][1].split("/").length).append("\n");
         }
-        return result;
+        return result.toString();
     }
 
-    public static void getAllMethods(String path, ArrayList<String> methods) throws ParseException, IOException {
+    public static void getAllFiles(String path, ArrayList<String> files) throws ParseException, IOException {
         File f = new File(path);
         if (f.isFile()) {
             int len = f.getName().length();
             if (len > 5 && f.getName().substring(len - 5).equals(".java")) {
-                ArrayList<MethodDeclaration> methodDeclaration = ASTparserMethods.parseMethodDeclarations(path);
-                for(MethodDeclaration m : methodDeclaration){
-                    methods.add(m.getNameAsString() + "," + f.getPath());
-                }
+                    files.add(f.getName() + "<" + f.getPath());
             }
         }else{
             for (final File file : Objects.requireNonNull(f.listFiles())){
-                if (file.isDirectory()) getAllMethods(file.getPath(),methods);
+                if (file.isDirectory()) getAllFiles(file.getPath(),files);
             }
         }
     }
-
-
 }

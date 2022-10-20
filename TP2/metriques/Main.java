@@ -46,6 +46,7 @@ public class Main {
             System.out.println("RFC : " + RFC.rfc(path));
             System.out.println("WMC : " + WMC.wmc(path));
             System.out.println("CC : " + CC.cc(path));
+            System.out.println("CSEC : " + CSEC.csec(path));
 
         } catch (IOException | ParseException e) {
             System.out.println("Error");
