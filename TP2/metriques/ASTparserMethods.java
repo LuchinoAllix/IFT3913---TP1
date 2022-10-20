@@ -144,4 +144,69 @@ public class ASTparserMethods {
 
         return tests;
     }
+
+    public static ArrayList<MyMethod> parseMyMethods(String filePath) throws ParseException, IOException {
+        // result will store a HashMap of the methods names (key) and their content (value)
+
+        ArrayList<SimpleName> methodNames;
+        ArrayList<BlockStmt> methodBodies;
+        ArrayList<Boolean> tests;
+        ArrayList<MyMethod> methods = new ArrayList<>();
+
+        // JavaParser has a minimal logging class that normally logs nothing.
+        // Let's ask it to write to standard out:
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+
+        // Then let's parse the file in a compilation unit
+        File file = new File(filePath);
+        CompilationUnit cu = StaticJavaParser.parse(file);
+
+        // The compilation unit take a visitor to parse through the code for each
+        // MethodDeclaration and add their name to the result
+        methodNames = (ArrayList<SimpleName>) cu.accept(new GenericListVisitorAdapter<SimpleName, Void>() {
+            @Override
+            public ArrayList<SimpleName> visit(MethodDeclaration n, Void arg) {
+                ArrayList<SimpleName> methods = new ArrayList<>();
+                super.visit(n, arg);
+                methods.add(n.getName());
+                return methods;
+            }
+        }, null);
+
+        // The compilation unit take a visitor to parse through the code for each
+        // MethodDeclaration and add their content (without documentation) to the result
+        methodBodies = (ArrayList<BlockStmt>) cu.accept(new GenericListVisitorAdapter<BlockStmt, Void>() {
+            @Override
+            public ArrayList<BlockStmt> visit(MethodDeclaration n, Void arg) {
+                ArrayList<BlockStmt> methods = new ArrayList<>();
+                super.visit(n, arg);
+                if (n.getBody().isPresent()) {
+                    methods.add(n.getBody().get());
+                }
+                return methods;
+            }
+        }, null);
+
+        tests = (ArrayList<Boolean>) cu.accept(new GenericListVisitorAdapter<Boolean, Void>() {
+            @Override
+            public ArrayList<Boolean> visit(MethodDeclaration n, Void arg) {
+                ArrayList<Boolean> methods = new ArrayList<>();
+                super.visit(n, arg);
+                methods.add(!n.getAnnotationByName("Test").equals(Optional.empty()));
+                return methods;
+            }
+        }, null);
+
+        for (int i = 0; i < tests.size(); i++) {
+            MyMethod m;
+            if(methodBodies.size()< tests.size() && i > methodBodies.size()-1){
+                m = new MyMethod(methodNames.get(i), null, tests.get(i), filePath);
+            } else {
+                m = new MyMethod(methodNames.get(i), methodBodies.get(i), tests.get(i), filePath);
+            }
+            methods.add(m);
+        }
+        return methods;
+    }
+
 }
