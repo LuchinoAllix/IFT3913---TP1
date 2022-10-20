@@ -17,7 +17,7 @@ import java.util.*;
 
 public class ASTparserMethods {
 
-    public static HashMap<SimpleName, BlockStmt> parseMethods(String filePath) throws ParseException, IOException {
+    public static HashMap<SimpleName, BlockStmt> parseMethods(String filePath) throws  IOException {
         // result will store a HashMap of the methods names (key) and their content (value)
         HashMap<SimpleName, BlockStmt> result = new HashMap<>();
         ArrayList<SimpleName> methodNames;
@@ -70,7 +70,7 @@ public class ASTparserMethods {
         return result;
     }
 
-    public static ArrayList<MethodDeclaration> parseMethodDeclarations(String filePath) throws ParseException, IOException {
+    public static ArrayList<MethodDeclaration> parseMethodDeclarations(String filePath) throws IOException {
         ArrayList<MethodDeclaration> methodDeclarations;
 
         // JavaParser has a minimal logging class that normally logs nothing.
@@ -93,7 +93,7 @@ public class ASTparserMethods {
         return methodDeclarations;
     }
 
-    public static ArrayList<MethodCallExpr> getMethodCallsInsideAMethod(BlockStmt method) throws ParseException, IOException {
+    public static ArrayList<MethodCallExpr> getMethodCallsInsideAMethod(BlockStmt method) {
         // result will store all the method calls inside our BlockStmt
         ArrayList<MethodCallExpr> result;
 
@@ -126,7 +126,7 @@ public class ASTparserMethods {
         return methodCallsNames;
     }
 
-    public static ArrayList<Optional<AnnotationExpr>> parseTests(String filePath) throws ParseException, IOException {
+    public static ArrayList<Optional<AnnotationExpr>> parseTests(String filePath) throws IOException {
         ArrayList<Optional<AnnotationExpr>> tests;
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
         File file = new File(filePath);
