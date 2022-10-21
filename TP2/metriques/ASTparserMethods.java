@@ -17,8 +17,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
+/*
+* Classe regroupant des méthodes permetant d'obtenir des données sur les méthodes
+* grâce à la classe javaparser (voir le README pour plus d'imformation sur ce module.
+* */
 public class ASTparserMethods {
 
+    /* todo */
     public static HashMap<SimpleName, BlockStmt> parseMethods(String filePath) throws  IOException {
         // result will store a HashMap of the methods names (key) and their content (value)
         HashMap<SimpleName, BlockStmt> result = new HashMap<>();
@@ -72,6 +77,7 @@ public class ASTparserMethods {
         return result;
     }
 
+    // marquée comme jamais utilisée
     public static ArrayList<MethodDeclaration> parseMethodDeclarations(String filePath) throws IOException {
         ArrayList<MethodDeclaration> methodDeclarations;
 
@@ -95,6 +101,7 @@ public class ASTparserMethods {
         return methodDeclarations;
     }
 
+    /* todo */
     public static ArrayList<MethodCallExpr> getMethodCallsInsideAMethod(BlockStmt method) {
         // result will store all the method calls inside our BlockStmt
         ArrayList<MethodCallExpr> result;
@@ -118,6 +125,7 @@ public class ASTparserMethods {
         return result;
     }
 
+    /* todo */
     public static ArrayList<SimpleName> getMethodCallsNamesInsideAMethod(BlockStmt method) throws ParseException, IOException {
         ArrayList<MethodCallExpr> methodCalls = getMethodCallsInsideAMethod(method);
         ArrayList<SimpleName> methodCallsNames = new ArrayList<>();
@@ -128,12 +136,17 @@ public class ASTparserMethods {
         return methodCallsNames;
     }
 
+    /* Méthode permetant de savoir quelles méthodes dans un fichier sont des
+    * méthodes de tests */
     public static ArrayList<Optional<AnnotationExpr>> parseTests(String filePath) throws IOException {
-        ArrayList<Optional<AnnotationExpr>> tests;
+        ArrayList<Optional<AnnotationExpr>> tests; // valeur retournée
+
+        // Utilisation du module javaParser
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
         File file = new File(filePath);
         CompilationUnit cu = StaticJavaParser.parse(file);
 
+        // Utilisation du module javaParser pour obtenir la liste des méthodes de test.
         tests = (ArrayList<Optional<AnnotationExpr>>) cu.accept(new GenericListVisitorAdapter<Optional<AnnotationExpr>, Void>() {
             @Override
             public ArrayList<Optional<AnnotationExpr>> visit(MethodDeclaration n, Void arg) {
@@ -147,24 +160,22 @@ public class ASTparserMethods {
         return tests;
     }
 
+    /* Methode permettant d'obtenir la liste des méthodes dans un fichier sous forme
+    * MyMethode, utilisé dans PMNT. */
     public static ArrayList<MyMethod> parseMyMethods(String filePath) throws ParseException, IOException {
-        // result will store a HashMap of the methods names (key) and their content (value)
 
+        // Création de listes d'attributs
         ArrayList<SimpleName> methodNames;
         ArrayList<BlockStmt> methodBodies;
         ArrayList<Boolean> tests;
         ArrayList<MyMethod> methods = new ArrayList<>();
 
-        // JavaParser has a minimal logging class that normally logs nothing.
-        // Let's ask it to write to standard out:
+        // Utilisation du module javaParser
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
-
-        // Then let's parse the file in a compilation unit
         File file = new File(filePath);
         CompilationUnit cu = StaticJavaParser.parse(file);
 
-        // The compilation unit take a visitor to parse through the code for each
-        // MethodDeclaration and add their name to the result
+        // Utilisation du module javaParser pour obtenir la liste des noms de méthodes
         methodNames = (ArrayList<SimpleName>) cu.accept(new GenericListVisitorAdapter<SimpleName, Void>() {
             @Override
             public ArrayList<SimpleName> visit(MethodDeclaration n, Void arg) {
@@ -175,8 +186,7 @@ public class ASTparserMethods {
             }
         }, null);
 
-        // The compilation unit take a visitor to parse through the code for each
-        // MethodDeclaration and add their content (without documentation) to the result
+        // Utilisation du module javaParser pour obtenir la liste des contenus des méthodes
         methodBodies = (ArrayList<BlockStmt>) cu.accept(new GenericListVisitorAdapter<BlockStmt, Void>() {
             @Override
             public ArrayList<BlockStmt> visit(MethodDeclaration n, Void arg) {
@@ -189,6 +199,7 @@ public class ASTparserMethods {
             }
         }, null);
 
+        // Utilisation du module javaParser pour obtenir la liste des méthodes test
         tests = (ArrayList<Boolean>) cu.accept(new GenericListVisitorAdapter<Boolean, Void>() {
             @Override
             public ArrayList<Boolean> visit(MethodDeclaration n, Void arg) {
@@ -199,6 +210,7 @@ public class ASTparserMethods {
             }
         }, null);
 
+        // On ajoute dans la listes des objet MyMethod a retourner grâce aux listes précédentes
         for (int i = 0; i < tests.size(); i++) {
             MyMethod m;
             if(methodBodies.size()< tests.size() && i > methodBodies.size()-1){
