@@ -14,15 +14,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+/* Classe contenant les méthodes permettant d'obtenir des informations sur les commentaires
+* contenus dans un fichier. Réalisé grâce à la classe javaparser (voir le README pour plus
+* d'imformation sur le module. */
 public class ASTparserComments {
 
+    /* Méthode permetant d'obtenir la liste des commentaire (mono-lignes) d'un fichier. */
     public static ArrayList<LineComment> parseLineComments(String filePath) throws ParseException, IOException {
-        ArrayList<LineComment> lineComments;
+        ArrayList<LineComment> lineComments; // Valeur retournée
 
+        // Utilisation du module javaParser
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
         File file = new File(filePath);
         CompilationUnit cu = StaticJavaParser.parse(file);
 
+        // Utilisation du module javaParser pour obtenir la liste des commentaires mono-ligne
         lineComments = (ArrayList<LineComment>) cu.accept(new GenericListVisitorAdapter<LineComment, Void>() {
             @Override
             public ArrayList<LineComment> visit(LineComment n, Void arg) {
@@ -36,13 +42,16 @@ public class ASTparserComments {
        return lineComments;
     }
 
+    /* Méthode permetant d'obtenir la liste des commentaire (multi-lignes) d'un fichier. */
     public static ArrayList<BlockComment> parseBlockComments(String filePath) throws ParseException, IOException {
-        ArrayList<BlockComment> blockComments;
+        ArrayList<BlockComment> blockComments; // Valeur retournée
 
+        // Utilisation du module javaParser
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
         File file = new File(filePath);
         CompilationUnit cu = StaticJavaParser.parse(file);
 
+        // Utilisation du module javaParser pour obtenir la liste des commentaire multilignes
         blockComments = (ArrayList<BlockComment>) cu.accept(new GenericListVisitorAdapter<BlockComment, Void>() {
             @Override
             public ArrayList<BlockComment> visit(BlockComment n, Void arg) {
@@ -56,13 +65,16 @@ public class ASTparserComments {
         return blockComments;
     }
 
+    /* Méthode permetant d'obtenir la liste des commentaire (javadoc) d'un fichier. */
     public static ArrayList<JavadocComment> parseJavadocComments(String filePath) throws ParseException, IOException {
-        ArrayList<JavadocComment> javadocComments;
+        ArrayList<JavadocComment> javadocComments; // Valeur retournée
 
+        // Utilisation du module javaParser
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
         File file = new File(filePath);
         CompilationUnit cu = StaticJavaParser.parse(file);
 
+        // Utilisation du module javaParser pour obtenir la liste des commentaire de javadoc
         javadocComments = (ArrayList<JavadocComment>) cu.accept(new GenericListVisitorAdapter<JavadocComment, Void>() {
             @Override
             public ArrayList<JavadocComment> visit(JavadocComment n, Void arg) {
