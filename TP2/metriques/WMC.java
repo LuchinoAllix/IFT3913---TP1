@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/* todo */
 public class WMC {
 
+    /* todo */
     public static int wmc(String filePath) throws ParseException, IOException {
         HashMap<SimpleName, Integer> methods = CC.cc(filePath);
         int result = 0;
