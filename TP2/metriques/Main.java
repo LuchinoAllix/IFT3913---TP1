@@ -26,7 +26,7 @@ public class Main {
                 if (len > 5 && file.getName().substring(len-5).equals(".java")){
                     temp.append(file.getPath()).append(",")
                             .append(module).append(",")
-                            .append(file.getName().substring(len - 5)).append("\n");
+                            .append(file.getName().substring(0,len - 5)).append("\n");
                 }
             }
         }
@@ -36,7 +36,8 @@ public class Main {
 
     // Separate method to calculate csec once because csec already output the csv file augmented with csec values
     public static String addCSECToCSV(String csv) {
-        return CSEC.csec(csv);
+        String s = CSEC.csec(csv);
+        return s;
     }
 
     public static String addPMNTToCSV(String csv){
@@ -44,7 +45,7 @@ public class Main {
     }
 
     public static String addMetricsToCSV(String csv) {
-        StringBuilder result = new StringBuilder("filePath,module,fileName,csec,pmnt,tpcbis,wmc,rfc,tpc,dc,dt,cc\n");
+        StringBuilder result = new StringBuilder("filePath,module,fileName,csec,pmnt,tpcbis,wmc,rfc,tpc,dc\n");
         String[] csvEntries = csv.split("\n");
 
         for (String csvEntry : csvEntries) {
@@ -55,8 +56,6 @@ public class Main {
                         .append(RFC.rfc(filePath)).append(",")
                         .append(TPC.tpc(filePath)).append(",")
                         .append(DC.dc(filePath)).append(",")
-                        .append(DT.dt(filePath)).append(",")
-                        .append(CC.cc(filePath)).append(",") // todo
                         .append("\n");
             } catch (IOException | ParseException e) {
                 System.out.println("Error : Parsing error while calculating metrics");
@@ -66,12 +65,11 @@ public class Main {
         return result.toString();
     }
 
-    public static Boolean writeToFile(String content, String fileName) {
-        boolean res = false;
+    public static void writeToFile(String content, String fileName) {
         try {
             // Création nouveau fichier ou remplacement de l'ancien
             File output = new File(fileName);
-            res = output.createNewFile();
+            output.createNewFile();
 
             // Ecriture sur le nouveau fichier
             FileWriter writer = new FileWriter(fileName);
@@ -81,7 +79,6 @@ public class Main {
         } catch (IOException e) {
             System.out.println(" - Error - : could not write to the desired file.");
         }
-        return res;
     }
 
     public static void main(String[] args) {
@@ -100,13 +97,9 @@ public class Main {
         String csvCsecPmnt = addPMNTToCSV(csvCsec);
         String result = addMetricsToCSV(csvCsecPmnt);
         // write result to a csv file
-        boolean res = writeToFile(result, "output.csv");
-        if(res) {
-            System.out.println("Le fichier output.csv a bien été crée.");
-        } else{
-            System.out.println("Le fichier output.csv n'a pas pu été crée.");
-        }
+        writeToFile(result, "output.csv");
 
+        System.out.println("Le fichier output.csv a bien été crée.");
     }
 	
 }

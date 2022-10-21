@@ -5,7 +5,7 @@ import java.io.*;
 public class CSEC {
 
     public static String csec(String csv) {
-        StringBuilder result = new StringBuilder();
+        String result = "";
         String[] csvEntries = csv.split("\n");
         // Creation matrice csec[x][a, b] ou x est la ligne, a le nom de
         // la class associé et b les classes couplées
@@ -54,8 +54,8 @@ public class CSEC {
 
         // Update du fichier csv avec les nouvelles valeurs du calcul de csec dans la variable result
         for (int z = 0; z < csvEntries.length; z++) {
-            result.append(csvEntries[z]).append(",").append(csec[z][1].split("/").length).append("\n");
+            result += csvEntries[z] + "," + (csec[z][1].split("/").length) + "\n";
         }
-        return result.toString();
+        return result;
     }
 }
