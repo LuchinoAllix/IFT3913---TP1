@@ -1,14 +1,15 @@
 package org.example;
 
-
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.visitor.GenericListVisitorAdapter;
 import com.github.javaparser.utils.Log;
 
 import java.util.ArrayList;
 
+/* todo */
 public class ASTparserStmt {
 
+    /* todo */
     public static ArrayList<WhileStmt> parseMethodWhile(BlockStmt method){
         // result will store all the method calls inside our BlockStmt
         ArrayList<WhileStmt> result;
@@ -32,6 +33,7 @@ public class ASTparserStmt {
         return result;
     }
 
+    /* todo */
     public static ArrayList<IfStmt> parseMethodIf(BlockStmt method){
         // result will store all the method calls inside our BlockStmt
         ArrayList<IfStmt> result;
@@ -55,6 +57,7 @@ public class ASTparserStmt {
         return result;
     }
 
+    /* todo */
     public static ArrayList<ForStmt> parseMethodFor(BlockStmt method) {
         // result will store all the method calls inside our BlockStmt
         ArrayList<ForStmt> result;
@@ -78,6 +81,7 @@ public class ASTparserStmt {
         return result;
     }
 
+    /* todo */
     public static ArrayList<SwitchEntry> parseMethodSwitch(BlockStmt method){
         // result will store all the method calls inside our BlockStmt
         ArrayList<SwitchEntry> result;
