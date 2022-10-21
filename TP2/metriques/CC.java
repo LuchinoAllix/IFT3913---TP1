@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/* todo */
 public class CC {
 
+    /* todo */
     public static HashMap<SimpleName, Integer> cc(String filePath) throws ParseException, IOException {
         HashMap<SimpleName, Integer> result = new HashMap<>();
         HashMap<SimpleName, BlockStmt> methods = ASTparserMethods.parseMethods(filePath);
