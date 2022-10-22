@@ -1,8 +1,15 @@
 Tâche 1 :
-	- LCOM
+	- vérif métriques
+	- finir documentations
 
 Tâche 2 :
-	- All
+	- Automatiser
 
 Tâche 3 :
-	- All
+	- Rapport choix des métriques
+	- analyse + interprétations résultats
+
+
+Autre :
+	- Read me
+	- jar
