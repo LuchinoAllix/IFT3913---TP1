@@ -57,7 +57,7 @@ public class Main {
     /* Méthode qui permet d'ajouter toutes les métriques restante au string csv.*/
     public static String addMetricsToCSV(String csv) {
         // On ajoute les noms des colonnes
-        StringBuilder result = new StringBuilder("filePath,module,fileName,csec,pmnt,tpcbis,wmc,rfc,tpc,dc\n");
+        StringBuilder result = new StringBuilder("filePath,module,fileName,pmnt,tpcbis,csec,wmc,rfc,dc\n");
         String[] csvEntries = csv.split("\n");
 
         // Pour chaque fichier on calcule la métrique et on la rajoute au fichier
@@ -67,7 +67,6 @@ public class Main {
                 result.append(csvEntry).append(",")
                         .append(WMC.wmc(filePath)).append(",")
                         .append(RFC.rfc(filePath)).append(",")
-                        .append(TPC.tpc(filePath)).append(",")
                         .append(DC.dc(filePath)).append(",")
                         .append("\n");
             } catch (IOException | ParseException e) {
@@ -95,33 +94,55 @@ public class Main {
         }
     }
 
+    public static String removeTestLinesFromCsv(String csv) {
+        StringBuilder result = new StringBuilder("");
+        String[] csvEntries = csv.split("\n");
+
+        for (String csvEntry : csvEntries) {
+            if (!csvEntry.split(",")[2].contains("Test")) {
+                result.append(csvEntry).append("\n");
+            }
+        }
+
+        return result.toString();
+
+    }
+
     /* Emplacement du lancement du programme du TP2 */
     public static void main(String[] args) {
-        // Todo : gérer le fait que l'emplacement du fichier soit donné en paramètre.
 
-        // path of the folder
-        //String folderPath = "/Users/anthony/Desktop/jfreechart-master";
-        String folderPath2 = "C:\\Users\\luchi\\Desktop\\jfreechart";
+        if (args.length != 1) {
+            System.out.println("Error : 1 argument is needed");
+            System.out.println("Please try again with a folder path");
+        } else {
+            // path of the folder
+            String folderPath = args[0];
+            //String folderPath = "/Users/anthony/Desktop/jfreechart-master";
+            //String folderPath2 = "C:\\Users\\luchi\\Desktop\\jfreechart";
 
-        // create a String in csv format with filepath,module,fileName
-        String csv = jls(folderPath2);
+            // create a String in csv format with filepath,module,fileName
+            String csv = jls(folderPath);
 
-        /* Calculates csec value for each file inside the csv and output the augmented jls csv file
-        * result is a csv format with filepath,module,filename,csec */
-        csv = addCSECToCSV(csv);
+            /* Calculates pmnt and tpc value for each file inside the csv and output the augmented jls csv file
+             * result is a csv format with filepath,module,filename,csec,pmnt,tpc */
+            csv = addPMNTToCSV(csv);
 
-        /* Calculates pmnt and tpc value for each file inside the csv and output the augmented jls csv file
-         * result is a csv format with filepath,module,filename,csec,pmnt,tpc */
-        csv = addPMNTToCSV(csv);
+            // Remove all the test classes from the result before calculating the other metrics
+            csv = removeTestLinesFromCsv(csv);
 
-        /* Calculates all other metrics for each file inside the csv and output the augmented csv file
-         * result is a csv format with filePath,module,fileName,csec,pmnt,tpcbis,wmc,rfc,tpc,dc */
-        csv = addMetricsToCSV(csv);
+            /* Calculates csec value for each file inside the csv and output the augmented jls csv file
+             * result is a csv format with filepath,module,filename,csec */
+            csv = addCSECToCSV(csv);
 
-        // write result to a csv file
-        writeToFile(csv, "output.csv");
+            /* Calculates all other metrics for each file inside the csv and output the augmented csv file
+             * result is a csv format with filePath,module,fileName,csec,pmnt,tpcbis,wmc,rfc,tpc,dc */
+            csv = addMetricsToCSV(csv);
 
-        System.out.println("Le fichier output.csv a bien été crée.");
+            // write result to a csv file
+            writeToFile(csv, "output.csv");
+
+            System.out.println("Le fichier output.csv a bien été crée.");
+        }
     }
 	
 }
