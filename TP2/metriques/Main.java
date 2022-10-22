@@ -3,7 +3,9 @@ package org.example;
 import com.github.javaparser.ParseException;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Objects;
+
 
 /* Fichier principal du TP2.
 * C'est depuis ici que le programme se lance.
@@ -111,6 +113,47 @@ public class Main {
 
     }
 
+    public static Boolean egonQ1(String csv){
+        ArrayList<Float> compl = new ArrayList<>();
+        ArrayList<Float> cloc = new ArrayList<>();
+        int cnt = 0;
+
+        String[] csvSplit = csv.split("\n");
+        for (int i = 1; i < csvSplit.length; i++) {
+            String[] line = csvSplit[i].split(",");
+            compl.add(Float.parseFloat(line[6])+ Float.parseFloat(line[7]));
+            cloc.add(Float.parseFloat(line[10]));
+        }
+
+        ArrayList<Float> complS = new ArrayList<>(compl);
+        complS.sort(null);
+        ArrayList<Float> clocS = new ArrayList<>(cloc);
+        clocS.sort(null);
+
+        for (Float integer : compl) {
+            int complIndex = 0;
+            int clocIndex = 0;
+            for (int j = 0; j < complS.size(); j++) {
+                if (Objects.equals(integer, complS.get(j))) {
+                    complIndex = j;
+                    break;
+                }
+            }
+            for (int j = 0; j < clocS.size(); j++) {
+                if (Objects.equals(complS.get(complIndex), clocS.get(j))) {
+                    clocIndex = j;
+                    break;
+                }
+            }
+            int binf = complIndex - (compl.size())/10 ;
+            int bsup = complIndex + (compl.size())/10 ;
+            if( clocIndex > bsup || clocIndex < binf){
+                cnt++;
+            }
+        }
+        return cnt <= compl.size() / 10;
+    }
+
     /* Emplacement du lancement du programme du TP2 */
     public static void main(String[] args) {
         System.out.println("Commencing analysis...");
@@ -143,7 +186,7 @@ public class Main {
 
             // write result to a csv file
             writeToFile(csv, "output.csv");
-
+            System.out.println(egonQ1(csv));
             System.out.println("Le fichier output.csv a bien été crée.");
         }
     }
