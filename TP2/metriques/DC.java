@@ -18,7 +18,7 @@ public class DC {
 
     /* Permet de calculer la métrique dc d'un fichier donné en paramètre
     * (avec son path en String).*/
-    public static float dc(String filePath) throws ParseException, IOException {
+    public static float[] dc(String filePath) throws ParseException, IOException {
 
         // Listes contenant les différents types de commentaires (grâce à ASTparserComments)
         ArrayList<LineComment> lineComments = ASTparserComments.parseLineComments(filePath);
@@ -62,9 +62,13 @@ public class DC {
             assert true; // Pour ne rien faire
         }
 
-        if (lines == 0) return 0; // Si le fichier est vide, le ratio est 0.
+        float[] res = new float[3];
 
-        return (float) comments/lines ;
+        if (lines == 0) {lines = 1; comments = 0;} // Si le fichier est vide, le ratio est 0.
+        res[0] = (float) comments/lines;
+        res[1] = (float) lines;
+        res[2] = (float) comments;
+        return  res ;
     }
 	
 }

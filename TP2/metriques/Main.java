@@ -57,17 +57,20 @@ public class Main {
     /* Méthode qui permet d'ajouter toutes les métriques restante au string csv.*/
     public static String addMetricsToCSV(String csv) {
         // On ajoute les noms des colonnes
-        StringBuilder result = new StringBuilder("filePath,module,fileName,pmnt,tpcbis,csec,wmc,rfc,dc\n");
+        StringBuilder result = new StringBuilder("filePath,module,fileName,pmnt,tpcbis,csec,wmc,rfc,dc,loc,cloc\n");
         String[] csvEntries = csv.split("\n");
 
         // Pour chaque fichier on calcule la métrique et on la rajoute au fichier
         for (String csvEntry : csvEntries) {
             try {
                 String filePath = csvEntry.split(",")[0];
+                float[] dc = DC.dc(filePath);
                 result.append(csvEntry).append(",")
                         .append(WMC.wmc(filePath)).append(",")
                         .append(RFC.rfc(filePath)).append(",")
-                        .append(DC.dc(filePath)).append(",")
+                        .append(dc[0]).append(",")
+                        .append(dc[1]).append(",")
+                        .append(dc[2]).append(",")
                         .append("\n");
             } catch (IOException | ParseException e) {
                 System.out.println("Error : Parsing error while calculating metrics");
@@ -110,7 +113,7 @@ public class Main {
 
     /* Emplacement du lancement du programme du TP2 */
     public static void main(String[] args) {
-
+        System.out.println("Commencing analysis...");
         if (args.length != 1) {
             System.out.println("Error : 1 argument is needed");
             System.out.println("Please try again with a folder path");
