@@ -4,6 +4,7 @@ import com.github.javaparser.ParseException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Objects;
 
 
@@ -116,41 +117,56 @@ public class Main {
     public static Boolean egonQ1(String csv){
         ArrayList<Float> compl = new ArrayList<>();
         ArrayList<Float> cloc = new ArrayList<>();
+
         int cnt = 0;
 
         String[] csvSplit = csv.split("\n");
         for (int i = 1; i < csvSplit.length; i++) {
             String[] line = csvSplit[i].split(",");
-            compl.add(Float.parseFloat(line[6])+ Float.parseFloat(line[7]));
-            cloc.add(Float.parseFloat(line[10]));
+            float complF = Float.parseFloat(line[6])+ Float.parseFloat(line[7]);
+            float clocF = Float.parseFloat(line[10]);
+            compl.add(complF);
+            cloc.add(clocF);
         }
+        int size = compl.size();
 
         ArrayList<Float> complS = new ArrayList<>(compl);
         complS.sort(null);
         ArrayList<Float> clocS = new ArrayList<>(cloc);
         clocS.sort(null);
+        System.out.println(complS);
+        System.out.println(clocS);
 
-        for (Float integer : compl) {
-            int complIndex = 0;
-            int clocIndex = 0;
-            for (int j = 0; j < complS.size(); j++) {
-                if (Objects.equals(integer, complS.get(j))) {
-                    complIndex = j;
+        for (int i =0;i<size;i++) {
+            int complIndexMin = 0;
+            int complIndexMax = 0;
+            Float clocMin;
+            Float clocMax;
+            for (int j = 0; j < size; j++) {
+                if (Objects.equals(compl.get(i), complS.get(j))) {
+                    complIndexMin = j;
+                    complIndexMax = j;
+                    // Si jamais il y a plusieurs fois la même valeur
+                    while(j<size-1 && Objects.equals(compl.get(i),complS.get(j+1))){
+                        complIndexMax++;
+                        j++;
+                    }
                     break;
                 }
             }
-            for (int j = 0; j < clocS.size(); j++) {
-                if (Objects.equals(complS.get(complIndex), clocS.get(j))) {
-                    clocIndex = j;
-                    break;
-                }
-            }
-            int binf = complIndex - (compl.size())/10 ;
-            int bsup = complIndex + (compl.size())/10 ;
-            if( clocIndex > bsup || clocIndex < binf){
+            int indexClocMin = complIndexMin - (size)/5;
+            if(indexClocMin < 0) indexClocMin = 0;
+            clocMin = clocS.get(indexClocMin) ;
+            int indexClocMax = complIndexMax + (size)/5;
+            if(indexClocMax > size) indexClocMax = size-1;
+            clocMax = clocS.get(indexClocMax);
+            System.out.println(compl.get(i) +" : "+clocMin+" - "+ cloc.get(i) +" - "+clocMax);
+            if( cloc.get(i) > clocMax || cloc.get(i) < clocMin){
                 cnt++;
             }
         }
+        System.out.println(cnt);
+        System.out.println(size);
         return cnt <= compl.size() / 10;
     }
 
