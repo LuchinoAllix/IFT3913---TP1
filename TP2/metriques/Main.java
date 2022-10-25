@@ -117,13 +117,13 @@ public class Main {
     }
 
     public static Boolean answerQ1(String csv) {
-        // Init deux tableaux de complexité et cloc
+        // Init deux listes de complexité et cloc
         ArrayList<Float> compl = new ArrayList<>();
         ArrayList<Float> cloc = new ArrayList<>();
         // csvSplit contient chaque ligne du csv
         String[] csvSplit = csv.split("\n");
 
-        // Pour chaque ligne du csv ajouter WMC+RFC à compl[] et cloc à cloc[]
+        // Pour chaque ligne du csv ajouter WMC+RFC à compl<> et cloc à cloc<> (<> pour listes)
         for (int i = 1; i < csvSplit.length; i++) {
             String[] line = csvSplit[i].split(",");
             float complF = Float.parseFloat(line[6])+ Float.parseFloat(line[7]);
@@ -132,26 +132,28 @@ public class Main {
             cloc.add(clocF);
         }
 
-        // Trie les tableaux compl[] et cloc[] dans les tableaux complS[] et clocS[] respectivement
+        // Trie les listes compl<> et cloc<> dans les listes complS<> et clocS<> respectivement (<> pour listes)
         ArrayList<Float> complS = new ArrayList<>(compl);
         complS.sort(null);
         ArrayList<Float> clocS = new ArrayList<>(cloc);
         clocS.sort(null);
-        //System.out.println(complS);
-        //System.out.println(clocS);
 
-        // TODO commentaires
+        // Initialisation de count, le nombre de fichiers qui ne respecte pas les critères de facilité d'analyse
         int count = 0;
-        int size = compl.size();
+        int size = compl.size(); // Pour simplifier la lecture, vu que la taille ne change pas
 
-        // TODO commentaires
+
         for (int i = 0; i < size; i++) {
-
+            /* Respectivement l'indice le plus bas et le plus haut des éléments de complS[]
+            qui vallent compl[i] (si cette élément est unique les deux valeurs sont égales) */
             int complIndexMin = 0;
             int complIndexMax = 0;
+            /* Respectivement la valeur la plus petite et plus grande correspondant à
+            clocS[complIndexMin] et cloc[complIndexMax] */
             Float clocMin;
             Float clocMax;
 
+            /* On trouve les valeur de complIndexMin et complIndexMax */
             for (int j = 0; j < size; j++) {
                 if (Objects.equals(compl.get(i), complS.get(j))) {
                     complIndexMin = j;
@@ -164,13 +166,20 @@ public class Main {
                     break;
                 }
             }
-
-            int indexClocMin = complIndexMin - (size) / 5;
+            /* On choisi un seuil (ici 20), qui représente le pourcentage de classes dont le cloc
+            est considéré comme satisfaisant pour valider la facilité d'analyse en fonction de la
+            complexité (compl). Il suffit d'utiliser le seuil pour obtenir la marge d'index à
+            partir de complIndexMin et complIndexMax, une fois la marge d'index obtenue, on calcul
+            calcule les valeurs cloc limites (clocMin et clocMax) et on vérifie si le cloc de la
+            classe est dedans*/
+            int seuil = 20;
+            int indexClocMin = complIndexMin - (size) * seuil/100;
             if (indexClocMin < 0) indexClocMin = 0;
             clocMin = clocS.get(indexClocMin);
-            int indexClocMax = complIndexMax + (size) / 5;
+            int indexClocMax = complIndexMax + (size) *seuil/100;
             if (indexClocMax > size) indexClocMax = size - 1;
             clocMax = clocS.get(indexClocMax);
+
             // Si cloc est entre le min/max alors l'ajouter au compteur
             if( cloc.get(i) > clocMax || cloc.get(i) < clocMin){
                 count++;
@@ -184,7 +193,10 @@ public class Main {
         System.out.println("compteur : " + count); // TODO remove
         System.out.println("taille : " + size); // TODO remove
 
-        return count <= compl.size() / 10; // TODO commentaire explication calcul resultat
+        /* Si le pourcentage de classes dont la facilité d'analyse n'est pas atteinte
+        pour au plus 10% des classes, alors le code n'est pas considéré comme facile
+        à analyser */
+        return count <= size / 10;
     }
 
     public static Boolean answerQ2(String csv) {
@@ -196,15 +208,18 @@ public class Main {
     }
 
     public static Boolean answerQ4(String csv) {
-        // Init deux tableaux de complexité et cloc
+        // Init deux listes de pmnt et de complexité
         ArrayList<Float> pmnt = new ArrayList<>();
         ArrayList<Float> compl = new ArrayList<>();
         // csvSplit contient chaque ligne du csv
         String[] csvSplit = csv.split("\n");
-        float q1Compl;
-        int count = 0;
 
-        // Pour chaque ligne du csv ajouter WMC+RFC à compl[] et cloc à cloc[]
+        float q1Compl; // Médiane
+        int count = 0;
+        /* Nombre de classes dont les tests ne sont pas considéré comme
+        pouvant être fait automatiquement */
+
+        // Pour chaque ligne du csv ajouter CSEC+RFC à compl<> et pmnt à pmnt<> (<> pour liste)
         for (int i = 1; i < csvSplit.length; i++) {
             String[] line = csvSplit[i].split(",");
             float complF = Float.parseFloat(line[5])+ Float.parseFloat(line[7]);
@@ -212,20 +227,22 @@ public class Main {
             compl.add(complF);
             pmnt.add(pmntF);
         }
-
+        // création de complS qui est compl<> mais triée (<> pour liste)
         ArrayList<Float> complS = new ArrayList<>(compl);
         complS.sort(null);
-        q1Compl = complS.get(complS.size()/4);
+        q1Compl = complS.get((complS.size()/2)); // calcul de la médiane
 
+        /*Selon un critère de séléction, on regarde quelle classe est considérée comme
+        pouvant être testeé automatiquement les détails du critère et dans le rapport */
         for (int i = 0; i < compl.size(); i++) {
-            if(pmnt.get(i)>75 && compl.get(i)>q1Compl){
+            if(pmnt.get(i)>90 && compl.get(i)>q1Compl){
                 count++;
             }
         }
-
-        System.out.println("compteur : " + count); // TODO remove
-        System.out.println("taille : " + compl.size()); // TODO remove
-
+        
+        /* Si le pourcentage de classes dont l'automatisation des testsn'est pas
+        possible n'est pas atteinte pour au plus 10% des classes, alors le code
+        n'est pas considéré comme pouvant être testé automatiquement */
         return count <= compl.size() / 10;
     }
 
