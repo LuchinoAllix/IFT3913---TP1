@@ -75,7 +75,7 @@ public class Main {
                         .append(dc[0]).append(",")
                         .append(dc[1]).append(",")
                         .append(dc[2]).append(",")
-                        .append(Lcom.lcom(filePath))
+                        .append(LCOM.lcom(filePath))
                         .append("\n");
             } catch (IOException | ParseException e) {
                 System.out.println("Error : Parsing error while calculating metrics");
@@ -118,13 +118,13 @@ public class Main {
     }
 
     public static Boolean answerQ1(String csv) {
-        // Init deux tableaux de complexité et cloc
+        // Init deux listes de complexité et cloc
         ArrayList<Float> compl = new ArrayList<>();
         ArrayList<Float> cloc = new ArrayList<>();
         // csvSplit contient chaque ligne du csv
         String[] csvSplit = csv.split("\n");
 
-        // Pour chaque ligne du csv ajouter WMC+RFC à compl[] et cloc à cloc[]
+        // Pour chaque ligne du csv ajouter WMC+RFC à compl<> et cloc à cloc<> (<> pour listes)
         for (int i = 1; i < csvSplit.length; i++) {
             String[] line = csvSplit[i].split(",");
             float complF = Float.parseFloat(line[6])+ Float.parseFloat(line[7]);
@@ -133,28 +133,28 @@ public class Main {
             cloc.add(clocF);
         }
 
-        // Trie les tableaux compl[] et cloc[] dans les tableaux complS[] et clocS[] respectivement
+        // Trie les listes compl<> et cloc<> dans les listes complS<> et clocS<> respectivement (<> pour listes)
         ArrayList<Float> complS = new ArrayList<>(compl);
         complS.sort(null);
         ArrayList<Float> clocS = new ArrayList<>(cloc);
         clocS.sort(null);
-        //System.out.println(complS);
-        //System.out.println(clocS);
 
-        // compteur de fichier dont le rang de complexité n'est pas égal à celui de son cloc à 20% près
+        // Initialisation de count, le nombre de fichiers qui ne respecte pas les critères de facilité d'analyse
         int count = 0;
-        // nombre de fichiers total du csv
+        // size pour simplifier la lecture, vu que la taille ne change pas
         int size = compl.size();
 
         for (int i = 0; i < size; i++) {
-
+            /* Respectivement l'indice le plus bas et le plus haut des éléments de complS[]
+            qui vallent compl[i] (si cet élément est unique les deux valeurs sont égales). */
             int complIndexMin = 0;
             int complIndexMax = 0;
+            /* Respectivement la valeur la plus petite et la plus grande correspondant à
+            clocS[complIndexMin] et cloc[complIndexMax] */
             Float clocMin;
             Float clocMax;
 
-            // On cherche l'index de compl[i] dans complS et on init indexMin et indexMax en prennant en compte les
-            // valeurs identiques.
+            /* On trouve les valeurs de complIndexMin et complIndexMax */
             for (int j = 0; j < size; j++) {
                 if (Objects.equals(compl.get(i), complS.get(j))) {
                     complIndexMin = j;
@@ -168,32 +168,41 @@ public class Main {
                 }
             }
 
-            int seuilMin = (complIndexMin - (size) / 5);
+            /* On a choisi un seuil (ici 20), qui représente le pourcentage de classes dont le cloc
+            est considéré comme satisfaisant pour valider la facilité d'analyse en fonction de la
+            complexité (compl). Il suffit d'utiliser le seuil pour obtenir la marge d'index à
+            partir de complIndexMin et complIndexMax, une fois la marge d'index obtenue, on
+            calcule les valeurs cloc limites (clocMin et clocMax) et on vérifie si le cloc de la
+            classe est dedans.*/
+            int seuil = 20;
+            int seuilMin = complIndexMin - (size) * seuil / 100;
             int indexClocMin = Math.max(seuilMin, 0);
 
-            int seuilMax = complIndexMax + (size) / 5;
-            int indexClocMax = seuilMax > size ? size - 1 : seuilMax;
+            int seuilMax = complIndexMax + (size) * seuil / 100;;
+            int indexClocMax = (seuilMax > size) ? size - 1 : seuilMax;
 
             clocMin = clocS.get(indexClocMin);
             clocMax = clocS.get(indexClocMax);
-            // Si cloc n'est pas entre le min/max alors l'ajouter au compteur
+            // Si cloc est entre le min/max alors l'ajouter au compteur
             if( cloc.get(i) > clocMax || cloc.get(i) < clocMin){
                 count++;
             }
         }
 
-        // true si 10% ou moins des fichiers ne sont pas à 20% d'écart en termes de rang de WMC+RFC et CLOC
-        return count <= compl.size() / 10;
+        /* Si le pourcentage de classes dont la facilité d'analyse n'est pas atteinte
+        pour au plus 10% des classes, alors la documentation du code n'est pas considérée comme
+        adaptée à la complexité.*/
+        return count <= size / 10;
     }
 
     public static Boolean answerQ2(String csv) {
-        // Init deux tableaux de csec et lcom
+        // Init deux listes de csec et lcom
         ArrayList<Float> csec = new ArrayList<>();
         ArrayList<Float> lcom = new ArrayList<>();
         // csvSplit contient chaque ligne du csv
         String[] csvSplit = csv.split("\n");
 
-        // Pour chaque ligne du csv ajouter csec à csec[] et lcom à lcom[]
+        // Pour chaque ligne du csv ajouter csec à csec<> et lcom à lcom<> (<> pour listes)
         for (int i = 1; i < csvSplit.length; i++) {
             String[] line = csvSplit[i].split(",");
             float csecF = Float.parseFloat(line[5]);
@@ -202,26 +211,29 @@ public class Main {
             lcom.add(lcomF);
         }
 
-        // Trie les tableaux csec[] et lcom[] dans les tableaux csecS[] et lcomS[] respectivement
+        // Trie les listes csec<> et lcom<> dans les listes csecS<> et lcomS<> respectivement (<> pour listes)
         ArrayList<Float> csecS = new ArrayList<>(csec);
         csecS.sort(null);
         ArrayList<Float> lcomS = new ArrayList<>(lcom);
         lcomS.sort(null);
 
-        // compteur de fichier dont le rang de csec n'est pas égal à celui de son lcom à 20% près
+        // Initialisation de count, le nombre de fichiers qui ne respecte pas les critères de facilité d'analyse
         int count = 0;
-        // nombre de fichiers total du csv
+        // size pour simplifier la lecture, vu que la taille ne change pas
         int size = csec.size();
 
         for (int i = 0; i < size; i++) {
 
+            /* Respectivement l'indice le plus bas et le plus haut des éléments de csecS[]
+            qui vallent csec[i] (si cet élément est unique les deux valeurs sont égales). */
             int csecIndexMin = 0;
             int csecIndexMax = 0;
+            /* Respectivement la valeur la plus petite et la plus grande correspondant à
+            lcomS[csecIndexMin] et lcom[csecIndexMax] */
             Float lcomMin;
             Float lcomMax;
 
-            // On cherche l'index de csec[i] dans csecS et on init indexMin et indexMax en prennant en compte les
-            // valeurs identiques.
+            /* On trouve les valeurs de csecIndexMin et csecIndexMax */
             for (int j = 0; j < size; j++) {
                 if (Objects.equals(csec.get(i), csecS.get(j))) {
                     csecIndexMin = j;
@@ -235,22 +247,31 @@ public class Main {
                 }
             }
 
-            int seuilMin = (csecIndexMin - (size) / 5);
+            /* On a choisi un seuil (ici 20), qui représente le pourcentage de classes dont le lcom
+            est considéré comme satisfaisant pour valider la facilité d'analyse en fonction du
+            couplage (csec). Il suffit d'utiliser le seuil pour obtenir la marge d'index à
+            partir de csecIndexMin et csecIndexMax, une fois la marge d'index obtenue, on
+            calcule les valeurs lcom limites (lcomMin et lcomMax) et on vérifie si le lcom de la
+            classe est dedans.*/
+            int seuil = 20;
+            int seuilMin = (csecIndexMin - (size) * seuil / 100);
             int indexLcomMin = Math.max(seuilMin, 0);
 
-            int seuilMax = (csecIndexMax + (size) / 5);
+            int seuilMax = (csecIndexMax + (size) * seuil / 100);
             int indexLcomMax = seuilMax > size ? size - 1 : seuilMax;
 
             lcomMin = lcomS.get(indexLcomMin);
             lcomMax = lcomS.get(indexLcomMax);
-            // Si lcom n'est pas entre le min/max alors l'ajouter au compteur
+
+            // Si lcom est entre le min/max alors l'ajouter au compteur
             if( lcom.get(i) > lcomMax || lcom.get(i) < lcomMin){
                 count++;
             }
         }
 
-        // true si 10% ou moins des fichiers ne sont pas à 20% d'écart en termes de rang de csec et lcom
-        return count <= csec.size() / 10;
+        /* Si le pourcentage de classes dont la facilité d'analyse n'est pas atteinte
+        pour au plus 10% des classes, alors le code n'est pas considéré comme bien modulaire. */
+        return count <= size / 10;
     }
 
     public static Boolean answerQ3(String csv) {
@@ -258,15 +279,18 @@ public class Main {
     }
 
     public static Boolean answerQ4(String csv) {
-        // Init deux tableaux de complexité et cloc
+        // Init deux listes de pmnt et de complexité
         ArrayList<Float> pmnt = new ArrayList<>();
         ArrayList<Float> compl = new ArrayList<>();
         // csvSplit contient chaque ligne du csv
         String[] csvSplit = csv.split("\n");
+        // Médiane
         float q1Compl;
+        /* Nombre de classes dont les tests ne sont pas considérés comme
+        pouvant être fait automatiquement */
         int count = 0;
 
-        // Pour chaque ligne du csv ajouter WMC+RFC à compl[] et cloc à cloc[]
+        // Pour chaque ligne du csv ajouter CSEC+RFC à compl<> et pmnt à pmnt<> (<> pour liste)
         for (int i = 1; i < csvSplit.length; i++) {
             String[] line = csvSplit[i].split(",");
             float complF = Float.parseFloat(line[5])+ Float.parseFloat(line[7]);
@@ -275,16 +299,22 @@ public class Main {
             pmnt.add(pmntF);
         }
 
+        // création de complS qui est compl<> mais triée (<> pour liste)
         ArrayList<Float> complS = new ArrayList<>(compl);
         complS.sort(null);
-        q1Compl = complS.get(complS.size()/4);
+        q1Compl = complS.get((complS.size()/2)); // calcul de la médiane
 
+        /*Selon un critère de séléction, on regarde quelle classe est considérée comme
+        pouvant être testeé automatiquement les détails du critère et dans le rapport */
         for (int i = 0; i < compl.size(); i++) {
-            if(pmnt.get(i)>75 && compl.get(i)>q1Compl){
+            if(pmnt.get(i)>90 && compl.get(i)>q1Compl){
                 count++;
             }
         }
 
+        /* Si le pourcentage de classes dont l'automatisation des tests n'est pas
+        possible n'est pas atteinte pour au plus 10% des classes, alors le code
+        n'est pas considéré comme pouvant être testé automatiquement. */
         return count <= compl.size() / 10;
     }
 
