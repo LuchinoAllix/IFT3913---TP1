@@ -11,7 +11,8 @@ public class LCOM {
 
     /* Implémentation de LCOM1 */
     public static int lcom(String filePath) throws ParseException, IOException {
-        int result = 0;
+        int resultNoInter = 0;
+        int resultInter = 0;
 
         // Récupère les méthodes et leurs contenu dans le fichier
         HashMap<SimpleName, BlockStmt> methods = ASTparserMethods.parseMethods(filePath);
@@ -53,10 +54,12 @@ public class LCOM {
                         i++;
                         if (e1.getValue().contains(fieldCallExpr)) {
                             isThere = true;
+                            resultInter++;
+                            break;
                         }
                     }
                     if (!isThere && i == e2.getValue().size()) {
-                        result++;
+                        resultNoInter++;
                     }
 
                 }
@@ -65,6 +68,11 @@ public class LCOM {
 
         }
 
-        return result;
+        if (resultInter > resultNoInter) {
+            return 0;
+        } else {
+            return resultNoInter - resultInter;
+        }
     }
+
 }
