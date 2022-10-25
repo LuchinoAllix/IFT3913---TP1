@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.util.*;
 
 /* Classe contenant les méthodes permettant d'obtenir des informations sur les commentaires
-* contenus dans un fichier. Réalisé grâce à la classe javaparser (voir le README pour plus
-* d'imformation sur le module. */
+* contenus dans un fichier. Réalisé grâce à Javaparser (voir le README pour plus
+* d'information sur le module) */
 public class ASTparserComments {
 
-    /* Méthode permetant d'obtenir la liste des commentaire (mono-lignes) d'un fichier. */
+    /* Méthode permetant d'obtenir la liste des commentaires (mono-lignes) d'un fichier. */
     public static ArrayList<LineComment> parseLineComments(String filePath) throws ParseException, IOException {
         ArrayList<LineComment> lineComments; // Valeur retournée
 
@@ -42,7 +42,7 @@ public class ASTparserComments {
        return lineComments;
     }
 
-    /* Méthode permetant d'obtenir la liste des commentaire (multi-lignes) d'un fichier. */
+    /* Méthode permettant d'obtenir la liste des commentaires (multi-lignes) d'un fichier. */
     public static ArrayList<BlockComment> parseBlockComments(String filePath) throws ParseException, IOException {
         ArrayList<BlockComment> blockComments; // Valeur retournée
 
@@ -65,7 +65,7 @@ public class ASTparserComments {
         return blockComments;
     }
 
-    /* Méthode permetant d'obtenir la liste des commentaire (javadoc) d'un fichier. */
+    /* Méthode permettant d'obtenir la liste des commentaires (javadoc) d'un fichier. */
     public static ArrayList<JavadocComment> parseJavadocComments(String filePath) throws ParseException, IOException {
         ArrayList<JavadocComment> javadocComments; // Valeur retournée
 

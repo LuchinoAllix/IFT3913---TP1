@@ -18,12 +18,13 @@ import java.util.HashMap;
 import java.util.Optional;
 
 /*
-* Classe regroupant des méthodes permetant d'obtenir des données sur les méthodes
-* grâce à la classe javaparser (voir le README pour plus d'imformation sur ce module.
+* Classe regroupant des méthodes permettant d'obtenir des données sur les méthodes
+* grâce à Javaparser (voir le README pour plus d'information sur ce module)
 * */
 public class ASTparserMethods {
 
-    /* todo */
+    /* Méthode permettant de récupérer le nom et le contenu d'un fichier java dans une Map
+    *  avec key = Nom de la méthode, value = contenu de la méthode */
     public static HashMap<SimpleName, BlockStmt> parseMethods(String filePath) throws  IOException {
         // result will store a HashMap of the methods names (key) and their content (value)
         HashMap<SimpleName, BlockStmt> result = new HashMap<>();
@@ -64,6 +65,8 @@ public class ASTparserMethods {
             }
         }, null);
 
+        // Entre les résultats du parsing dans la HashMap en faisant attention à bien avoir le
+        // même nombre de méthodes et de contenu pour éviter les erreurs
         if (methodNames.size() <= methodBodies.size()) {
             for (int i = 0; i < methodNames.size(); i++) {
                 result.put(methodNames.get(i), methodBodies.get(i));
@@ -77,31 +80,7 @@ public class ASTparserMethods {
         return result;
     }
 
-    // marquée comme jamais utilisée
-    public static ArrayList<MethodDeclaration> parseMethodDeclarations(String filePath) throws IOException {
-        ArrayList<MethodDeclaration> methodDeclarations;
-
-        // JavaParser has a minimal logging class that normally logs nothing.
-        // Let's ask it to write to standard out:
-        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
-
-        File file = new File(filePath);
-        CompilationUnit cu = StaticJavaParser.parse(file);
-
-        methodDeclarations = (ArrayList<MethodDeclaration>) cu.accept(new GenericListVisitorAdapter<MethodDeclaration, Void>() {
-            @Override
-            public ArrayList<MethodDeclaration> visit(MethodDeclaration n, Void arg) {
-                ArrayList<MethodDeclaration> methods = new ArrayList<>();
-                super.visit(n, arg);
-                methods.add(n);
-                return methods;
-            }
-        }, null);
-
-        return methodDeclarations;
-    }
-
-    /* todo */
+    /* Prends un contenu de méthode en argument et récupère la liste des appels de méthode dans le contenu */
     public static ArrayList<MethodCallExpr> getMethodCallsInsideAMethod(BlockStmt method) {
         // result will store all the method calls inside our BlockStmt
         ArrayList<MethodCallExpr> result;
@@ -111,7 +90,7 @@ public class ASTparserMethods {
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
 
         // Finally the compilation unit take a visitor to parse through a method (BlockStmt) for each
-        // MethodCallExpand add them to the result
+        // MethodCallExp and add them to the result
         result = (ArrayList<MethodCallExpr>) method.accept(new GenericListVisitorAdapter<MethodCallExpr, Void>() {
             @Override
             public ArrayList<MethodCallExpr> visit(MethodCallExpr n, Void arg) {
@@ -125,10 +104,12 @@ public class ASTparserMethods {
         return result;
     }
 
-    /* todo */
+    /* Prends un contenu de méthode en argument et récupère la liste des appels de méthode dans le contenu
+    *  à l'aide de getMethodCallsInsideAMethod et extrait uniquement le nom des méthodes appelées
+    *  dans une liste */
     public static ArrayList<SimpleName> getMethodCallsNamesInsideAMethod(BlockStmt method) throws ParseException, IOException {
-        ArrayList<MethodCallExpr> methodCalls = getMethodCallsInsideAMethod(method);
         ArrayList<SimpleName> methodCallsNames = new ArrayList<>();
+        ArrayList<MethodCallExpr> methodCalls = getMethodCallsInsideAMethod(method);
         for (MethodCallExpr methodCall : methodCalls) {
             methodCallsNames.add(methodCall.getName());
         }
@@ -136,7 +117,7 @@ public class ASTparserMethods {
         return methodCallsNames;
     }
 
-    /* Méthode permetant de savoir quelles méthodes dans un fichier sont des
+    /* Méthode permettant de savoir quelles méthodes dans un fichier sont des
     * méthodes de tests */
     public static ArrayList<Optional<AnnotationExpr>> parseTests(String filePath) throws IOException {
         ArrayList<Optional<AnnotationExpr>> tests; // valeur retournée
@@ -210,7 +191,7 @@ public class ASTparserMethods {
             }
         }, null);
 
-        // On ajoute dans la listes des objet MyMethod a retourner grâce aux listes précédentes
+        // On ajoute dans la liste des objets MyMethod à retourner grâce aux listes précédentes
         for (int i = 0; i < tests.size(); i++) {
             MyMethod m;
             if(methodBodies.size()< tests.size() && i > methodBodies.size()-1){
