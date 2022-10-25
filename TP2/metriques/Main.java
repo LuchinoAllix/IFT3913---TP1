@@ -275,7 +275,34 @@ public class Main {
     }
 
     public static Boolean answerQ3(String csv) {
-        return false;
+        ArrayList<Float> tpc = new ArrayList<>();
+        ArrayList<Float> compl = new ArrayList<>();
+        // csvSplit contient chaque ligne du csv
+        String[] csvSplit = csv.split("\n");
+        int count = 0;
+
+        // Pour chaque ligne du csv ajouter WMC+RFC à compl[] et cloc à cloc[]
+        for (int i = 1; i < csvSplit.length; i++) {
+            String[] line = csvSplit[i].split(",");
+            float complF = Float.parseFloat(line[5])+ Float.parseFloat(line[7]);
+            float tpcF = Float.parseFloat(line[4]);
+            compl.add(complF);
+            tpc.add(tpcF);
+        }
+        ArrayList<Float> complS = new ArrayList<>(compl);
+        complS.sort(null);
+        ArrayList<Float> tpcS = new ArrayList<>(tpc);
+        tpcS.sort(null);
+
+        int seuil = compl.size()*9/10;
+        float complCrit = complS.get(seuil);
+        float tpcCrit = tpcS.get(seuil);
+
+        for (int i = 0; i < compl.size(); i++) {
+            if(compl.get(i)>complCrit && tpc.get(i)>tpcCrit) count++;
+        }
+
+        return count <= compl.size() / 10;
     }
 
     public static Boolean answerQ4(String csv) {
