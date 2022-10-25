@@ -75,7 +75,7 @@ public class PMNT {
             }
             if(nbMethods==0) nbMethods=1;
             // On ajoute dans le tableau des données les nouvelles métriques.
-            csvEntries[i]+= "," + (float) nbMethodsNonTest/nbMethods * 100+ "%," + nbTests;
+            csvEntries[i]+= "," + (1 - (float) nbMethodsNonTest/nbMethods)* 100+ "%," + nbTests;
         }
         // On transforme le tableau en String pour pouvoir le retourner.
         StringBuilder res = new StringBuilder();
