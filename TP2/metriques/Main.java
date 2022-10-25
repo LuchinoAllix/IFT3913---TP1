@@ -196,7 +196,37 @@ public class Main {
     }
 
     public static Boolean answerQ4(String csv) {
-        return false;
+        // Init deux tableaux de complexité et cloc
+        ArrayList<Float> pmnt = new ArrayList<>();
+        ArrayList<Float> compl = new ArrayList<>();
+        // csvSplit contient chaque ligne du csv
+        String[] csvSplit = csv.split("\n");
+        float q1Compl;
+        int count = 0;
+
+        // Pour chaque ligne du csv ajouter WMC+RFC à compl[] et cloc à cloc[]
+        for (int i = 1; i < csvSplit.length; i++) {
+            String[] line = csvSplit[i].split(",");
+            float complF = Float.parseFloat(line[5])+ Float.parseFloat(line[7]);
+            float pmntF = Float.parseFloat(line[3].substring(0,line[3].length()-1));
+            compl.add(complF);
+            pmnt.add(pmntF);
+        }
+
+        ArrayList<Float> complS = new ArrayList<>(compl);
+        complS.sort(null);
+        q1Compl = complS.get(complS.size()/4);
+
+        for (int i = 0; i < compl.size(); i++) {
+            if(pmnt.get(i)>75 && compl.get(i)>q1Compl){
+                count++;
+            }
+        }
+
+        System.out.println("compteur : " + count); // TODO remove
+        System.out.println("taille : " + compl.size()); // TODO remove
+
+        return count <= compl.size() / 10;
     }
 
     /* Emplacement du lancement du programme du TP2 */
