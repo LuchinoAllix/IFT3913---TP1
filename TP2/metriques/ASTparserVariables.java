@@ -45,13 +45,6 @@ public class ASTparserVariables {
             }
         }, null);
 
-        System.out.println("Field");
-        for (SimpleName simpleName : result) {
-            System.out.println(simpleName);
-        }
-        System.out.println();
-
-
         return result;
     }
 
