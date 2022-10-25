@@ -201,7 +201,7 @@ public class Main {
 
     /* Emplacement du lancement du programme du TP2 */
     public static void main(String[] args) {
-        System.out.println("Commencing analysis...");
+        System.out.println("Commencing metric analysis...");
         if (args.length != 1) {
             System.out.println("Error : 1 argument is needed");
             System.out.println("Please try again with a folder path");
@@ -230,8 +230,10 @@ public class Main {
             // write result to a csv file
             writeToFile(csv, "output.csv");
             System.out.println("Le fichier output.csv a bien été crée.");
+            System.out.println("Metric analysis finished");
 
-            // Question 1 du GQM :
+            System.out.println("Commencing GQM analysis...");
+            // Questions du GQM :
             System.out.println("Réponse question 1 GQM : " + answerQ1(csv));
             System.out.println("Réponse question 2 GQM : " + answerQ2(csv));
             System.out.println("Réponse question 3 GQM : " + answerQ3(csv));
