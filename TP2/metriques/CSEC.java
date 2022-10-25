@@ -2,10 +2,13 @@ package org.example;
 
 import java.io.*;
 
-/* todo */
+/* S'occupe de la méthode csec, qui permet d'obtenir la métrique csec qui calcule le couplage d'une classe
+*  avec toutes les autres classes contenu dans un fichier csv. (repris du TP1) */
 public class CSEC {
 
-    /* todo */
+    /* Implémentation exacte du TP1.
+    *  Nous avons considéré uniquement les mentions de noms d'autres classes pour la
+    *  métrique de csec comme indiqué durant le tp1. Voir Q@36 piazza */
     public static String csec(String csv) {
         String result = "";
         String[] csvEntries = csv.split("\n");
@@ -21,7 +24,7 @@ public class CSEC {
         // Pour chaque entrée du fichier csv, lecture du fichier concerné
         // et regarde si une autre class présente dans le tableau deps est mentionné
         // Si oui la class est ajouté au couplage du fichier concerné et inversement
-        // dans csec sauf si ils ont déjà été ajouté
+        // dans csec sauf s'ils ont déjà été ajouté.
         for (int x = 0; x < csvEntries.length; x++) {
             try {
                 File file = new File(csvEntries[x].split(",")[0]);
