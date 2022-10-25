@@ -8,14 +8,14 @@ import java.util.ArrayList;
 
 /* S'occupe de la méthode pmnt, qui permet d'obtenir la métrique PMNT
 * (Pourcentage méthodes non testées) et TPC (Test Per Class). TPC est
-* légèrement modifiée. Pour un fichier donnée, c'est le nombre de fois
+* légèrement modifiée. Pour un fichier donné, c'est le nombre de fois
 * que toutes les méthodes du fichier ont été appelées par une méthode
 * de test. */
 public class PMNT {
 
-    /* Permet d'obtenir les métriques PMNT et TPC grâce a la 'liste'
+    /* Permet d'obtenir les métriques PMNT et TPC grâce à la 'liste'
     * des fichiers entrée en paramètre sous forme de string.
-    * Pour voir la forme de la string il faut reagrder la méthode
+    * Pour voir la forme de la string il faut regarder la méthode
     * jls dans Main.java. */
     public static String pmnt(String csvAsString){
 
@@ -35,8 +35,8 @@ public class PMNT {
         }
         for (ArrayList<MyMethod> fichier : fichiersDeMethods){
             for (MyMethod myMethod : fichier){
-                /* Pour toutes les méthodes de tout les fichiers, on obtient la liste de toutes les méthodes
-                qui sont appelée par des méthodes de test */
+                /* Pour toutes les méthodes de tous les fichiers, on obtient la liste de toutes les méthodes
+                qui sont appelées par des méthodes de test */
                 ArrayList<SimpleName> names = null;
                 try {
                     if(myMethod.stmt != null && myMethod.isTest){
@@ -61,7 +61,7 @@ public class PMNT {
                 }
             }
         }
-        /* Pour chaque méthode on calcul PMNT et TPC */
+        /* Pour chaque méthode, on calcule PMNT et TPC */
         for (int i = 0; i < fichiersDeMethods.size(); i++) {
             int nbMethods = 0;
             int nbMethodsNonTest = 0;
@@ -74,7 +74,7 @@ public class PMNT {
                 }
             }
             if(nbMethods==0) nbMethods=1;
-            // On ajoute dans le tableau des donnée les nouvelles métriques.
+            // On ajoute dans le tableau des données les nouvelles métriques.
             csvEntries[i]+= "," + (float) nbMethodsNonTest/nbMethods * 100+ "%," + nbTests;
         }
         // On transforme le tableau en String pour pouvoir le retourner.
