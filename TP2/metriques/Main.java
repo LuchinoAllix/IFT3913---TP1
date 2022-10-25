@@ -275,13 +275,14 @@ public class Main {
     }
 
     public static Boolean answerQ3(String csv) {
+        // Init deux listes de csec et lcom
         ArrayList<Float> tpc = new ArrayList<>();
         ArrayList<Float> compl = new ArrayList<>();
         // csvSplit contient chaque ligne du csv
         String[] csvSplit = csv.split("\n");
         int count = 0;
 
-        // Pour chaque ligne du csv ajouter WMC+RFC à compl[] et cloc à cloc[]
+        // Pour chaque ligne du csv ajouter WMC+RFC à compl<> et tpc à tpc<> (<> pour liste)
         for (int i = 1; i < csvSplit.length; i++) {
             String[] line = csvSplit[i].split(",");
             float complF = Float.parseFloat(line[5])+ Float.parseFloat(line[7]);
@@ -289,11 +290,15 @@ public class Main {
             compl.add(complF);
             tpc.add(tpcF);
         }
+
+        // On trie les lites
         ArrayList<Float> complS = new ArrayList<>(compl);
         complS.sort(null);
         ArrayList<Float> tpcS = new ArrayList<>(tpc);
         tpcS.sort(null);
 
+        /* On choisi un seuil et on calcul les valeurs critique pour que
+        le code soit considéré comme stable */
         int seuil = compl.size()*9/10;
         float complCrit = complS.get(seuil);
         float tpcCrit = tpcS.get(seuil);
@@ -302,6 +307,9 @@ public class Main {
             if(compl.get(i)>complCrit && tpc.get(i)>tpcCrit) count++;
         }
 
+        /* Si le pourcentage de classes dont la stabilité n'est pas considérée
+        comme suffisante n'est pas atteinte pour au plus 10% des classes, alors le code
+        n'est pas considéré comme stable. */
         return count <= compl.size() / 10;
     }
 
