@@ -140,7 +140,7 @@ public class Main {
      * */
     public static String addMetricsToCSV(String csv) {
         // On ajoute les noms des colonnes
-        StringBuilder result = new StringBuilder("filePath,module,fileName,pmnt,tpcbis,csec,wmc,rfc,dc,loc,cloc,lcom\n");
+        StringBuilder result = new StringBuilder("filePath,module,fileName,pmnt,tpcbis,csec,wmc,rfc,dc,loc,cloc,lcom2\n");
         String[] csvEntries = csv.split("\n");
 
         // Pour chaque fichier, on calcule la métrique et on la rajoute au fichier
@@ -350,82 +350,46 @@ public class Main {
     * Effet de bord : affichage de la réponse.
     * */
     public static Boolean answerQ2(String csv) {
-        // Init deux listes de csec et lcom
-        ArrayList<Float> csec = new ArrayList<>();
-        ArrayList<Float> lcom = new ArrayList<>();
         // csvSplit contient chaque ligne du csv
         String[] csvSplit = csv.split("\n");
 
-        // Pour chaque ligne du csv ajouter csec à csec<> et lcom à lcom<> (<> pour listes)
+        // Init des compteurs de fichiers qui respectent la condition de mesure
+        int countCouplage = 0;
+        int countCohesion = 0;
+
+        // Récupération des valeurs csec et lcom des fichiers à partir du csv
+        ArrayList<Integer> csec = new ArrayList<>();
+        ArrayList<Integer> lcom = new ArrayList<>();
         for (int i = 1; i < csvSplit.length; i++) {
             String[] line = csvSplit[i].split(",");
-            float csecF = Float.parseFloat(line[5]);
-            float lcomF = Float.parseFloat(line[11]);
-            csec.add(csecF);
-            lcom.add(lcomF);
+            csec.add(Integer.parseInt(line[5]));
+            lcom.add(Integer.parseInt(line[11]));
         }
 
-        // Trie les listes csec<> et lcom<> dans les listes csecS<> et lcomS<> respectivement (<> pour listes)
-        ArrayList<Float> csecS = new ArrayList<>(csec);
-        csecS.sort(null);
-        ArrayList<Float> lcomS = new ArrayList<>(lcom);
-        lcomS.sort(null);
-
-        // Initialisation de count, le nombre de fichiers qui ne respecte pas les critères de facilité d'analyse
-        int count = 0;
         // size pour simplifier la lecture, vu que la taille ne change pas
         int size = csec.size();
 
+        // Pour chaque fichier ajoute 1 au compteur de couplage si le couplage est plus petit que 10% du nombre total
+        // de fichiers dans le csv.
         for (int i = 0; i < size; i++) {
-
-            /* Respectivement l'indice le plus bas et le plus haut des éléments de csecS[]
-            qui vallent csec[i] (si cet élément est unique les deux valeurs sont égales). */
-            int csecIndexMin = 0;
-            int csecIndexMax = 0;
-            /* Respectivement la valeur la plus petite et la plus grande correspondant à
-            lcomS[csecIndexMin] et lcom[csecIndexMax] */
-            Float lcomMin;
-            Float lcomMax;
-
-            /* On trouve les valeurs de csecIndexMin et csecIndexMax */
-            for (int j = 0; j < size; j++) {
-                if (Objects.equals(csec.get(i), csecS.get(j))) {
-                    csecIndexMin = j;
-                    csecIndexMax = j;
-                    // Si jamais il y a plusieurs fois la même valeur
-                    while (j < (size - 1) && Objects.equals(csec.get(i),csecS.get(j+1))) {
-                        csecIndexMax++;
-                        j++;
-                    }
-                    break;
-                }
-            }
-
-            /* On a choisi un seuil (ici 20), qui représente le pourcentage de classes dont le lcom
-            est considéré comme satisfaisant pour valider la facilité d'analyse en fonction du
-            couplage (csec). Il suffit d'utiliser le seuil pour obtenir la marge d'index à
-            partir de csecIndexMin et csecIndexMax, une fois la marge d'index obtenue, on
-            calcule les valeurs lcom limites (lcomMin et lcomMax) et on vérifie si le lcom de la
-            classe est dedans.*/
-            int seuil = 20;
-            int seuilMin = (csecIndexMin - (size) * seuil / 100);
-            int indexLcomMin = Math.max(seuilMin, 0);
-
-            int seuilMax = (csecIndexMax + (size) * seuil / 100);
-            int indexLcomMax = seuilMax > size ? size - 1 : seuilMax;
-
-            lcomMin = lcomS.get(indexLcomMin);
-            lcomMax = lcomS.get(indexLcomMax);
-
-            // Si lcom est entre le min/max alors l'ajouter au compteur
-            if( lcom.get(i) > lcomMax || lcom.get(i) < lcomMin){
-                count++;
+            if (csec.get(i) <= size / 10 ) {
+                countCouplage++;
             }
         }
+        // mesure de couplage accepté si plus de 90% des fichiers ont un couplage acceptable
+        boolean couplageRes = countCouplage >= size * 0.9;
 
-        /* Si le pourcentage de classes dont la facilité d'analyse n'est pas atteinte
-        pour au plus 10% des classes, alors le code n'est pas considéré comme bien modulaire. */
-        return count <= size / 10;
+        // Pour chaque fichier ajoute 1 au compteur de cohésion si LCOM2 est plus petite que 1
+        // ce qui signifie que les méthodes sont majoritairement cohésives.
+        for (int i = 0; i < size; i++) {
+            if (lcom.get(i) < 1 ) {
+                countCohesion++;
+            }
+        }
+        // mesure de cohésion acceptée si plus de 90% des fichiers ont une cohésion acceptable
+        boolean cohesionRes = countCohesion >= size * 0.9;
+
+        return couplageRes && cohesionRes;
     }
 
     /*
