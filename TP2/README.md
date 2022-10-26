@@ -43,4 +43,18 @@ Please try again with a folder path
 
 # Imformations supplémentaires
 
+Dans ce repository vous trouverez :
 
+- L'énoncé du TP2
+- Un `output.csv` déjà généré sur la librairie `jfreechart`.
+- Le dossier métrique qui comporte tout le code utilisé dans le TP brièvement :
+	- Chaque métrique possède sa classe java, sauf `PMNT.java` qui s'occupe de PMNT et TPC et `DC` qui s'occupe de DC, LOC et CLOC
+	- il y également des classes `ASTparser....java` qui permettent de parcourir le code
+	- une classe `MyMethod.java` qui facilite le calcule de PMNT et TPC 
+	- et bien évidemment `main.java` d'où se lance le programme
+- `Notes.txt` qui a aidé aux choix des métriques
+- `todo.txt` pour l'organisation des tâches
+- `RapportTP2.pdf` le rapport (et `RapportTP2.docx` sont équivalent word)
+- `README.txt` l'équivalent de `README.md` pour la remise.
+
+TODO maven javaparser truc package names blabla
