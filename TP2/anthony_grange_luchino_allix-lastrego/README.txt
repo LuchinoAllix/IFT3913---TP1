@@ -7,7 +7,9 @@ Membres :
 - Anthony GRANGE 20160453
 - Luchino ALLIX-LASTREGO 20222844
 
-<br/>
+Lien du repository : https://github.com/LuchinoAllix/IFT3913---TP1
+
+(Ceci est le liens pour tout les TPs mais il a été fait pour le TP1 (d'où le nom), pour ce TP il faut donc aller dans le dossier TP2)
 
 # Comment lancer le programme :
 
@@ -39,8 +41,6 @@ Please try again with a folder path
 
 - Une erreur courrante qui empêche le programe de fonctionner correctement est le fait que le fichier `output.csv` soit ouvert, il faut donc qu'il soit fermé.
 
-<br/>
-
 # Imformations supplémentaires
 
 Dans ce repository vous trouverez :
@@ -55,8 +55,7 @@ Dans ce repository vous trouverez :
 - `Notes.txt` qui a aidé aux choix des métriques
 - `todo.txt` pour l'organisation des tâches
 - `RapportTP2.pdf` le rapport (et `RapportTP2.docx` sont équivalent word)
-- `README.txt` l'équivalent de `README.md` pour la remise
-- `anthony_grange_luchino_allix-lastrego.zip` et son dossier utilisé pour la remise
+- `README.txt` l'équivalent de `README.md` pour la remise.
 
 Nous utilisons la librairie `Javaparser` pour parse le code à analyser. C'est une librairie gratuite qui permet de transformer du code Java en arbre AST afin de l'analyser. (lien : https://github.com/javaparser/javaparser, documentation : https://www.javadoc.io/doc/com.github.javaparser/javaparser-core/latest/index.html).
 
