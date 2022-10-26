@@ -561,8 +561,8 @@ public class Main {
 
             // write result to a csv file
             writeToFile(csv, "output.csv");
-            System.out.println("Le fichier output.csv a bien été crée.");
-            System.out.println("Metric analysis finished");
+            System.out.println("The file output.csv has been created (or put up to date if already existing).");
+            System.out.println("Metric analysis finished.\n");
 
             System.out.println("Commencing GQM analysis...");
             // Questions du GQM :
@@ -570,6 +570,8 @@ public class Main {
             System.out.println("Réponse question 2 GQM : " + answerQ2(csv));
             System.out.println("Réponse question 3 GQM : " + answerQ3(csv));
             System.out.println("Réponse question 4 GQM : " + answerQ4(csv));
+
+            System.out.println("GQM analysis finished.");
         }
     }
 	
