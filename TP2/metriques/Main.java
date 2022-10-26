@@ -439,14 +439,14 @@ public class Main {
 
         /* On choisi un seuil et on calcul les valeurs critique pour que
         le code soit considéré comme stable */
-        int seuil = compl.size()*9/10;
+        int seuil = compl.size()*4/5;
+
         float complCrit = complS.get(seuil);
         float tpcCrit = tpcS.get(seuil);
 
         for (int i = 0; i < compl.size(); i++) {
             if(compl.get(i)>complCrit && tpc.get(i)>tpcCrit) count++;
         }
-
         /* Si le pourcentage de classes dont la stabilité n'est pas considérée
         comme suffisante n'est pas atteinte pour au plus 10% des classes, alors le code
         n'est pas considéré comme stable. */
