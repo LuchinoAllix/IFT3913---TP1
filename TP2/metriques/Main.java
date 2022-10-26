@@ -15,14 +15,44 @@ import java.util.Objects;
 * Finalement applique les calculs grâce aux métriques pour répondre aux questions du GQM*/
 public class Main {
 
-    /* Récupéré du TP1, permet de trouver tous les fichiers java et les mets
-    * sous forme de String en format csv (filePath, module, filename).*/
+
+    /*
+     * Description :
+     * ----------
+     * Récupéré du TP1, permet de trouver tous les fichiers java et les mets
+     * sous forme de String en format csv (filePath, module, filename).
+     *
+     * Entrées :
+     * ----------
+     *   path (String) : String de l'emplacement des fichier à regarder.
+     *
+     * Sortie :
+     * ----------
+     *  String : le fichier csv en string.
+     *
+     * Informations supplémentaires :
+     * ----------
+     * Fait appel à jlsRec récursivement.
+     * */
     public static String jls(String path) {
         File file = new File(path);
         return jlsRec(file,file.getName());
     }
 
-    /* Partie récursive de jls (également récupérée du TP1) */
+    /*
+     * Description :
+     * ----------
+     * Partie recursive de jls, défini dans src dans le TP1.
+     *
+     * Entrées :
+     * ----------
+     *   path (Fichier) : Fichier à regarder.
+     *  module (string) : Module de la classe.
+     *
+     * Sortie :
+     * ----------
+     *  String : le fichier csv en string augmené de la classe.
+     * */
     public static String jlsRec(File path, String module) {
         StringBuilder temp = new StringBuilder();
 
@@ -44,21 +74,70 @@ public class Main {
         return temp.toString();
     }
 
-    /* Separatse methods to calculate PMNT and TPC once because pmnt already outputs the
-     * csv file augmented with pmnt and tpc values */
+    /*
+     * Description :
+     * ----------
+     * Permet de calculer et ajouter pmnt et tpc séparement que depuis addMetricsToCSV.
+     *
+     * Entrées :
+     * ----------
+     *   csv (String) : Chaine de caractère du fichier csv qui contient tous les
+     *   noms des classes, leur module, leur emplacement et leur métriques.
+     *
+     * Sortie :
+     * ----------
+     *  String : le fichier csv en string augmenté de csec.
+     *
+     * Informations supplémentaires :
+     * ----------
+     * Appel à pmnt de la classe PMNT.
+     * */
     public static String addPMNTToCSV(String csv){
         return PMNT.pmnt(csv);
     }
 
-    /* Separates methods to calculate csec once because csec already outputs the csv
-    * file augmented with csec values  */
+    /*
+     * Description :
+     * ----------
+     * Permet de calculer et ajouter csec séparement que depuis addMetricsToCSV
+     *
+     * Entrées :
+     * ----------
+     *   csv (String) : Chaine de caractère du fichier csv qui contient tous les
+     *   noms des classes, leur module, leur emplacement et leur métriques.
+     *
+     * Sortie :
+     * ----------
+     *  String : le fichier csv en string augmenté de csec.
+     *
+     * Informations supplémentaires :
+     * ----------
+     * Appel à csec de la classe CSEC.
+     * */
     public static String addCSECToCSV(String csv) {
         return CSEC.csec(csv);
     }
 
-    /* Méthode finale qui permet d'ajouter toutes les métriques restantes au string csv ainsi
-    *  qu'une ligne de titre pour chaque colonne :
-    *  (filePath, module, fileName, pmnt, tpcbis, csec, wmc, rfc, dc, loc, cloc). */
+    /*
+     * Description :
+     * ----------
+     * Permet d'ajouter toutes les métriques restantes au string csv ainsi
+     *  qu'une ligne de titre pour chaque colonne :
+     * (filePath, module, fileName, pmnt, tpcbis, csec, wmc, rfc, dc, loc, cloc,lcom)
+     * (restantes car pmnt, tpc et csec sont ajoutée précément par addPMNTToCSV et addCSECToCSV).
+     *
+     * Entrées :
+     * ----------
+     *   csv (String) : Chaine de caractère du fichier csv qui contient tous les
+     *   noms des classes, leur module, leur emplacement et leur métriques.
+     *
+     * Sortie :
+     * ----------
+     *   String : csv sous forme de String.
+     *
+     * Informations supplémentaires :
+     * ----------
+     * */
     public static String addMetricsToCSV(String csv) {
         // On ajoute les noms des colonnes
         StringBuilder result = new StringBuilder("filePath,module,fileName,pmnt,tpcbis,csec,wmc,rfc,dc,loc,cloc,lcom\n");
@@ -85,7 +164,21 @@ public class Main {
         return result.toString();
     }
 
-    /* Crée le fichier csv (ou remplace celui déjà existant) et le remplie avec la String donné en argument */
+    /*
+     * Description :
+     * ----------
+     * Crée le fichier csv (ou remplace celui déjà existant) et le remplie
+     * avec la String donné en argument.
+     *
+     * Entrées :
+     * ----------
+     *   content (String) : Chaine de caractère qu'il faut écrire sur le fichier.
+     *   fileName (String) : nom du fichier sue l'on veut créer/remplacer.
+     *
+     * Informations supplémentaires :
+     * ----------
+     * Effet de bord : création/remplacement du fichier et affichage d'erreur.
+     * */
     public static void writeToFile(String content, String fileName) {
         try {
             // Création nouveau fichier ou remplacement de l'ancien
@@ -102,7 +195,22 @@ public class Main {
         }
     }
 
-    /* Retire les fichiers test du csv pour la suite des calculs qui répondent aux questions */
+    /*
+     * Description :
+     * ----------
+     * Retire les fichiers test du csv pour la suite des calculs qui répondent
+     * aux questions.
+     *
+     * Entrées :
+     * ----------
+     *   csv (String) : Chaine de caractère du fichier csv qui contient tous les
+     *   noms des classes, leur module, leur emplacement et leur métriques (voir
+     *   addMetricsToCSV(String csv) pour les informations sur les métriques.
+     *
+     * Sortie :
+     * ----------
+     *   String : la même chaine de caractère d'entrée mais sans les fichiers tests.
+     * */
     public static String removeTestLinesFromCsv(String csv) {
         StringBuilder result = new StringBuilder("");
         String[] csvEntries = csv.split("\n");
@@ -117,6 +225,30 @@ public class Main {
 
     }
 
+    /*
+     * Description :
+     * ----------
+     * Permet de répondre à la question 1 du tp, à savoir : "Le niveau de
+     * documentation des classes est-il approprié par rapport à leur complexité ?".
+     * En regardant les métriques cloc et wmc (avec cc) lcom répondont à la
+     * question si au moins 90% des fichiers passent le test. C'est-à-dire
+     * si les méthodes les plus complexes ont un niveau de documentation adapté.
+     *
+     * Entrées :
+     * ----------
+     *   csv (String) : Chaine de caractère du fichier csv qui contient tous les
+     *   noms des classes, leur module, leur emplacement et leur métriques (voir
+     *   addMetricsToCSV(String csv) pour les informations sur les métriques.
+     *
+     * Sortie :
+     * ----------
+     *   Boolean : true si au moins 90 des classes sont considérées comme ayant
+     *   suffisament de documentation pour leur complexité et false sinon.
+     *
+     * Informations supplémentaires :
+     * ----------
+     * Effet de bord : affichage de la réponse.
+     * */
     public static Boolean answerQ1(String csv) {
         // Init deux listes de complexité et cloc
         ArrayList<Float> compl = new ArrayList<>();
@@ -195,6 +327,28 @@ public class Main {
         return count <= size / 10;
     }
 
+    /*
+    * Description :
+    * ----------
+    * Permet de répondre à la question 2 du tp, à savoir : "La conception est-elle
+    * bien modulaire ?". En regardant les métriques csec et lcom nous répondont à la
+    * question si au moins 90% des fichiers passent le test.
+    *
+    * Entrées :
+    * ----------
+    *   csv (String) : Chaine de caractère du fichier csv qui contient tous les
+    *   noms des classes, leur module, leur emplacement et leur métriques (voir
+    *   addMetricsToCSV(String csv) pour les informations sur les métriques.
+    *
+    * Sortie :
+    * ----------
+    *   Boolean : true si au moins 90 des classes sont considérée comme modulaires
+    *   et false sinon.
+    *
+    * Informations supplémentaires :
+    * ----------
+    * Effet de bord : affichage de la réponse.
+    * */
     public static Boolean answerQ2(String csv) {
         // Init deux listes de csec et lcom
         ArrayList<Float> csec = new ArrayList<>();
@@ -274,6 +428,28 @@ public class Main {
         return count <= size / 10;
     }
 
+    /*
+     * Description :
+     * ----------
+     * Permet de répondre à la question 3 du tp, à savoir : "Le code est-il mature ?".
+     * En regardant les métriques tpc, csec et rfc nous répondont à la
+     * question si au moins 90% des fichiers passent le test.
+     *
+     * Entrées :
+     * ----------
+     *   csv (String) : Chaine de caractère du fichier csv qui contient tous les
+     *   noms des classes, leur module, leur emplacement et leur métriques (voir
+     *   addMetricsToCSV(String csv) pour les informations sur les métriques.
+     *
+     * Sortie :
+     * ----------
+     *   Boolean : true si au moins 90 des classes sont considérée comme stables
+     *   et false sinon.
+     *
+     * Informations supplémentaires :
+     * ----------
+     * Effet de bord : affichage de la réponse.
+     * */
     public static Boolean answerQ3(String csv) {
         // Init deux listes de csec et lcom
         ArrayList<Float> tpc = new ArrayList<>();
@@ -313,6 +489,28 @@ public class Main {
         return count <= compl.size() / 10;
     }
 
+    /*
+     * Description :
+     * ----------
+     * Permet de répondre à la question 4 du tp, à savoir : "Le code peut-il être bien
+     * testé automatiquement ?". En regardant les métriques csec, rfc et pmnt nous
+     * répondont à la question si au moins 90% des fichiers passent le test.
+     *
+     * Entrées :
+     * ----------
+     *   csv (String) : Chaine de caractère du fichier csv qui contient tous les
+     *   noms des classes, leur module, leur emplacement et leur métriques (voir
+     *   addMetricsToCSV(String csv) pour les informations sur les métriques.
+     *
+     * Sortie :
+     * ----------
+     *   Boolean : true si au moins 90 des classes sont considérée pouvant être
+     *   testée automatiquement et false sinon.
+     *
+     * Informations supplémentaires :
+     * ----------
+     * Effet de bord : affichage de la réponse.
+     * */
     public static Boolean answerQ4(String csv) {
         // Init deux listes de pmnt et de complexité
         ArrayList<Float> pmnt = new ArrayList<>();
@@ -353,7 +551,23 @@ public class Main {
         return count <= compl.size() / 10;
     }
 
-    /* Emplacement du lancement du programme du TP2 */
+    /*
+     * Description :
+     * ----------
+     * Emplacement de lancement du programme du TP2, affiche les étapes au fur
+     * et à mesur de l'exécution, et les réponses au question 1 à 4 du TP.
+     * S'il n'y a pas un emplacment de fichier en argument de lancement ou s'il y
+     * un quelconque problème lors de l'exécution un message d'erreur sera affiché.
+     *
+     * Entrées :
+     * ----------
+     *   argr (String[]) : Tableau de chaines de caractères prise sur le lancement du programe
+     *
+     * Informations supplémentaires :
+     * ----------
+     * Effet de bord : affichage de la réponse et appel à des méthodes qui ont des
+     * effets de bords.
+     * */
     public static void main(String[] args) {
         System.out.println("Commencing metric analysis...");
         if (args.length != 1) {
