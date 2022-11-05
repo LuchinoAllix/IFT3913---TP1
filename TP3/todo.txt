@@ -1,0 +1,14 @@
+Tâche 1 :
+	- all
+
+Tâche 2 :
+	- All
+
+Tâche 3 :
+	- All
+
+
+Autre :
+	- Read me (md + txt)
+	- Choisir meilleure méthode pour analyser les données
+	- zip
