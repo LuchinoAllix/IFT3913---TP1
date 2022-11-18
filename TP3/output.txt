@@ -29,3 +29,11 @@ Q1: 49.3
 Q3: 82.3
 Lower outliers: []
 Upper outliers: []
+
+
+NoCom/NCLOC :
+	 m = 36.0469982324894
+	 b = -97.99249915923613
+NoCom/NCLOC :
+	 m = -1.830021693532265
+	 b = 75.80952917110908

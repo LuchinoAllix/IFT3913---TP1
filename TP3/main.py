@@ -1,9 +1,14 @@
+### Modules ###
+
 import csv
 import matplotlib.pyplot as plt
+import numpy as np
 
 NoCom = []
 NCLOC = []
 DCP = []
+
+### Obtention des données ###
 
 with open("jfreechart-stats.csv", 'r') as csv_file:
     csv = csv.reader(csv_file)
@@ -13,15 +18,21 @@ with open("jfreechart-stats.csv", 'r') as csv_file:
         NCLOC.append(row[2])
         DCP.append(row[3])
 
+# Pour retirer les noms
 NoCom.pop(0)
 NCLOC.pop(0)
 DCP.pop(0)
 
+# Pour transformer en floats
 for i in range(len(NoCom)):
     NoCom[i] = float(NoCom[i])
     NCLOC[i] = float(NCLOC[i])
     DCP[i] = float(DCP[i])
 
+
+### Boites à moustaches ###
+
+# Affichage des plots
 plt.figure("NoCom")
 bp_NoCom = plt.boxplot(NoCom, showmeans=True)
 
@@ -31,8 +42,9 @@ bp_NCLOC = plt.boxplot(NCLOC, showmeans=True)
 plt.figure("DCP")
 bp_DCP = plt.boxplot(DCP, showmeans=True)
 
-plt.show()
+plt.figure("All")
 
+# Affichage des données
 # source : https://towardsdatascience.com/how-to-fetch-the-exact-values-from-a-boxplot-python-8b8a648fc813
 
 data = [NoCom, NCLOC, DCP]
@@ -57,7 +69,6 @@ for i in range(len(fliers)):
     lower_outliers.append(lower_outliers_by_box)
     upper_outliers.append(upper_outliers_by_box)
 
-# New code
 stats = [medians, means, minimums, maximums, q1, q3, lower_outliers, upper_outliers]
 stats_names = ['Median', 'Mean', 'Minimum', 'Maximum', 'Q1', 'Q3', 'Lower outliers', 'Upper outliers']
 categories = ['NoCom', 'NCLOC', 'DCP']
@@ -67,4 +78,32 @@ for i in range(len(categories)):
         print(f'{stats_names[j]}: {stats[j][i]}')
     print('\n')
 
+### Analyse de corrélation ###
 
+# NoCom/NCLOC
+
+plt.figure("NoCom/NCLOC")
+
+coef = np.polyfit(NoCom, NCLOC, 1)
+poly1d_fn = np.poly1d(coef)
+
+print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
+print("\t m = " + str(coef[0]))
+print("\t b = " + str(coef[1]))
+
+plt.plot(NoCom, NCLOC, '.', NoCom, poly1d_fn(NoCom), '--k')
+
+# NoCom/DCP
+
+plt.figure("NoCom/DCP")
+
+coef = np.polyfit(NoCom, DCP, 1)
+poly1d_fn = np.poly1d(coef)
+
+print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
+print("\t m = " + str(coef[0]))
+print("\t b = " + str(coef[1]))
+
+plt.plot(NoCom, DCP, '.', NoCom, poly1d_fn(NoCom), '--k')
+
+plt.show()
