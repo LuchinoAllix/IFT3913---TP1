@@ -5,9 +5,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import spearmanr
 
+# Pour stocker les métriques
 NoCom = []
 NCLOC = []
 DCP = []
+
+# Pour stocker les métriques en groupe (pour les corrélations)
 NoCom_NCLOC = []
 NoCom_DCP = []
 
@@ -37,6 +40,7 @@ for i in range(len(NoCom)):
 
 ### distribution ###
 
+# Pour obtenir un dictionnaire de la distribution d'une métrique
 def bar(array):
     dico = {}
     for val in array:
@@ -46,6 +50,7 @@ def bar(array):
             dico[val] = 1
     return dico
 
+# Pour obtenir les graphiques de distribution
 
 plt.figure("Nocom_Bar")
 dico_NoCom = bar(NoCom)
@@ -61,7 +66,7 @@ plt.bar(list(dico_DCP.keys()), list(dico_DCP.values()))
 
 ### Boites à moustaches ###
 
-# Affichage des plots
+# Affichage des plots de boites à moustaches
 plt.figure("NoCom")
 bp_NoCom = plt.boxplot(NoCom, showmeans=True)
 
@@ -109,10 +114,13 @@ for i in range(len(categories)):
 
 ### Analyse de corrélation ###
 
+# Les données sont triées mais au final ce n'est pas nécessaire.
+
 # NoCom/NCLOC
 
 plt.figure("NoCom/NCLOC")
 
+# Tri des données
 NoCom_NCLOC_S = sorted(NoCom_NCLOC)
 NoCom_S = []
 NCLOC_S = []
@@ -121,6 +129,7 @@ for i in range(len(NoCom_NCLOC_S)):
     NoCom_S.append(NoCom_NCLOC_S[i][0])
     NCLOC_S.append(NoCom_NCLOC_S[i][1])
 
+# regression linéaire
 coef = np.polyfit(NoCom_S, NCLOC_S, 1)
 poly1d_fn = np.poly1d(coef)
 
@@ -134,6 +143,7 @@ plt.plot(NoCom_S, NCLOC_S, '.', NoCom_S, poly1d_fn(NoCom_S), '--k')
 
 plt.figure("NoCom/DCP")
 
+# Tri des données
 NoCom_DCP_S = sorted(NoCom_DCP)
 NoCom_S1 = []
 DCP_S = []
@@ -141,6 +151,7 @@ for i in range(len(NoCom_DCP_S)):
     NoCom_S1.append(NoCom_DCP_S[i][0])
     DCP_S.append(NoCom_DCP_S[i][1])
 
+# regression linéaire
 coef = np.polyfit(NoCom, DCP, 1)
 poly1d_fn = np.poly1d(coef)
 
@@ -150,11 +161,14 @@ print("\t b = " + str(coef[1])+"\n")
 
 plt.plot(NoCom_S1, DCP_S, '.', NoCom_S1, poly1d_fn(NoCom_S1), '--k')
 
-plt.show()
+plt.show() # Affichage des plots
 
 ### Spearman ###
 
+# Appel à spearmanr de scipy
+
 print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
 print("p=" + str(spearmanr(NoCom, NCLOC)[0])+"\n")
+
 print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
 print("p=" + str(spearmanr(NoCom, DCP)[0])+"\n")
