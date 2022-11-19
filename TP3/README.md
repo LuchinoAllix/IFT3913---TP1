@@ -43,3 +43,6 @@ Dans ce repository vous trouverez :
 - `output.txt`, ce qu'affiche le progamme python.
 - `todo.txt` utilisé pour l'organisation des tâches de TP
 - `anthony_grange_luchino_allix-lastrego.zip` avec son dossier équivalent utilisé pour la remise.
+
+Nous avons utilisé le code ce trouvant [ici](https://towardsdatascience.com/how-to-fetch-the-exact-values-from-a-boxplot-python-8b8a648fc813) pour faciliter l'extraction des donneés des boîtes à moustaches.
+Ceci nous force aussi à afficher un graphique avec toutes les boîtes à moustache, ce qui ne nous intersse pas, mais facilite notre travail.
