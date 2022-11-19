@@ -3,10 +3,13 @@
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.stats import spearmanr
 
 NoCom = []
 NCLOC = []
 DCP = []
+NoCom_NCLOC = []
+NoCom_DCP = []
 
 ### Obtention des données ###
 
@@ -28,7 +31,33 @@ for i in range(len(NoCom)):
     NoCom[i] = float(NoCom[i])
     NCLOC[i] = float(NCLOC[i])
     DCP[i] = float(DCP[i])
+    NoCom_NCLOC.append((NoCom[i], NCLOC[i]))
+    NoCom_DCP.append((NoCom[i], DCP[i]))
 
+
+### distribution ###
+
+def bar(array):
+    dico = {}
+    for val in array:
+        if val in dico.keys():
+            dico[val] += 1
+        else:
+            dico[val] = 1
+    return dico
+
+
+plt.figure("Nocom_Bar")
+dico_NoCom = bar(NoCom)
+plt.bar(list(dico_NoCom.keys()), list(dico_NoCom.values()))
+
+plt.figure("NCLOC_Bar")
+dico_NCLOC = bar(NCLOC)
+plt.bar(list(dico_NCLOC.keys()), list(dico_NCLOC.values()))
+
+plt.figure("DCP_Bar")
+dico_DCP = bar(DCP)
+plt.bar(list(dico_DCP.keys()), list(dico_DCP.values()))
 
 ### Boites à moustaches ###
 
@@ -84,26 +113,48 @@ for i in range(len(categories)):
 
 plt.figure("NoCom/NCLOC")
 
-coef = np.polyfit(NoCom, NCLOC, 1)
+NoCom_NCLOC_S = sorted(NoCom_NCLOC)
+NoCom_S = []
+NCLOC_S = []
+
+for i in range(len(NoCom_NCLOC_S)):
+    NoCom_S.append(NoCom_NCLOC_S[i][0])
+    NCLOC_S.append(NoCom_NCLOC_S[i][1])
+
+coef = np.polyfit(NoCom_S, NCLOC_S, 1)
 poly1d_fn = np.poly1d(coef)
 
 print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
 print("\t m = " + str(coef[0]))
 print("\t b = " + str(coef[1]))
 
-plt.plot(NoCom, NCLOC, '.', NoCom, poly1d_fn(NoCom), '--k')
+plt.plot(NoCom_S, NCLOC_S, '.', NoCom_S, poly1d_fn(NoCom_S), '--k')
 
 # NoCom/DCP
 
 plt.figure("NoCom/DCP")
+
+NoCom_DCP_S = sorted(NoCom_DCP)
+NoCom_S1 = []
+DCP_S = []
+for i in range(len(NoCom_DCP_S)):
+    NoCom_S1.append(NoCom_DCP_S[i][0])
+    DCP_S.append(NoCom_DCP_S[i][1])
 
 coef = np.polyfit(NoCom, DCP, 1)
 poly1d_fn = np.poly1d(coef)
 
 print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
 print("\t m = " + str(coef[0]))
-print("\t b = " + str(coef[1]))
+print("\t b = " + str(coef[1])+"\n")
 
-plt.plot(NoCom, DCP, '.', NoCom, poly1d_fn(NoCom), '--k')
+plt.plot(NoCom_S1, DCP_S, '.', NoCom_S1, poly1d_fn(NoCom_S1), '--k')
 
 plt.show()
+
+### Spearman ###
+
+print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
+print("p=" + str(spearmanr(NoCom, NCLOC)[0])+"\n")
+print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
+print("p=" + str(spearmanr(NoCom, DCP)[0])+"\n")
