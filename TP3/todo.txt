@@ -1,14 +1,14 @@
 Tâche 1 :
-	- all
+	- rapport mettre au propre
+	- changer les images avec celles avec les titres
 
 Tâche 2 :
-	- All
+	- rapport mettre au propre
+	- changer les images avec celles avec les titres
 
 Tâche 3 :
-	- All
+	- finir
 
 
 Autre :
-	- Read me (md + txt)
-	- Choisir meilleure méthode pour analyser les données
-	- zip
+	- zip & remise
