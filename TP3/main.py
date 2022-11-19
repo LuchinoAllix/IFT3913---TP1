@@ -178,7 +178,7 @@ for i in range(len(NoCom_DCP_S)):
 coef = np.polyfit(NoCom, DCP, 1)
 poly1d_fn = np.poly1d(coef)
 
-print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
+print(f'\033[1m{"NoCom/DCP :"}\033[0m')
 print("\t m = " + str(coef[0]))
 print("\t b = " + str(coef[1]) + "\n")
 
@@ -193,5 +193,5 @@ plt.show()  # Affichage des plots
 print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
 print("p=" + str(spearmanr(NoCom, NCLOC)[0]) + "\n")
 
-print(f'\033[1m{"NoCom/NCLOC :"}\033[0m')
+print(f'\033[1m{"NoCom/DCP :"}\033[0m')
 print("p=" + str(spearmanr(NoCom, DCP)[0]) + "\n")
