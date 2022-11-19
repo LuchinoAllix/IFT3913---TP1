@@ -145,7 +145,7 @@ NoCom_S = []
 NCLOC_S = []
 
 for i in range(len(NoCom_NCLOC_S)):
-    if NoCom_NCLOC_S[i][1] < 1400:
+    if NoCom_NCLOC_S[i][1] < 1400: # on ne prend pas les points extêmes
         NoCom_S.append(NoCom_NCLOC_S[i][0])
         NCLOC_S.append(NoCom_NCLOC_S[i][1])
 
