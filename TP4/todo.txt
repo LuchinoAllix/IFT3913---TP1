@@ -1,0 +1,13 @@
+Tâche 1 :
+	- all
+
+Tâche 2 :
+	-all
+
+Tâche 3 :
+	-all
+
+Autre :
+	- readme md
+	- readme txt
+	- zip & remise
