@@ -1,6 +1,6 @@
 Tâche 1 :
 	- déterminer tests boite noire : done
-	- faires tests 
+	- faires tests : done
 
 Tâche 2 :
 	- déterminer tests boite blanche
@@ -10,7 +10,7 @@ Tâche 3 :
 	-all
 
 Autre :
-	- faire fonctionner junit et maven
+	- faire fonctionner junit : done
 	- readme md
 	- readme txt
 	- zip & remise
