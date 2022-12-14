@@ -365,5 +365,46 @@ public class TestCurrencyConvertor {
 		assertTrue(manual==automatic);
 	}
 
+	@Test
+	public void TestBB1() throws ParseException{
+		double amount = jeuValAmount[3]; 
+		String from = jeuValCur[0]; // CAD
+		String to = jeuValCur[1]; // EUR
+		double automatic = CurrencyConvertor.convert(amount, from, to, conversion);
+		double manual = amount*(rates.get(to)/rates.get(from));
+		assertTrue(manual==automatic);
+	}
+
+	@Test
+	public void TestBB2(){
+		double amount = jeuValAmount[3]; 
+		String from = "";
+		String to = jeuValCur[1]; // EUR
+
+		try {
+			CurrencyConvertor.convert(amount, from, to, conversion);
+			assertTrue(false); // Test fails if no exception is thrown
+		} catch (ParseException e) {
+			assertTrue(true);
+		} 
+		
+	}
+
+	@Test
+	public void TestBB3(){
+		double amount = jeuValAmount[3]; 
+		String from = jeuValCur[1]; // EUR
+		String to = "";
+
+		try {
+			CurrencyConvertor.convert(amount, from, to, conversion);
+			assertTrue(false); // Test fails if no exception is thrown
+		} catch (ParseException e) {
+			assertTrue(true);
+		} 
+		
+	}
+	
+
 	
 }
