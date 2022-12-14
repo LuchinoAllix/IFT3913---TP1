@@ -70,6 +70,7 @@ public class TestCurrencyConvertor {
 		double manual = amount*(rates.get(to)/rates.get(from));
 		assertTrue(manual==automatic);
 	}
+
 	@Test
 	public void TestBN6() throws ParseException{
 		double amount = jeuValAmount[1];
@@ -119,6 +120,7 @@ public class TestCurrencyConvertor {
 		double manual = amount*(rates.get(to)/rates.get(from));
 		assertTrue(manual==automatic);
 	}
+
 	@Test
 	public void TestBN11() throws ParseException{
 		double amount = jeuValAmount[2];
@@ -168,6 +170,7 @@ public class TestCurrencyConvertor {
 		double manual = amount*(rates.get(to)/rates.get(from));
 		assertTrue(manual==automatic);
 	}
+
 	@Test
 	public void TestBN16() throws ParseException{
 		double amount = jeuValAmount[3];
@@ -217,6 +220,7 @@ public class TestCurrencyConvertor {
 		double manual = amount*(rates.get(to)/rates.get(from));
 		assertTrue(manual==automatic);
 	}
+
 	@Test
 	public void TestBN21() throws ParseException{
 		double amount = jeuValAmount[4];
@@ -266,6 +270,7 @@ public class TestCurrencyConvertor {
 		double manual = amount*(rates.get(to)/rates.get(from));
 		assertTrue(manual==automatic);
 	}
+	
 	@Test
 	public void TestBN26() throws ParseException{
 		double amount = jeuValAmount[5];
@@ -315,6 +320,7 @@ public class TestCurrencyConvertor {
 		double manual = amount*(rates.get(to)/rates.get(from));
 		assertTrue(manual==automatic);
 	}
+
 	@Test
 	public void TestBN31() throws ParseException{
 		double amount = jeuValAmount[6];
