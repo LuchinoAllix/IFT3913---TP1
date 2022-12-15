@@ -4,13 +4,13 @@ Tâche 1 :
 
 Tâche 2 :
 	- déterminer tests boite blanche
-	- faires tests 
+	- faires tests :done
 
 Tâche 3 :
 	- vals boite noire : done
-	- conclusion boite noire
-	- vals boite blanche
-	- conclusion boite blanche
+	- conclusion boite noire : done
+	- vals boite blanche : done
+	- conclusion boite blanche : done
 
 Autre :
 	- faire fonctionner junit : done
