@@ -14,6 +14,6 @@ Tâche 3 :
 
 Autre :
 	- faire fonctionner junit : done
-	- readme md
-	- readme txt
+	- readme md : done
+	- readme txt : done
 	- zip & remise
