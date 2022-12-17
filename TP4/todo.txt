@@ -16,4 +16,4 @@ Autre :
 	- faire fonctionner junit : done
 	- readme md : done
 	- readme txt : done
-	- zip & remise
+	- zip & remise :done
